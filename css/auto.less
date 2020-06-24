@@ -1,0 +1,838 @@
+html, body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    width: -moz-available;
+    height: available;
+    margin: 0;
+    padding: 0;
+    font: 14px DejaVu Sans Mono, Helvetica Neue, Helvetica, Arial, sans-serif !important;
+    letter-spacing: 0;
+}
+
+* {
+    //border和padding都算在width/height内
+    -webkit-box-sizing: border-box;
+    -webkit-text-size-adjust: 100% !important;
+    -moz-box-sizing: border-box;
+    -ms-touch-action: manipulation;
+    box-sizing: border-box;
+    touch-action: manipulation;
+}
+
+.flex {
+    display: flex;
+    &Col {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .flexVal(@count) when (@count >= 0) {
+        .flexVal((@count - 1));
+        &@{count} {
+            flex: @count;
+        }
+    }
+    .flexVal(10);
+}
+
+.fill {
+    width: -webkit-fill-available;
+    height: -webkit-fill-available;
+    width: -moz-available;
+    height: available;
+    &W {
+        width: -webkit-fill-available;
+        width: -moz-available;
+    }
+    &H {
+        height: -webkit-fill-available;
+        height: available;
+    }
+}
+
+a, .href {
+    text-decoration: none;
+    cursor: pointer;
+    color: #01AAED;
+    &:active,
+    &:hover {
+        color: #ed7a1e;
+        outline: 0;
+        text-decoration: none;
+    }
+    &:focus {
+        outline: 5px auto -webkit-focus-ring-color;
+        outline-offset: -2px;
+    }
+}
+
+.unselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -khtml-user-select: none; /* Konqueror */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently not supported by any browser */
+}
+
+p {
+    margin: 0;
+}
+
+img {
+    border: 0;
+    display: block;
+    vertical-align: middle;
+}
+
+hr {
+    box-sizing: content-box;
+    height: 0;
+    border: 0;
+    border-top: 1px solid #eee;
+}
+
+pre {
+    overflow: auto;
+}
+
+input,
+button,
+select,
+textarea {
+    font-size: inherit;
+    line-height: inherit;
+}
+
+ul,
+ol,
+li,
+dd,
+dt {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+dt,
+dd {
+    line-height: 1.5rem;
+}
+
+i, u, em {
+    font-style: normal;
+    text-decoration: none;
+}
+
+input.en {
+    ime-mode: disabled;
+}
+
+//超出时只显示单行，但要另行定义宽度，否则也不生效
+.nowrap {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    display: inline-block;
+}
+
+/*元素模糊*/
+.blur {
+    -webkit-filter: blur(2px);
+    -moz-filter: blur(2px);
+    -o-filter: blur(2px);
+    -ms-filter: blur(2px);
+    filter: blur(2px);
+}
+
+.blur1 {
+    -webkit-filter: blur(1px);
+    -moz-filter: blur(1px);
+    -o-filter: blur(1px);
+    -ms-filter: blur(1px);
+    filter: blur(1px);
+}
+
+.shadow {
+    box-shadow: 2px 2px 2px #ccc;
+}
+
+.p1em {
+    padding: 1em;
+}
+
+.m1em {
+    margin: 1em;
+}
+
+.radius {
+    @px: 5px;
+    -moz-border-radius: @px;
+    -webkit-border-radius: @px;
+    border-radius: @px;
+    
+    &LT {
+        -moz-border-radius: @px 0 0 0;
+        -webkit-border-radius: @px 0 0 0;
+        border-radius: @px 0 0 0;
+    }
+    
+    &RT {
+        -moz-border-radius: 0 @px 0 0;
+        -webkit-border-radius: 0 @px 0 0;
+        border-radius: 0 @px 0 0;
+    }
+    
+    &RB {
+        -moz-border-radius: 0 0 @px 0;
+        -webkit-border-radius: 0 0 @px 0;
+        border-radius: 0 0 @px 0;
+    }
+    
+    &LB {
+        -moz-border-radius: 0 0 0 @px;
+        -webkit-border-radius: 0 0 0 @px;
+        border-radius: 0 0 0 @px;
+    }
+    
+    &L {
+        -moz-border-radius: @px 0 0 @px;
+        -webkit-border-radius: @px 0 0 @px;
+        border-radius: @px 0 0 @px;
+    }
+    
+    &R {
+        -moz-border-radius: 0 @px @px 0;
+        -webkit-border-radius: 0 @px @px 0;
+        border-radius: 0 @px @px 0;
+    }
+    
+    &T {
+        -moz-border-radius: @px @px 0 0;
+        -webkit-border-radius: @px @px 0 0;
+        border-radius: @px @px 0 0;
+    }
+    
+    &B {
+        -moz-border-radius: 0 0 @px @px;
+        -webkit-border-radius: 0 0 @px @px;
+        border-radius: 0 0 @px @px;
+    }
+    
+}
+
+.h(@count) when (@count > 0) {
+    .h((@count - 1));
+    h@{count}, .h@{count} {
+        font-size: (36-@count*4)+0px !important;
+        padding: 0.5em 0;
+        font-weight: 700;
+        line-height: 1.1em;
+        color: inherit;
+        margin: 0;
+    }
+}
+
+.fs(@count) when (@count >= 10) {
+    .fs((@count - 2));
+    .fs@{count} {
+        font-size: (@count)+0px !important;
+    }
+}
+
+.mt(@count) when (@count >= 0) {
+    .mt((@count - 5));
+    .mt@{count} {
+        margin-top: (@count)+0px;
+    }
+    .mb@{count} {
+        margin-bottom: (@count)+0px;
+    }
+    .ml@{count} {
+        margin-left: (@count)+0px;
+    }
+    .mr@{count} {
+        margin-right: (@count)+0px;
+    }
+    .MT@{count} {
+        margin-top: (@count)+0px !important;
+    }
+    .MB@{count} {
+        margin-bottom: (@count)+0px !important;
+    }
+    .ML@{count} {
+        margin-left: (@count)+0px !important;
+    }
+    .MR@{count} {
+        margin-right: (@count)+0px !important;
+    }
+}
+
+.h(6);
+.fs(50);
+.mt(50);
+
+/************************************************/
+
+.weixin {
+    color: #2bad13;
+}
+
+.alipay {
+    color: #00a0e9;
+}
+
+.qq {
+    color: #e81f1f;
+}
+
+.weibo {
+    color: #e6162d;
+}
+
+.maroon {
+    color: #800000;
+}
+
+.darkred {
+    color: #8B0000;
+}
+
+.brown {
+    color: #A52A2A;
+}
+
+.firebrick {
+    color: #B22222;
+}
+
+.crimson {
+    color: #DC143C;
+}
+
+.red {
+    color: #FF0000
+}
+
+.redd {
+    color: #dd0000
+}
+
+.redc {
+    color: #cc0000
+}
+
+.reda {
+    color: #aa0000
+}
+
+.mediumvioletred {
+    color: #C71585;
+}
+
+.palevioletred {
+    color: #D87093;
+}
+
+.deeppink {
+    color: #FF1493;
+}
+
+.fuchsia {
+    color: #FF00FF;
+}
+
+.hotpink {
+    color: #FF69B4;
+}
+
+.pink {
+    color: #FFC0CB;
+}
+
+.lightpink {
+    color: #FFB6C1;
+}
+
+.mistyrose {
+    color: #FFE4E1;
+}
+
+.lavenderblush {
+    color: #FFF0F5
+}
+
+.indigo {
+    color: #4B0082;
+}
+
+.purple {
+    color: #800080;
+}
+
+.darkmagenta {
+    color: #8B008B;
+}
+
+.darkorchid {
+    color: #9932CC;
+}
+
+.blueviolet {
+    color: #8A2BE2;
+}
+
+.darkviolet {
+    color: #9400D3;
+}
+
+.slateblue {
+    color: #6A5ACD;
+}
+
+.mediumpurple {
+    color: #9370DB;
+}
+
+.mediumslateblue {
+    color: #7B68EE;
+}
+
+.mediumorchid {
+    color: #BA55D3;
+}
+
+.violet {
+    color: #EE82EE;
+}
+
+.plum {
+    color: #DDA0DD;
+}
+
+.thistle {
+    color: #D8BFD8;
+}
+
+.lavender {
+    color: #E6E6FA
+}
+
+.saddlebrown {
+    color: #8B4513;
+}
+
+.sienna {
+    color: #A0522D;
+}
+
+.chocolate {
+    color: #D2691E;
+}
+
+.indianred {
+    color: #CD5C5C;
+}
+
+.rosybrown {
+    color: #BC8F8F;
+}
+
+.lightcorol {
+    color: #F08080;
+}
+
+.salmon {
+    color: #FA8072;
+}
+
+.lightsalmon {
+    color: #FFA07A;
+}
+
+.orangered {
+    color: #FF4500;
+}
+
+.tomato {
+    color: #FF6347;
+}
+
+.coral {
+    color: #FF7F50;
+}
+
+.darkorange {
+    color: #FF8C00;
+}
+
+.sandybrown {
+    color: #F4A460;
+}
+
+.peru {
+    color: #CD853F;
+}
+
+.tan {
+    color: #D2B48C;
+}
+
+.burlywood {
+    color: #DEB887;
+}
+
+.wheat {
+    color: #F5DEB3;
+}
+
+.moccasin {
+    color: #FFE4B5;
+}
+
+.navajowhite {
+    color: #FFDEAD;
+}
+
+.peachpuff {
+    color: #FFDAB9;
+}
+
+.bisque {
+    color: #FFE4C4;
+}
+
+.antuquewhite {
+    color: #FAEBD7;
+}
+
+.papayawhip {
+    color: #FFEFD5;
+}
+
+.cornsilk {
+    color: #FFF8DC;
+}
+
+.oldlace {
+    color: #FDF5E6;
+}
+
+.linen {
+    color: #FAF0E6;
+}
+
+.seashell {
+    color: #FFF5EE;
+}
+
+.snow {
+    color: #FFFAFA;
+}
+
+.floralwhite {
+    color: #FFFAF0;
+}
+
+.ivory {
+    color: #FFFFF0;
+}
+
+.mintcream {
+    color: #F5FFFA
+}
+
+.darkgoldenrod {
+    color: #B8860B;
+}
+
+.goldenrod {
+    color: #DAA520;
+}
+
+.gold {
+    color: #FFD700;
+}
+
+.yellow {
+    color: #FFFF00;
+}
+
+.darkkhaki {
+    color: #BDB76B;
+}
+
+.khaki {
+    color: #F0E68C;
+}
+
+.palegoldenrod {
+    color: #EEE8AA;
+}
+
+.beige {
+    color: #F5F5DC;
+}
+
+.lemonchiffon {
+    color: #FFFACD;
+}
+
+.lightgoldenrodyellow {
+    color: #FAFAD2;
+}
+
+.lightyellow {
+    color: #FFFFE0;
+}
+
+.darkslategray {
+    color: #2F4F4F;
+}
+
+.darkolivegreen {
+    color: #556B2F;
+}
+
+.olive {
+    color: #808000;
+}
+
+.green {
+    color: #006600;
+}
+
+.darkgreen {
+    color: #006400;
+}
+
+.forestgreen {
+    color: #228B22;
+}
+
+.seagreen {
+    color: #2E8B57;
+}
+
+.green1 {
+    color: #008080;
+}
+
+.lightseagreen {
+    color: #20B2AA;
+}
+
+.madiumaquamarine {
+    color: #66CDAA;
+}
+
+.mediumseagreen {
+    color: #3CB371;
+}
+
+.darkseagreen {
+    color: #8FBC8F;
+}
+
+.yellowgreen {
+    color: #9ACD32;
+}
+
+.limegreen {
+    color: #32CD32;
+}
+
+.lime {
+    color: #00FF00;
+}
+
+.chartreuse {
+    color: #7FFF00;
+}
+
+.lawngreen {
+    color: #7CFC00;
+}
+
+.greenyellow {
+    color: #ADFF2F;
+}
+
+.mediumspringgreen {
+    color: #00FA9A;
+}
+
+.springgreen {
+    color: #00FF7F;
+}
+
+.lightgreen {
+    color: #90EE90;
+}
+
+.palegreen {
+    color: #98F898;
+}
+
+.aquamarine {
+    color: #7FFFD4;
+}
+
+.honeydew {
+    color: #F0FFF0;
+}
+
+.midnightblue {
+    color: #191970;
+}
+
+.navy {
+    color: #000080;
+}
+
+.darkblue {
+    color: #00008B;
+}
+
+.darkslateblue {
+    color: #483D8B;
+}
+
+.mediumblue {
+    color: #0000CD;
+}
+
+.royalblue {
+    color: #4169E1;
+}
+
+.dodgerblue {
+    color: #1E90FF;
+}
+
+.cornflowerblue {
+    color: #6495ED;
+}
+
+.blue {
+    color: #409EFF;
+}
+
+.deepskyblue {
+    color: #00BFFF;
+}
+
+.lightskyblue {
+    color: #87CEFA;
+}
+
+.lightsteelblue {
+    color: #B0C4DE;
+}
+
+.lightblue {
+    color: #ADD8E6;
+}
+
+.steelblue {
+    color: #4682B4;
+}
+
+.darkcyan {
+    color: #008B8B;
+}
+
+.cadetblue {
+    color: #5F9EA0;
+}
+
+.darkturquoise {
+    color: #00CED1;
+}
+
+.mediumturquoise {
+    color: #48D1CC;
+}
+
+.turquoise {
+    color: #40E0D0;
+}
+
+.skyblue {
+    color: #87CECB;
+}
+
+.powderblue {
+    color: #B0E0E6;
+}
+
+.paleturquoise {
+    color: #AFEEEE;
+}
+
+.lightcyan {
+    color: #E0FFFF;
+}
+
+.azure {
+    color: #F0FFFF;
+}
+
+.aliceblue {
+    color: #F0F8FF;
+}
+
+.aqua {
+    color: #00FFFF;
+}
+
+.black {
+    color: #000000;
+}
+
+.dimgray {
+    color: #696969;
+}
+
+.gray {
+    color: #808080;
+}
+
+.slategray {
+    color: #708090;
+}
+
+.lightslategray {
+    color: #778899;
+}
+
+.dakgray {
+    color: #A9A9A9;
+}
+
+.silver {
+    color: #C0C0C0;
+}
+
+.lightgray {
+    color: #D3D3D3;
+}
+
+.gainsboro {
+    color: #DCDCDC;
+}
+
+.whitesmoke {
+    color: #F5F5F5;
+}
+
+.ghostwhite {
+    color: #F8F8FF;
+}
+
+.white {
+    color: #FFFFFF;
+}

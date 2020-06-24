@@ -1,0 +1,372 @@
+/**
+ *
+ * JS扩展：
+ *
+ */
+
+// const md5 = require('./extend/md5.js');
+// const md5 = import('./extend/md5.js');
+
+String.prototype.base64_encode = function () {
+    if (typeof Base64 === "undefined") return "未引入base64.js";
+    return new Base64().base64_encode(this);
+};
+
+String.prototype.base64_decode = function () {
+    if (typeof Base64 === "undefined") return "未引入base64.js";
+    return new Base64().base64_decode(this);
+};
+
+//字符串Md5
+String.prototype.md5 = function () {
+    if (typeof Md5 === "undefined") return "未引入md5.js";
+    return new Md5().md5(this);
+};
+
+String.prototype.load = function (type) {
+    let head = document.getElementsByTagName("head").item(0);
+    let script = document.createElement("script");
+    script.src = this;
+    script.type = type || "text/javascript";//"module"或"text/javascript"
+    return head.appendChild(script);
+};
+
+String.prototype.html_decode = function () {
+    return this.replace(/&#39;/g, "'")
+        .replace(/<br\s*(\/)?\s*>/g, "\n")
+        .replace(/&nbsp;/g, " ")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, '"')
+        .replace(/&amp;/g, "&");
+};
+
+
+//let str = '这个{{sex}}人今年{{age}}岁'.re({sex: '女', age: 25});
+String.prototype.re = function (val) {
+    return this.replace(/\{\{(\w+?)\}\}/gi, function ($0, $1) {
+        return val[($1)] || $0;
+    });
+};
+
+
+/**
+ * 两种方式：
+ * console.log('i am %s,is %s'.sprintf('CNE', 'Support'))
+ * console.log('i am %s,is %s'.sprintf(...['CNE', 'Support']))
+ */
+String.prototype.sprintf = function (val) {
+    let arg = arguments, i = 0;
+    return this.replace(/(?:\%([bcdefsugoxEFGX]))+?/gi, function ($0, $1, $2, $3, $4) {
+        // console.log('0=', $0, '1=', $1, '2=', $2, '3=', $3, '4=', $4);
+        switch ($1) {
+            case 'd':
+                return parseInt(arg[i++]);
+            case 'f':
+                return parseFloat(arg[i++]);
+            default:
+                return String(arg[i++]);
+        }
+
+    });
+};
+
+
+//是否手机号码
+String.prototype.is_mob = function () {
+    return /^([1][345789]\d{9})$/.test(this);
+};
+
+//是否邮箱
+String.prototype.is_mail = function () {
+    return /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/.test(this);
+};
+
+//是否日期时间
+String.prototype.is_date = function () {
+    return /^(?:(?:1[789]\d{2}|2[012]\d{2})[-\/](?:(?:0?2[-\/](?:0?1\d|2[0-8]))|(?:0?[13578]|10|12)[-\/](?:[012]?\d|3[01]))|(?:(?:0?[469]|11)[-\/](?:[012]?\d|30)))|(?:(?:1[789]|2[012])(?:[02468][048]|[13579][26])[-\/](?:0?2[-\/]29))$/.test(this);
+    return /^(\d{2,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/.test(this) || /^(\d{1,2}):(\d{1,2}):(\d{1,2})$/.test(this);
+};
+
+//随机字符串
+String.prototype.rand = function (len, hex) {
+    len = len || 32;
+    // let $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';//去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1*
+    let $chars = hex ? 'abcdef0123456789' : 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let maxPos = $chars.length;
+    let pwd = '', i;
+    for (i = 0; i < len; i++) {
+        pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+    return pwd;
+};
+
+//随机数字
+Number.prototype.rand = function (min, max) {
+    return Math.round(Math.random() * 1000000)
+};
+
+
+/**
+ * 日期格式化
+ * console.log((new Date).format('YYYY-MM-DD HH:ii:ss'))
+ * 若取一个Date的时间戳用：date.valueOf()，但这是带毫秒的
+ */
+Date.prototype.format = function (fmt) {
+    let tm = {
+        "Y": this.getFullYear(), //年份
+        "y": this.getFullYear(), //年份
+        "M": this.getMonth() + 1, //月份
+        "m": this.getMonth() + 1, //月份
+        "D": this.getDate(), //日
+        "d": this.getDate(), //日
+        "H": this.getHours(), //小时
+        "h": this.getHours(), //小时
+        "i": this.getMinutes(), //分
+        "s": this.getSeconds(), //秒
+        "q": Math.floor((this.getMonth() + 3) * 0.3333), //季度
+        "S": this.getMilliseconds() //毫秒
+    };
+    fmt = fmt || 'yyyy-mm-dd hh:ii:ss';
+    for (let k in tm) {
+        if (new RegExp("(" + k + "+)").test(fmt)) {
+            fmt = fmt.replace(RegExp.$1, ("0000" + tm[k]).substr(0 - RegExp.$1.length));
+        }
+    }
+    return fmt;
+};
+
+//时间戳转换为可读时间格式
+Number.prototype.date = function (fmt) {
+    return (new Date(this * 1000)).format(fmt);
+};
+
+//去除<*>,冒号和空格
+String.prototype.text = function () {
+    return this.replace(/(\<.*?\>)|[\:\：\*]|(\s*?)/gi, "");
+};
+
+String.prototype.ucfirst = function () {
+    if (!this) return '';
+    return this[0].toUpperCase() + this.substr(1).toLowerCase();
+};
+
+
+//rgb(123, 20, 30)转换为#7B141E格式
+String.prototype.rgbHex = function () {
+    let [r, g, b] = this.match(/\d+/g);
+    return "#" + ((1 << 24) + (r * 1 << 16) + (g * 1 << 8) + b * 1).toString(16).slice(1).toUpperCase();
+};
+
+/**
+ * 将金额转换为大写
+ * @returns {string}
+ */
+Number.prototype.rmb = function () {
+    let number = this;
+    const fraction = ['角', '分'];
+    const digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
+    const unit = [['元', '万', '亿'], ['', '拾', '佰', '仟']];
+    let head = number < 0 ? '-' : '';
+    number = Math.abs(number);
+    let s = '';
+    for (let i = 0; i < fraction.length; i++) {
+        s += (digit[Math.floor(number * 10 * Math.pow(10, i)) % 10] + fraction[i]).replace(/零./, '');
+    }
+    s = s || '整';
+    number = Math.floor(number);
+    for (let v = 0; v < unit[0].length && number > 0; v++) {
+        let p = '';
+        for (let j = 0; j < unit[1].length && number > 0; j++) {
+            p = digit[number % 10] + unit[1][j] + p;
+            number = Math.floor(number / 10);
+        }
+        s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][v] + s;
+    }
+    return head + s.replace(/(零.)*零元/, '元').replace(/(零.)+/g, '零').replace(/^整$/, '零元整');
+};
+
+//给一个时间戳，计算倒计时
+Number.prototype.clock = function (over) {
+    let time = this;
+    let offTime = time - Math.floor((new Date()).valueOf() / 1000);
+    if (offTime <= 0) return over || '';
+
+    let days = Math.floor(offTime / 86400);
+    let hour = Math.floor(offTime % 86400 / 3600);
+    let minute = Math.floor(offTime % 3600 / 60);
+    let second = (offTime % 60);
+    let html = '';
+    if (days > 0) {
+        html += `${days}天`;
+    }
+    if (hour > 0) {
+        html += `${hour}小时`;
+    }
+    if (minute > 0) {
+        html += `${minute}分钟`;
+    }
+    html += `${second}秒`;
+    return html;
+};
+
+/*
+ 货币格式化-￥2,342.00，
+ decimal     小数位数，默认2位
+ thousands   带千分位,默认不带，
+ */
+Number.prototype.format = function (decimal, thousands) {
+    let w = Math.pow(10, decimal);
+    let n = Math.round(parseFloat(this) * w) / w;
+    if (decimal > 0 && String(n).indexOf('.') < 0) {
+        n = n + '.' + '0'.repeat(decimal);
+    }
+    return !thousands ? n : n.toLocaleString();
+};
+
+String.prototype.format = function (decimal, thousands) {
+    return Number(this).format(decimal, thousands);
+};
+
+//删除指定下标元素
+Array.prototype.unset = function (index) {
+    return this.filter((k, i) => i !== index);
+};
+
+//删除指定值
+//对于Object，只能用：obj.filter(tab => tab.name !== key);
+Array.prototype.del = function (key) {
+    return this.filter(k => k !== key);
+};
+
+/**
+ * 获取URL地址的一个参数
+ * window.location.href.get('key')
+ * @param name
+ * @returns {any}
+ */
+String.prototype.get = function (name) {
+    let url = this || window.location.href;
+    let reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    let mth = url.substr(url.indexOf("?") + 1).match(reg);
+    return mth ? decodeURI(mth[2]) : null;
+};
+
+
+/**
+ * 查询某个网址的上级目录
+ * @param lev=0，当前目录，0需明确指定
+ lv=1，上一级目录，【默认值】
+ lv=X，上X级目录
+ */
+String.prototype.parent = function (lev) {
+    if (typeof lev === "undefined") lev = 1;
+    let url = this || window.location.href;
+    url = url.substr(0, url.lastIndexOf("/"));
+    if (lev === 0) return url;
+    for (let i = 0; i < lev; i++) {
+        url = url.substr(0, url.lastIndexOf("/"));
+    }
+    return url;
+};
+
+//当前网址的目录，与url.parent(0)相同
+String.prototype.path = function () {
+    let url = this || window.location.href;
+    return url.substr(0, url.lastIndexOf("/"));
+};
+
+//当前网址的域名
+String.prototype.domain = function () {
+    let url = this || window.location.href;
+    return url.split("/")[2] || '';
+};
+
+//当前网址的根域名
+String.prototype.host = function () {
+    let dom = (this || window.location.href).split("/")[2].split(".");
+    let host = dom.slice(-2).join('.'), host2;
+    ['com', 'net', 'org', 'gov', 'idv', 'co', 'name'].some(a => {
+        ['cn', 'cm', 'my', 'ph', 'tw', 'uk', 'hk'].some(b => {
+            if (`${a}.${b}` === host) {
+                host2 = dom.slice(-3).join('.');
+                return true;
+            }
+        });
+        if (host2) return true;
+    });
+    return host2 || host;
+};
+
+/**
+ * 复制文本
+ */
+String.prototype.copy = function (fun) {
+    const input = document.createElement("input");
+    input.setAttribute("type", "text");
+    input.setAttribute("value", this);
+    input.setAttribute("style", "width:1px;height:1px;box-sizing:unset;-moz-box-sizing:unset;-webkit-box-sizing:unset;");
+    document.getElementsByTagName('body')[0].appendChild(input);
+    input.select();
+    document.execCommand("copy");
+    input.remove();
+    if (fun) fun(this);
+};
+
+Number.prototype.copy = function (fun) {
+    String(this).copy(fun);
+};
+
+
+String.prototype.CheckCode = function () {
+
+    //date格式化成日期+时间
+    console.log('Date.format', (new Date).format('YYYY-MM-DD HH:ii:ss'));
+    //时间戳转为日期+时间
+    console.log('Number.date', (1590119255).date());
+
+    //数组删除指定下标/指定值
+    let a = ['a', 'b', 'c'];
+    console.log('Array.del', a, a = a.del('b'));
+    console.log('Array.unset', a, a.unset(1));
+
+    //字符串格式化
+    console.log('String.re', 'my name {{name}},age {{age}},mob {{mob}}'.re({name: 'CNE', age: 18}));
+    console.log('String.sprintf', 'u am %s,is %s,age %d,val=%f'.sprintf(...['CNE', 'Man', 18, 12.34]));
+
+    //剔除HTML
+    console.log('String.text', '<span>test</span>'.text());
+
+    //随机字符串，随机数字
+    console.log('String.rand', ''.rand());
+    console.log('Number.rand', (3).rand(2));
+
+    //首字母大写
+    console.log('String.ucfirst', 'abc'.ucfirst());
+
+    //rgb(123, 20, 30)转为#aabbcc格式
+    console.log('String.rgbHex', 'rgb(123, 20, 30)'.rgbHex());
+
+    //手机号、邮箱格式校验
+    console.log('String.is_mob', '15205534455'.is_mob(), '1520553445'.is_mob());
+    console.log('String.is_mail', 'abc@abc.com'.is_mail(), 'a.com'.is_mail());
+
+    //数字格式化
+    console.log('String.format,Number.format', (123456.78529).format(3, 0));
+
+    //金额转为人民币大写
+    console.log('Number.rmb', (1234656.78).rmb());
+
+
+    //base64互转
+    let base = '中华人民共和国'.base64_encode();
+    console.log('String.base', base.base64_decode(), base);
+
+
+    //Md5
+    console.log('String.md5', 'abc'.md5());
+
+
+    return true;
+};
+
