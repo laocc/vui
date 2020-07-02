@@ -39,6 +39,7 @@ html, body {
 }
 
 .fill {
+    //填充剩余空间
     width: -webkit-fill-available;
     height: -webkit-fill-available;
     width: -moz-available;
@@ -131,6 +132,10 @@ input.en {
     ime-mode: disabled;
 }
 
+.hidden {
+    display: none;
+}
+
 //超出时只显示单行，但要另行定义宽度，否则也不生效
 .nowrap {
     text-overflow: ellipsis;
@@ -166,6 +171,12 @@ input.en {
 
 .m1em {
     margin: 1em;
+}
+
+input, textarea {
+    &::-webkit-input-placeholder, &::-ms-input-placeholder {
+        color: #c0c0c0;
+    }
 }
 
 .radius {

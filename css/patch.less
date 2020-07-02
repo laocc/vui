@@ -11,3 +11,85 @@
     box-shadow: 0 0 35px #d2d2d2;
     padding: 2em;
 }
+
+.dbMenu {
+    overflow-y: auto;
+    ul {
+        .em() {
+            margin-right: 5px;
+            font-size: 16px;
+        }
+        
+        .a() {
+            background: #ffffff;
+            color: #333333;
+        }
+        .link() {
+            color: #eee;
+            cursor: pointer;
+            display: flex;
+            padding-left: 30px;
+            &.active {
+                .a();
+                a {
+                    .a();
+                }
+            }
+            &:hover {
+                color: #ed7a1e;
+            }
+            a {
+                color: #eee;
+                flex: 1;
+                em {
+                    .em();
+                }
+            }
+            a:hover {
+                color: #ed7a1e;
+            }
+            em {
+                .em();
+            }
+        }
+        li, dt {
+            height: 36px;
+            line-height: 36px;
+            em {
+                .em();
+            }
+        }
+        
+        .dm-head {
+            .link();
+            span {
+                flex: 1;
+            }
+        }
+        
+        .dm-group-title {
+            color: #eee;
+            background: #474B5F;
+            padding-left: 15px;
+            &:hover {
+                background: #52576e;
+            }
+        }
+        
+        .dm-group-body {
+            height: fit-content;
+            dl {
+                dt {
+                    .link();
+                }
+            }
+        }
+        
+    }
+}
+
+.dbForm {
+    width: 100%;
+    padding: 5px;
+    background: #f3f3f3;
+}

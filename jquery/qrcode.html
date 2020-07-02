@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    var temp = "canvas";
+    var hidAliPay = $("#hiAliPay").val();
+    if ($.browser.msie && ($.browser.version === "6.0" || $.browser.version === "7.0" || $.browser.version === "8.0") && !$.support.style) {
+        temp = "table";
+    }
+    if (hidAliPay != null && hidAliPay !== "") {
+        $("#divQRCode").qrcode({
+            render: temp, //table方式
+            width: 215, //宽度
+            height: 215, //高度
+            text: hidAliPay //任意内容
+        });
+    }
+
+</script>
+</body>
+</html>

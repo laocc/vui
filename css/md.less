@@ -1,0 +1,229 @@
+
+h1.title {
+    color: #000;
+    text-align: center;
+    font-size: 30px;
+    padding: 1em;
+}
+
+div.masterBar {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+article.markdown {
+    position: relative;
+    width: 100%;
+    padding: 1em;
+    font-size: 16px;
+    
+    h1, h2, h3, h4, h5, h6 {
+        width: 100%;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        display: inline-block;
+    }
+    
+    .h(@count) when (@count > 0) {
+        .h((@count - 1));
+        h@{count}, .h@{count} {
+            font-size: (2-@count*0.2)+0em !important;
+            padding: 0.5em 0;
+        }
+    }
+    
+    .h(6);
+    
+    h1 {
+        margin-bottom: 1em;
+        border-bottom: 1px dotted #888888;
+    }
+    
+    p {
+        margin: 5px 0;
+        font-size: 16px;
+        line-height: 2em;
+    }
+    
+    pre {
+        margin: 10px 0 16px 0;
+        border-radius: 2px;
+        background: #3e3e4c;
+        display: block;
+        box-sizing: border-box;
+        word-break: normal;
+        border: 0;
+        max-width: initial;
+        overflow: initial;
+        color: #fefefe;
+        padding: 10px;
+        word-wrap: break-word; /* Internet Explorer 5.5+ */
+        white-space: pre-wrap; /* Firefox */
+        font: 16px/2em DejaVu Sans Mono, Microsoft YaHei, Arial, !important;
+        letter-spacing: 1px;
+        text-shadow: 1px 1px 1px #789;
+        
+        &.ini {
+            color: #ddffda;
+        }
+        
+        &.shell {
+            color: #ffffda;
+        }
+        
+        &.php, &.c {
+            text-shadow: none !important;
+        }
+        
+        span {
+            text-shadow: none;
+        }
+    }
+    
+    span {
+        /*letter-spacing: 0.005em !important;*/
+        &.code {
+            background: #f9f2f4;
+            padding: 2px 4px;
+            margin: 0 1px;
+            line-height: 1.3em;
+            color: #c7254e;
+            border-radius: 2px;
+        }
+        
+        &.important {
+            background: #ee7407;
+            border-radius: 3px;
+            padding: 1px 10px;
+            display: inline-block;
+            border: 1px solid #ee7407;
+            margin: 0 3px;
+            color: #fff;
+        }
+        
+    }
+    
+    a {
+        padding: 2px 4px;
+        margin: 0 1px;
+        line-height: 1.3em;
+        color: #2d5dc7 !important;
+        border-radius: 2px;
+    }
+    
+    blockquote {
+        border: 1px solid #CCCCCC;
+        border-left: 5px #ee7407 solid;
+        padding: 5px;
+        margin: 10px 0;
+        background: #fff;
+        max-width: 100%;
+    }
+    
+    table {
+        margin: 10px 0;
+        border: 1px solid #ccc;
+        border-collapse: collapse;
+        background: #fff;
+        width: 100%;
+        
+        tr {
+            min-height: 1.5em;
+            line-height: 1.5em;
+            border-collapse: collapse;
+            border-bottom: 1px solid #ccc;
+        }
+        
+        td, th {
+            min-height: 2em;
+            line-height: 2em;
+            border-collapse: collapse;
+            border: 1px solid #ccc;
+            border-bottom: 0;
+            /*padding-left: 0.5em;*/
+            word-wrap: break-word; /* Internet Explorer 5.5+ */
+            white-space: pre-wrap; /* Firefox */
+            padding: 6px 13px;
+        }
+        
+        thead {
+            background: #ddd;
+        }
+        
+    }
+    
+    ol.list, ul.list {
+        border: 1px solid #aaa;
+        background: #f7f7f7;
+        margin: 10px 0;
+        padding: 15px;
+        border-radius: 5px;
+    }
+    ol.list {
+        li {
+            list-style: decimal-leading-zero;
+            margin-left: 28px;
+        }
+    }
+    ul.list {
+        li {
+            list-style: disc;
+            margin-left: 28px;
+        }
+    }
+    
+    ol.nav {
+        position: fixed;
+        left: 0;
+        top: 100px;
+        margin: 0;
+        padding: 0;
+        background: none;
+        width: 11%;
+        overflow: hidden;
+        border: 0;
+        
+        li {
+            /*margin-left: 10px;*/
+            color: #fff;
+            a {
+                color: #fff;
+            }
+        }
+        
+    }
+    
+    ol.navMore {
+        position: static !important;
+        width: 100% !important;
+        
+        li {
+            float: left !important;
+            color: #000 !important;
+            a {
+                color: #a00 !important;
+            }
+        }
+        
+    }
+    
+    div.notes {
+        display: inline-block;
+        width: 100%;
+        background: #CCCCCC;
+        border: 1px solid #555;
+        border-radius: 10px;
+        
+        h2 {
+            font-size: 16px !important;
+            color: #ee7407;
+        }
+        
+        div {
+            padding: 10px;
+        }
+        
+    }
+    
+}

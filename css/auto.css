@@ -153,6 +153,9 @@ em {
 input.en {
   ime-mode: disabled;
 }
+.hidden {
+  display: none;
+}
 .nowrap {
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -182,6 +185,12 @@ input.en {
 }
 .m1em {
   margin: 1em;
+}
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder,
+input::-ms-input-placeholder,
+textarea::-ms-input-placeholder {
+  color: #c0c0c0;
 }
 .radius {
   -moz-border-radius: 5px;

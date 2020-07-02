@@ -1,0 +1,152 @@
+/**
+http://ascii.911cha.com/
+ */
+
+.icon_button, .icon_man, .icon_woman, .icon_clock, .icon_help,
+.icon_edit, .icon_delete, .icon_list, .icon_weixin, .icon_card, .icon_jump, .icon_img, .icon_save,
+.icon_look, .icon_link, .icon_msg, .icon_write, .icon_note, .icon_user, .icon_user2,
+.icon_set, .icon_qr, .icon_qrcode, .icon_add, .icon_search, .icon_copy, .icon_setup {
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    /*-webkit-text-stroke-width: 0.2px;*/
+    -moz-osx-font-smoothing: grayscale;
+    display: inline-block;
+    speak: none;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-rendering: auto;
+    font-family: 'iconfontA';
+}
+
+.icon_man:before {
+    content: "\e637\20\20";
+    font-family: 'iconfontB' !important;
+}
+
+.icon_woman:before {
+    content: "\e638\20\20";
+    font-family: 'iconfontB' !important;
+}
+
+.icon_copy:before {
+    content: "\f41b\20\20";
+    font-family: 'IoniconsC' !important;
+}
+
+.icon_red:before {
+    color: orangered;
+}
+
+.icon_blue:before {
+    color: darkslateblue;
+}
+
+.icon_green:before {
+    color: darkgreen;
+}
+
+.icon_yellow:before {
+    color: yellow;
+}
+
+.icon_button:before {
+    /*content: "\20\20";*/
+}
+
+.icon_save:before {
+    content: "\e716\20\20";
+}
+
+.icon_clock:before {
+    content: "\e6e0\20\20";
+}
+
+.icon_user:before {
+    content: "\e6ec\20\20";
+}
+
+.icon_user2:before {
+    content: "\e6fd\20\20";
+}
+
+.icon_write:before {
+    content: "\e6a3\20\20";
+}
+
+.icon_help:before {
+    content: "\f446";
+    font-family: 'IoniconsC' !important;
+}
+
+.icon_msg:before {
+    content: "\e6c0\20\20";
+}
+
+.icon_img:before {
+    content: "\e6a1\20\20";
+}
+
+.icon_add:before {
+    content: "\e6d1\20\20";
+}
+
+.icon_say:before {
+    content: "\e6c1\20\20";
+}
+
+.icon_note:before {
+    content: "\e6ea\20\20";
+}
+
+.icon_search:before {
+    content: "\e662\20\20";
+}
+
+.icon_link:before {
+    content: "\e65b\20\20";
+}
+
+.icon_look:before {
+    content: "\e69c\20\20";
+}
+
+.icon_jump:before {
+    content: "\e6fc\20\20";
+}
+
+.icon_card:before {
+    content: "\e649\20\20";
+}
+
+.icon_weixin:before {
+    content: "\e6f7\20\20";
+}
+
+.icon_edit:before {
+    content: "\e6e9\20\20";
+}
+
+.icon_delete:before {
+    content: "\e68d\20\20";
+}
+
+.icon_list:before {
+    content: "\e6b8\20\20";
+}
+
+.icon_set:before {
+    content: "\e6cf\20\20";
+}
+
+.icon_qr:before {
+    content: "\e650\20\20";
+}
+
+.icon_setup:before {
+    content: "\e681\20\20";
+}
+
+.icon_qrcode:before {
+    content: "\e650";
+}

@@ -3,10 +3,6 @@
  * JS扩展：
  *
  */
-
-// const md5 = require('./extend/md5.js');
-// const md5 = import('./extend/md5.js');
-
 String.prototype.base64_encode = function () {
     if (typeof Base64 === "undefined") return "未引入base64.js";
     return new Base64().base64_encode(this);
@@ -21,14 +17,6 @@ String.prototype.base64_decode = function () {
 String.prototype.md5 = function () {
     if (typeof Md5 === "undefined") return "未引入md5.js";
     return new Md5().md5(this);
-};
-
-String.prototype.load = function (type) {
-    let head = document.getElementsByTagName("head").item(0);
-    let script = document.createElement("script");
-    script.src = this;
-    script.type = type || "text/javascript";//"module"或"text/javascript"
-    return head.appendChild(script);
 };
 
 String.prototype.html_decode = function () {
@@ -85,7 +73,7 @@ String.prototype.is_mail = function () {
 //是否日期时间
 String.prototype.is_date = function () {
     return /^(?:(?:1[789]\d{2}|2[012]\d{2})[-\/](?:(?:0?2[-\/](?:0?1\d|2[0-8]))|(?:0?[13578]|10|12)[-\/](?:[012]?\d|3[01]))|(?:(?:0?[469]|11)[-\/](?:[012]?\d|30)))|(?:(?:1[789]|2[012])(?:[02468][048]|[13579][26])[-\/](?:0?2[-\/]29))$/.test(this);
-    return /^(\d{2,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/.test(this) || /^(\d{1,2}):(\d{1,2}):(\d{1,2})$/.test(this);
+    // return /^(\d{2,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/.test(this) || /^(\d{1,2}):(\d{1,2}):(\d{1,2})$/.test(this);
 };
 
 //随机字符串
@@ -151,12 +139,6 @@ String.prototype.ucfirst = function () {
     return this[0].toUpperCase() + this.substr(1).toLowerCase();
 };
 
-
-//rgb(123, 20, 30)转换为#7B141E格式
-String.prototype.rgbHex = function () {
-    let [r, g, b] = this.match(/\d+/g);
-    return "#" + ((1 << 24) + (r * 1 << 16) + (g * 1 << 8) + b * 1).toString(16).slice(1).toUpperCase();
-};
 
 /**
  * 将金额转换为大写
@@ -226,17 +208,6 @@ Number.prototype.format = function (decimal, thousands) {
 
 String.prototype.format = function (decimal, thousands) {
     return Number(this).format(decimal, thousands);
-};
-
-//删除指定下标元素
-Array.prototype.unset = function (index) {
-    return this.filter((k, i) => i !== index);
-};
-
-//删除指定值
-//对于Object，只能用：obj.filter(tab => tab.name !== key);
-Array.prototype.del = function (key) {
-    return this.filter(k => k !== key);
 };
 
 /**
@@ -318,6 +289,113 @@ Number.prototype.copy = function (fun) {
 };
 
 
+/**
+ * 判断密码强度是否符合要求
+ * @param i     [数字，大写，小写，符号]的种类数，默认2
+ * @returns {boolean}
+ */
+String.prototype.password = function (i) {
+    const pwd = this;
+    let len = pwd.length;
+    if (len < 3 || len > 30) return false;
+    let n = 0;
+    if (/\d/.test(pwd)) n++; //包含数字
+    if (/[a-z]/.test(pwd)) n++; //包含小写字母
+    if (/[A-Z]/.test(pwd)) n++; //包含大写字母
+    if (/\W/.test(pwd)) n++; //包含其他字符
+    return n >= (i || 2);
+};
+
+
+/**
+ * rgba转换为rgb
+ * @returns {string}
+ */
+String.prototype.rgbaRgb = function () {
+    // let [r, g, b] = this.match(/\d+/g);
+    return this.replace(/\w+\((\d+), (\d+), (\d+), ([\d\.]+)\)/g, function (
+        ...v
+    ) {
+        let color = "#";
+        for (let i = 1; i <= 3; i++) {
+            color += ("0" + parseInt(v[i]).toString(16)).substr(-2, 2);
+        }
+        return color;
+    });
+};
+
+//rgb(123, 20, 30)转换为#7B141E格式
+String.prototype.rgbHex = function () {
+    let [r, g, b] = this.match(/\d+/g);
+    return "#" + ((1 << 24) + (r * 1 << 16) + (g * 1 << 8) + b * 1).toString(16).slice(1).toUpperCase();
+};
+
+/**
+ * 若带小数，返回原数，如：2.01
+ * 若不带小说，则返回整数，如：2.00
+ * @returns {*}
+ */
+String.prototype.intFloat = function () {
+    let i = parseInt(this);
+    let f = parseFloat(this);
+    if (f - i > 0) return this;
+    return i;
+};
+Number.prototype.intFloat = function () {
+    let i = parseInt(this);
+    let f = parseFloat(this);
+    if (f - i > 0) return this;
+    return i;
+};
+
+
+//删除指定下标元素
+Array.prototype.unset = function (index) {
+    return this.filter((k, i) => i !== index);
+};
+
+//删除指定值
+//对于Object，只能用：obj.filter(tab => tab.name !== key);
+Array.prototype.del = function (key) {
+    return this.filter(k => k !== key);
+};
+
+Array.prototype.min = function () {
+    return Math.min(...this.map(n => {
+        return Number(n) || 0;
+    }));
+};
+Array.prototype.max = function (v) {
+    return Math.max(...this.map(n => {
+        return Number(n) || 0;
+    }));
+};
+Array.prototype.in = function (v) {
+    let i = 0;
+    this.map(n => {
+        return n === v ? i++ : '';
+    });
+    return i > 0;
+};
+
+
+function require(file, fun) {
+    const path = document.currentScript.src.substr(0, document.currentScript.src.lastIndexOf("/") + 1);
+    const ref = document.getElementsByTagName('script')[0];
+    const script = document.createElement('script');
+    const head = document.getElementsByTagName("head").item(0);
+    script.src = path + file;
+    script.async = false;
+    // script.type = 'text/javascript';//text/javascript
+    script.type = 'module';//text/javascript
+    script.onload = function () {
+        // console.log('自动加载', path + file);
+        fun();
+    };
+    head.appendChild(script);
+}
+
+
 String.prototype.CheckCode = function () {
 
     //date格式化成日期+时间
@@ -325,10 +403,6 @@ String.prototype.CheckCode = function () {
     //时间戳转为日期+时间
     console.log('Number.date', (1590119255).date());
 
-    //数组删除指定下标/指定值
-    let a = ['a', 'b', 'c'];
-    console.log('Array.del', a, a = a.del('b'));
-    console.log('Array.unset', a, a.unset(1));
 
     //字符串格式化
     console.log('String.re', 'my name {{name}},age {{age}},mob {{mob}}'.re({name: 'CNE', age: 18}));
@@ -350,12 +424,21 @@ String.prototype.CheckCode = function () {
     //手机号、邮箱格式校验
     console.log('String.is_mob', '15205534455'.is_mob(), '1520553445'.is_mob());
     console.log('String.is_mail', 'abc@abc.com'.is_mail(), 'a.com'.is_mail());
+    console.log('String.is_date', 'abc@abc.com'.is_date(), '2020-02-02'.is_date(), '2020-02-29'.is_date());
 
     //数字格式化
     console.log('String.format,Number.format', (123456.78529).format(3, 0));
 
     //金额转为人民币大写
     console.log('Number.rmb', (1234656.78).rmb());
+
+    //数组删除指定下标/指定值
+    let a = ['a', 'b', 'c'];
+    console.log('Array.del', a, a = a.del('b'));
+    console.log('Array.unset', a, a.unset(1));
+    console.log('Array.min', [1, 2, 4, '5', 's', 'f'].min());
+    console.log('Array.max', [1, 2, 4, '5', 's', 'f'].max());
+    console.log('Array.in', [1, 2, 4, '5', 's', 'f'].in('s'));
 
 
     //base64互转

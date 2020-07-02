@@ -1,5 +1,5 @@
 // import 'extend/mall.js';
-
+window.$ = layui.$;
 
 Vue.use(function (Vue, options) {
     Vue.prototype.request = function (url, data, fun) {
@@ -30,12 +30,12 @@ Vue.use(function (Vue, options) {
             };
         };
 
-        if (fun) {
-            call(fun, fun);
-        } else {
-            return new Promise(function (success, fail) {
+        if (fun === undefined) {
+            return new Promise((success, fail) => {
                 call(success, fail);
             });
+        } else {
+            call(fun['success'], fun['fail']);
         }
     };
 
@@ -47,18 +47,15 @@ Vue.use(function (Vue, options) {
         return this.request(url, data);
     };
 
-    Vue.prototype.iframe = function (src) {
-        let box = 'allow-scripts allow-top-navigation allow-same-origin allow-forms';
+    Vue.prototype.iframe = function (src, sandbox) {
+        if (sandbox === !1) return `<iframe src="${src}" frameborder="0"/>`;
+        let sb = [];
+        sb.push('allow-same-origin');//允许 iframe 内容被视为与包含文档有相同的来源。
+        sb.push('allow-top-navigation');//允许 iframe 内容从包含文档导航（加载）内容。
+        sb.push('allow-forms');//允许表单提交。
+        sb.push('allow-scripts');//允许脚本执行。
+        let box = sb.join(' ');
         return `<iframe src="${src}" frameborder="0" sandbox="${box}"/>`;
-    };
-
-    Vue.prototype.format = function (txt, pnt) {
-
-        txt.replace(/(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/g, function () {
-            console.log(arguments);
-        });
-
-        return txt;
     };
 
     Vue.prototype.copy = function (value) {
@@ -75,65 +72,66 @@ Vue.use(function (Vue, options) {
     };
 });
 
-function require(file) {
-    const path = document.currentScript.src.substr(0, document.currentScript.src.lastIndexOf("/") + 1);
-    const ref = document.getElementsByTagName('script')[0];
-    const script = document.createElement('script');
-    script.src = path + file;
-    script.async = true;
-    script.type = 'module';
-    ref.parentNode.insertBefore(script, ref);
-    script.onload = function () {
-        // console.log('自动加载', path + file);
-    }
-}
 
-// import 'extend/mall.js';
-
-const extendObj = {
-    methods: {
-        createTable(e) {
-            console.log(e);
-        },
-    }
-};
+Vue.component('db-form', {
+    props: [],
+    data() {
+        return {msg: ''}
+    },
+    template: `
+    <div class="dbForm"><slot></slot></div>
+    `
+});
 
 Vue.component('db-button', {
-    props: ['width', 'height', 'url', 'title', 'cls', 'type'],
+    props: ['width', 'height', 'url', 'title', 'cls', 'type', 'click', 'size'],
     data() {
         return {
-            dialogVisible: false
+            css: {min: '', small: '', normal: ''}
         }
-    },
-    created() {
-        const dialog = document.createElement('div');
-        dialog.id = 'db-dialog';
-        dialog.className = 'db-dialog';
-        let css = [];
-        css.append('display:none');
-        css.append('position:absolute');
-        css.append('left:50%;top:50%');
-        css.append('margin-top: -150px');
-        css.append('margin-left: -200px');
-        css.append('width: 400px');
-        css.append('height: 400px');
-        css.append('padding: 5px');
-        dialog.setAttribute("style", css.join(';'));
-
-        document.getElementsByTagName('body')[0].appendChild(dialog);
     },
     methods: {
         openWin(e) {
-            console.log(e);
-            this.dialogVisible = true;
-            // let option = {};
-            // option.title = this.title || '';
-            // option.message = this.iframe(this.url);
-            // option.dangerouslyUseHTMLString = true;
-            // option.cancel = function () {
-            //
-            // };
-            // this.$msgbox(option);
+            if (typeof layui === "undefined") return "未引入layui.js";
+            const self = this;
+            let pIndex = window.parent.dbOpenIndex;
+            let width = parseInt(this.width);
+            let height = parseInt(this.height) || (width * 0.75);
+            let area = [width + 'px', height + 'px'];
+
+            let option = {
+                id: 'boxFrame',
+                type: 2,//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                title: this.title,
+                area: area,
+                closeBtn: this.title ? 1 : 0,
+                shade: [0.1, '#393D49'],
+                fixed: !1, //不固定
+                maxmin: !1,
+                anim: 0,//0:平滑放大;1:从上掉落;2从最底部往上滑入;3从左滑入;4从左翻滚;5渐显;6抖动
+                resize: !1,
+                offset: 'auto',
+                shadeClose: !0,
+                content: this.url,
+                success: function (layero, index) {
+                    if (self.blur) $('table,form').addClass('blur1');
+                    if (self.fix) {
+                        window.onscroll = function (e) {
+                            window.scrollTo(document.scrollLeft, document.scrollTop);
+                        };
+                    }
+                    if (pIndex) window.parent.layer.shade(pIndex, 1);
+                },
+                end: function () {
+                    if (self.fix) window.onscroll = null;
+                    if (self.blur) $('table,form').removeClass('blur1');
+                    // if (callback) eval(callback);
+                    if (pIndex) window.parent.layer.shade(pIndex, 0);
+                }
+            };
+            console.log(option);
+            window.dbOpenIndex = layer.open(option);
+            return !1;
         },
         requestUrl() {
             const self = this;
@@ -160,10 +158,148 @@ Vue.component('db-button', {
         }
     },
     template: `
-        <a :class="cls" class="blue" @click="openWin" v-if="type==='open'"><slot></slot></a>
-        <a :class="cls" class="blue" @click="requestUrl" v-else-if="type==='ajax'"><slot></slot></a>
+        <a :class="cls" class="blue href" :href="url" @click.stop="openWin" v-if="type==='open'" onclick="return !1;"><slot></slot></a>
+        <a :class="cls" class="blue href" :href="url" @click.stop="requestUrl" v-else-if="type==='ajax'" onclick="return !1;"><slot></slot></a>
+        <span :class="cls" class="db-button" @click.stop="$emit('click')" v-else><slot></slot></span>
     `
 });
+
+const dbMenu = {
+    props: {
+        'width': {
+            type: String,
+            default: '150px',
+            validator(v) {
+                return /^\d+px$/i.test(v);
+            }
+        },
+        'color': {
+            type: Object,
+            validator(v) {
+                return v.background && v.active;
+            }
+        },
+        'background': {
+            type: String,
+            default: '#545c64',
+            validator(v) {
+                return /^#([a-f0-9]{3}|[a-f0-9]{6})$/i.test(v);
+            }
+        },
+        'type': String,
+        'open': {
+            type: Number,
+            default: -1
+        },
+        'menu': {
+            type: Array,
+            required: !0
+        },
+        'tabs': Object,
+
+    },
+    data() {
+        return {
+            cls: 'active',
+            group: this.open
+        }
+    },
+    created() {
+        console.log(menu);
+    },
+    computed: {
+        wid: function () {
+            return this.width + 'px';
+        }
+    },
+    watch: {},
+    methods: {
+        clkMenu(key, uri, title, sandbox) {
+            if (!this.tabs) return !0;
+            if (sandbox === undefined) sandbox = 1;
+            if (this.tabs.keys.indexOf(key) < 0) {
+                this.tabs.keys.push(key);
+                this.tabs.items.push({title: title, name: key, content: this.iframe(uri, !!sandbox)});
+            }
+            this.tabs.index = key;
+            return !1;
+        },
+        requestUrl() {
+            const self = this;
+            self.request(self.url).then(
+                function (resp) {
+                    let back = function () {
+                        if (resp.reload || resp.self === 'reload') {
+                            location.reload();
+                        } else {
+                            let u = (resp.jump || resp.href);
+                            if (u) location.href = u;
+                        }
+                    };
+                    if (resp.message) {
+                        self.$alert(resp.message, {callback: back});
+                    } else {
+                        back();
+                    }
+                },
+                function (resp) {
+                    self.$alert(resp.message);
+                }
+            );
+        },
+        reGroup(i) {
+            this.group = i;
+        }
+    },
+    template: `
+        <div class="dbMenu unselect" :style="'width:'+width+';background-color:'+background+';'">
+        <ul v-for="(m,a) in menu" class="c">
+            
+            <li class="dm-head" v-if="!m.item" :class="{active:tabs.index===a+''}">
+                <template v-if="type==='href'">
+                    <a :target="m.target" v-if="m.target" :href="m.uri">
+                        <em :class="m.icon"></em>{{m.title}}
+                    </a>
+                    <a v-else @click="clkMenu(a+'',m.uri,m.title,m.sandbox)" onclick="return !1;" :href="m.uri" >
+                        <em :class="m.icon"></em>{{m.title}}
+                    </a>
+                </template>
+                <template v-else>
+                    <span  @click="clkMenu(a+'',m.uri,m.title,m.sandbox)" >
+                        <em :class="m.icon"></em>{{m.title}}
+                    </span>
+                </template>
+            </li>
+            
+            <li class="dm-group-title" v-else @click="reGroup(a)"><em :class="m.icon"></em>{{m.title}}</li>
+            <li class="dm-group-body" v-if="m.item" :class="{hidden:(group!==a && open>=0)}">
+                <dl v-for="(t,b) in m.item">
+                    <dt v-if="type==='href'" :class="{active:tabs.index===a+'_'+b}">
+                        <a :target="t.target" v-if="t.target" :href="t.uri" >
+                            <em :class="t.icon"></em>{{t.title}}
+                        </a>
+                        <a v-else @click="clkMenu(a+'_'+b,t.uri,t.title,t.sandbox)" onclick="return !1;" :href="t.uri" >
+                            <em :class="t.icon"></em>{{t.title}}
+                        </a>
+                    </dt>
+                    <dt v-else @click="clkMenu(a+'_'+b,t.uri,t.title,t.sandbox)" :class="{active:tabs.index===a+'_'+b}">
+                        <em :class="t.icon"></em>{{t.title}}
+                    </dt>
+                </dl>
+            </li>
+        </ul>
+        </div>
+    `
+};
+
+
+const extendObj = {
+    methods: {
+        createTable(e) {
+            console.log(e);
+        },
+    }
+};
 
 //全局混入
 Vue.mixin({
@@ -172,10 +308,6 @@ Vue.mixin({
     },
     created: function () {
         $(".pageHead").prepend($('<div class="tools"><div class="shade"></div></div>'));
-        // $("button.openwin").attr('v-on:click.stop', 'openWindows');
-        // $("db-button").each(e => {
-        //     console.log(e);
-        // });
     },
     methods: {
         openWindows(e) {
