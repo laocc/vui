@@ -2,7 +2,7 @@
 window.$ = layui.$;
 
 Vue.use(function (Vue, options) {
-    Vue.prototype.request = function (url, data, fun) {
+    Vue.prototype.$request = function (url, data, fun) {
         let action = data ? 'POST' : 'GET';
         if (typeof data === 'object') data = JSON.stringify(data);
 
@@ -39,15 +39,15 @@ Vue.use(function (Vue, options) {
         }
     };
 
-    Vue.prototype.get = function (url, fun) {
+    Vue.prototype.$get = function (url, fun) {
         return this.request(url, null, fun);
     };
 
-    Vue.prototype.post = function (url, data) {
+    Vue.prototype.$post = function (url, data) {
         return this.request(url, data);
     };
 
-    Vue.prototype.iframe = function (src, sandbox) {
+    Vue.prototype.$iframe = function (src, sandbox) {
         if (sandbox === !1) return `<iframe src="${src}" frameborder="0"/>`;
         let sb = [];
         sb.push('allow-same-origin');//允许 iframe 内容被视为与包含文档有相同的来源。
@@ -58,7 +58,7 @@ Vue.use(function (Vue, options) {
         return `<iframe src="${src}" frameborder="0" sandbox="${box}"/>`;
     };
 
-    Vue.prototype.copy = function (value) {
+    Vue.prototype.$copy = function (value) {
         console.log(typeof value);
         if (typeof value === "object") {
             value = JSON.stringify(value);
@@ -67,7 +67,7 @@ Vue.use(function (Vue, options) {
     };
 
     //大白的快应用
-    Vue.prototype.isDaBaiApp = function (ua) {
+    Vue.prototype.$isDaBaiApp = function (ua) {
         return /\.(dabai|linghu)/i.test(ua || window.navigator.userAgent);
     };
 });
@@ -219,7 +219,7 @@ const dbMenu = {
             if (sandbox === undefined) sandbox = 1;
             if (this.tabs.keys.indexOf(key) < 0) {
                 this.tabs.keys.push(key);
-                this.tabs.items.push({title: title, name: key, content: this.iframe(uri, !!sandbox)});
+                this.tabs.items.push({title: title, name: key, content: this.$iframe(uri, !!sandbox)});
             }
             this.tabs.index = key;
             return !1;
