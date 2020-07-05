@@ -40,11 +40,11 @@ Vue.use(function (Vue, options) {
     };
 
     Vue.prototype.$get = function (url, fun) {
-        return this.request(url, null, fun);
+        return this.$request(url, null, fun);
     };
 
     Vue.prototype.$post = function (url, data) {
-        return this.request(url, data);
+        return this.$request(url, data);
     };
 
     Vue.prototype.$iframe = function (src, sandbox) {
