@@ -91,7 +91,14 @@ String.prototype.rand = function (len, hex) {
 
 //随机数字
 Number.prototype.rand = function (min, max) {
-    return Math.round(Math.random() * 1000000)
+    min = min || 0;
+    max = max || 9007199254740990;
+    return Math.round(min + Math.random() * (max - min));
+};
+
+Array.prototype.rand = function () {
+    let n = (0).rand(1, this.length);
+    return this[n];
 };
 
 
