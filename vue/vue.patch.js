@@ -135,7 +135,7 @@ Vue.component('db-button', {
         },
         requestUrl() {
             const self = this;
-            self.request(self.url).then(
+            self.$request(self.url).then(
                 function (resp) {
                     let back = function () {
                         if (resp.reload || resp.self === 'reload') {
@@ -226,7 +226,7 @@ const dbMenu = {
         },
         requestUrl() {
             const self = this;
-            self.request(self.url).then(
+            self.$request(self.url).then(
                 function (resp) {
                     let back = function () {
                         if (resp.reload || resp.self === 'reload') {
