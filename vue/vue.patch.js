@@ -48,7 +48,8 @@ Vue.use(function (Vue, options) {
     };
 
     Vue.prototype.$iframe = function (src, sandbox) {
-        if (sandbox === !1) return `<iframe src="${src}" frameborder="0"/>`;
+        //只要没有明确要求sandbox，则都不加
+        if (sandbox !== !0) return `<iframe src="${src}" frameborder="0"/>`;
         let sb = [];
         sb.push('allow-same-origin');//允许 iframe 内容被视为与包含文档有相同的来源。
         sb.push('allow-top-navigation');//允许 iframe 内容从包含文档导航（加载）内容。
@@ -216,7 +217,7 @@ const dbMenu = {
     methods: {
         clkMenu(key, uri, title, sandbox) {
             if (!this.tabs) return !0;
-            if (sandbox === undefined) sandbox = 1;
+            if (sandbox === undefined) sandbox = 0;
             if (this.tabs.keys.indexOf(key) < 0) {
                 this.tabs.keys.push(key);
                 this.tabs.items.push({title: title, name: key, content: this.$iframe(uri, !!sandbox)});
