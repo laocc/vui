@@ -57,7 +57,6 @@ article.markdown .h6 {
   padding: 0.5em 0;
 }
 article.markdown h1 {
-  margin-bottom: 1em;
   border-bottom: 1px dotted #888888;
 }
 article.markdown p {

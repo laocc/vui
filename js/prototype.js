@@ -385,6 +385,42 @@ Array.prototype.in = function (v) {
     return i > 0;
 };
 
+/**
+ * TODO 此方法主要是用于console.table打印，实际数据，一般不需要用这个
+ * 重新序列化vue里的array，主要是去掉里面附加的属性
+ * @param key 先把key项进行json编码
+ * @returns {any}
+ */
+Array.prototype.json = function (...key) {
+    let arr = JSON.parse(JSON.stringify(this));
+    key.forEach(k => {
+        arr.forEach((a, i) => {
+            arr[i][k] = JSON.stringify(a[k]);
+        });
+    });
+    return arr;
+};
+
+//数组中是否含有value
+Array.prototype.has = function (value) {
+    return this.some(val => {
+        return String(val) === String(value);
+    });
+};
+
+//数字是否存在于数组值中，判断数组是否有某个下标值，直接用：if(key in array)
+Number.prototype.in_array = function (value) {
+    return value.some(val => {
+        return Number(val) === Number(this);
+    });
+};
+
+//文本是否存在于数组值中
+String.prototype.in_array = function (value) {
+    return value.some(val => {
+        return String(val) === String(this);
+    });
+};
 
 function require(file, fun) {
     const path = document.currentScript.src.substr(0, document.currentScript.src.lastIndexOf("/") + 1);

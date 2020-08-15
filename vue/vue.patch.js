@@ -406,3 +406,9 @@ Vue.mixin({
     },
     extends: extendObj
 });
+
+Vue.config.silent = false; //静默状态，取消 Vue 所有的日志与警告。
+Vue.config.productionTip = false; //不显示生产环境提示
+Vue.filter('rnd', function (val) {
+    return val / 100;
+});
