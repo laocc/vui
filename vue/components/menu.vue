@@ -130,4 +130,6 @@
     }
 </script>
 <!--http://debug.vue.com/vue/components-->
-<style src="./area.css" scoped></style>
+<style scoped>
+    
+</style>
