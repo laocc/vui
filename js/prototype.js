@@ -217,6 +217,18 @@ String.prototype.format = function (decimal, thousands) {
     return Number(this).format(decimal, thousands);
 };
 
+//组合URL参数
+String.prototype.build_query = function(params) {
+    if (!params || (params === undefined) || Object.keys(params).length === 0) return this;
+    let arg = [],
+        url = this;
+    for (let k in params) {
+        arg.push(k + '=' + params[k])
+    }
+    url += (url.indexOf('?') > 0) ? '&' : '?';
+    return url + arg.join('&');
+};
+
 /**
  * 获取URL地址的一个参数
  * window.location.href.get('key')

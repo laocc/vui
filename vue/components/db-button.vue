@@ -1,16 +1,22 @@
 <template>
-    <a :class="btnClass" :href="url" @click.stop="clickBtn" onclick="return !1;">
+    <a :class="btnClass" :href="url.sprintf(value)" @click.stop="clickBtn" onclick="return !1;">
         <slot></slot>
     </a>
 </template>
 
+<!--
+
+@success:立即执行
+@finish:显示结束执行
+
+-->
+
 <script>
     module.exports = {
-        name: "db-button",
         props: {
-            type: {//按钮形式，open,ajax,post
+            type: {//按钮形式，open,ajax,post,text
                 type: String,
-                default: 'link'
+                default: 'text'
             },
             width: {//open时的宽高
                 type: [Number, String],
@@ -18,7 +24,15 @@
             },
             height: {
                 type: [Number, String],
-                default: 1000
+                default: 0
+            },
+            value: {
+                type: [Number, String],
+                default: ''
+            },
+            params: {
+                type: [Number, String, Object],
+                default: ''
             },
             url: {//弹出或ajax的目标
                 type: String,
@@ -39,21 +53,27 @@
         },
         data() {
             return {
-                css: {min: '', small: '', normal: '', big: ''}
+                css: {min: '', small: '', normal: '', big: ''},
+                action: '',
             }
         },
         created() {
-            // console.log('this.cls=', this.class, '/');
+            this.action = this.type;
+            let c = ' ' + this.$vnode.data.staticClass;
+            if (c.indexOf('ajax') > 0) this.action = 'ajax';
+            else if (c.indexOf('open') > 0) this.action = 'open';
+            else if (c.indexOf('post') > 0) this.action = 'post';
         },
         computed: {
             btnClass: function () {
                 if (this.cls === 'btn') return 'btn';
-                return (this.cls || '') + ' blue href';
+                return (this.cls || '') + '';// blue href
             }
         },
         methods: {
             clickBtn() {
-                if (this.type === 'ajax') {
+                if (this.action === 'text') return;
+                if (this.action === 'ajax') {
                     this.requestUrl();
                 } else {
                     this.openWin();
@@ -81,7 +101,7 @@
                     resize: !1,
                     offset: 'auto',
                     shadeClose: !0,
-                    content: this.url,
+                    content: this.url.sprintf(this.value),
                     success: function (layero, index) {
                         if (self.blur) $('table,form').addClass('blur1');
                         if (self.fix) {
@@ -104,36 +124,67 @@
             },
             requestUrl() {
                 const self = this;
-                let data = {url: self.url, ajax: false, action: 'GET'};
-                if (this.type === 'ajax') data.ajax = true;
-                if (this.type === 'post') data.action = 'POST';
+                let data = {url: self.url.sprintf(this.value), ajax: false, action: 'GET'};
+                if (this.action === 'ajax') data.ajax = true;
+                if (this.action === 'post') data.action = 'POST';
 
-                self.$request(data).then(
-                    function (resp) {
-                        let back = function () {
-                            if (resp.reload || resp.self === 'reload') {
-                                location.reload();
+                const callRequest = function () {
+
+                    self.$request(data).then(
+                        function (resp) {
+                            let back = function (v) {
+                                console.log(v);
+                                if (resp.reload || resp.self === 'reload') {
+                                    location.reload();
+                                } else {
+                                    if (self._events.finish) {
+                                        self.$emit('finish');
+                                    } else {
+                                        let u = (resp.jump || resp.href);
+                                        if (u) location.href = u;
+                                    }
+                                }
+                            };
+                            if (self._events.success) {
+                                self.$emit('success');
+                                self.$message({message: resp.message, type: 'success'});
+
+                            } else if (resp.message) {
+                                console.log('ok', resp);
+                                self.$message({message: resp.message, type: 'success', onClose: back});
+
                             } else {
-                                let u = (resp.jump || resp.href);
-                                if (u) location.href = u;
+                                console.log('null', resp);
+                                back();
                             }
-                        };
-                        if (resp.message) {
-                            self.$alert(resp.message, {callback: back});
-                        } else {
-                            back();
+                        },
+                        function (resp) {
+                            self.$alert({message: resp.message, type: 'error'});
                         }
-                    },
-                    function (resp) {
-                        self.$alert(resp.message);
-                    }
-                );
+                    );
+                };
+
+                if (this.title) {
+                    this.$confirm(this.title, '确认信息', {
+                        distinguishCancelAndClose: true,
+                        confirmButtonText: '确认',
+                        cancelButtonText: '放弃'
+                    }).then(() => {
+                        callRequest()
+                    }).catch(action => {
+                        // return;
+                    });
+                } else {
+                    callRequest()
+                }
+
             }
         },
     }
 </script>
 
 <style scoped>
+
     .btn {
         background: #00a0e9;
         color: #fff;
@@ -143,14 +194,39 @@
     }
 
     .min {
+        padding: 1px 3px;
     }
 
     .small {
+        padding: 2px 5px;
     }
 
     .normal {
+        padding: 5px 8px;
     }
 
     .big {
+        padding: 8px 12px;
     }
+
+    .danger {
+        background: #f10114;
+        color: #fff;
+    }
+
+    .primary {
+        background: #1471f1;
+        color: #fff;
+    }
+
+    .warn {
+        background: #e46459;
+        color: #fff;
+    }
+
+    .success {
+        background: #51a273;
+        color: #fff;
+    }
+
 </style>

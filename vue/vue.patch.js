@@ -9,7 +9,7 @@ Vue.use(function (Vue, options) {
         let option = {url: url, action: data ? 'POST' : 'GET', ajax: false};
         if (typeof data === 'object') data = JSON.stringify(data);
         if (typeof  url === 'object') Object.assign(option, url);
-        console.log(option, data, url);
+        // console.log(option, data, url);
 
         let call = function (success, fail) {
             let client = new XMLHttpRequest();
@@ -83,32 +83,10 @@ Vue.use(function (Vue, options) {
     };
 });
 
-const docS = document.scripts;
-const currentPath = docS[docS.length - 1].src.substring(0, docS[docS.length - 1].src.lastIndexOf("/"));
-
-
-Vue.component('db-form', {
-    props: [],
-    data() {
-        return {msg: ''}
-    },
-    template: `
-    <div class="dbForm"><slot></slot></div>
-    `
-});
-
-
-Vue.component('db-area', `url:${currentPath}/components/area.vue`);
-Vue.component('db-button', `url:${currentPath}/components/db-button.vue`);
-
-
-const extendObj = {
-    methods: {
-        createTable(e) {
-            console.log(e);
-        },
-    }
-};
+//当前脚本所在域名
+const scriptHost = String(document.scripts[document.scripts.length - 1].src).match(/^(https?:\/\/[\w\.]+)\/.+/i)[1];
+Vue.component('db-area', `url:${scriptHost}/vue/components/db-area.vue`);
+Vue.component('db-button', `url:${scriptHost}/vue/components/db-button.vue`);
 
 //全局混入
 Vue.mixin({
@@ -118,12 +96,7 @@ Vue.mixin({
     created: function () {
         // $(".pageHead").prepend($('<div class="tools"><div class="shade"></div></div>'));
     },
-    methods: {
-        openWindows(e) {
-            console.log(e);
-        }
-    },
-    extends: extendObj
+    methods: {}
 });
 
 Vue.config.silent = false; //静默状态，取消 Vue 所有的日志与警告。
@@ -131,3 +104,6 @@ Vue.config.productionTip = false; //不显示生产环境提示
 Vue.filter('rnd', function (val) {
     return val / 100;
 });
+// Vue.filter('date', function (val) {
+//     return val / 100;
+// });

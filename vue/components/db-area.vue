@@ -15,11 +15,11 @@
 
 <script>
     module.exports = {
-        props: [
-            'level',
-            'value',
-            'name'
-        ],
+        props: {
+            level: {type: Number, default: 3},
+            value: {type: String, default: '000000'},
+            name: {type: String, default: 'addressCode'}
+        },
         data() {
             return {
                 code: '',
@@ -33,14 +33,12 @@
             }
         },
         created() {
+            this.code = this.value || this.defaultCode;
             this.$get('/api/area').then(
                 res => {
-                    console.table(res.data);
+                    // console.log(this.code, res.data);
                     this.address = res.data;
-
-                    this.renderList(this.value || this.defaultCode);
-                    this.code = this.value || this.defaultCode;
-
+                    this.renderList(this.code);
                 },
                 err => {
                     console.error(err)
@@ -56,22 +54,26 @@
                 let b = val.substr(2, 2);
                 let c = val.substr(4, 2);
                 if (a === '00') {
-                    for (let c in this.address) {
-                        this.key1 = this.address[c]['code'];
+                    for (let acc in this.address) {
+                        this.key1 = this.address[acc]['code'];
                         return;
                     }
-                    return;
+                    this.key2 = `${a}${b}00`;
+                    this.key3 = value;
+                    this.city = this.address[this.key1]['list'];
+                    this.cont = this.city[this.key2]['list'];
+                } else {
+                    this.key1 = `${a}0000`;
+                    this.key2 = `${a}${b}00`;
+                    this.key3 = value;
+                    this.city = this.address[this.key1]['list'];
+                    this.cont = this.city[this.key2]['list'];
                 }
-                this.key1 = `${a}0000`;
-                this.key2 = `${a}${b}00`;
-                this.key3 = value;
-                this.city = this.address[this.key1]['list'];
-                this.cont = this.city[this.key2]['list'];
             }
         },
         watch: {
             key1: function (a, b) {
-                // console.log(a, b);
+                console.log(`a=${a},b=${b}`);
                 this.city = this.address[a]['list'];
                 if (!this.formatED) {
                     this.cont = this.city[this.key2]['list'];

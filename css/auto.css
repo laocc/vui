@@ -616,6 +616,9 @@ h6,
   margin-right: 50px !important;
 }
 /************************************************/
+.bold {
+  font-weight: bold;
+}
 .weixin {
   color: #2bad13;
 }

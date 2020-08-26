@@ -7,7 +7,8 @@
                     <a :target="m.target" v-if="m.target" :href="m.uri" :style="m.css||''">
                         <em :class="m.icon"></em>{{m.title}}
                     </a>
-                    <a v-else @click="clkMenu(a+'',m.uri,m.title,m.sandbox)" :style="m.css||''" onclick="return !1;" :href="m.uri">
+                    <a v-else @click="clkMenu(a+'',m.uri,m.title,m.sandbox)" :style="m.css||''" onclick="return !1;"
+                       :href="m.uri">
                         <em :class="m.icon"></em>{{m.title}}
                     </a>
                 </template>
@@ -18,19 +19,22 @@
                 </template>
             </li>
 
-            <li class="dm-group-title" v-else @click="reGroup(a)" :style="m.css||''"><em :class="m.icon"></em>{{m.title}}</li>
+            <li class="dm-group-title" v-else @click="reGroup(a)" :style="m.css||''"><em :class="m.icon"></em>{{m.title}}
+            </li>
 
             <li class="dm-group-body" v-if="m.item" :class="{hidden:(group!==a && open>=0)}">
-                <dl v-for="(t,b) in m.item">
+                <dl v-for="(t,b) in m.item" v-show="t.display!=='none'">
                     <dt v-if="type==='href'" :class="{active:tabs.index===a+'_'+b}">
                         <a :target="t.target" v-if="t.target" :href="t.uri" :style="t.css||''">
                             <em :class="t.icon"></em>{{t.title}}
                         </a>
-                        <a v-else @click="clkMenu(a+'_'+b,t.uri,t.title,t.sandbox)" :style="t.css||''" onclick="return !1;" :href="t.uri">
+                        <a v-else @click="clkMenu(a+'_'+b,t.uri,t.title,t.sandbox)" :style="t.css||''"
+                           onclick="return !1;" :href="t.uri">
                             <em :class="t.icon"></em>{{t.title}}
                         </a>
                     </dt>
-                    <dt v-else @click="clkMenu(a+'_'+b,t.uri,t.title,t.sandbox)" :style="t.css||''" :class="{active:tabs.index===a+'_'+b}">
+                    <dt v-else @click="clkMenu(a+'_'+b,t.uri,t.title,t.sandbox)" :style="t.css||''"
+                        :class="{active:tabs.index===a+'_'+b}">
                         <em :class="t.icon"></em>{{t.title}}
                     </dt>
                 </dl>
@@ -131,5 +135,5 @@
 </script>
 <!--http://debug.vue.com/vue/components-->
 <style scoped>
-    
+
 </style>
