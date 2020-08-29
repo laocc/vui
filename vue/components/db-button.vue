@@ -1,18 +1,13 @@
 <template>
-    <a :class="btnClass" :href="url.sprintf(value)" @click.stop="clickBtn" onclick="return !1;">
-        <slot></slot>
+    <a :href="href" @click.stop="clickBtn" onclick="return !1;">
+        <slot></slot><span :class="icon" v-if="icon"></span>
+        <!--这儿两个元素要保持在一行，否则会在后面有个空格-->
     </a>
 </template>
 
-<!--
-
-@success:立即执行
-@finish:显示结束执行
-
--->
-
 <script>
     module.exports = {
+        name: "db-button",
         props: {
             type: {//按钮形式，open,ajax,post,text
                 type: String,
@@ -27,27 +22,27 @@
                 default: 0
             },
             value: {
-                type: [Number, String],
+                type: [Number, String, Array],
                 default: ''
             },
-            params: {
-                type: [Number, String, Object],
+            data: {
+                type: [String, Array, Object],
+                default: ''
+            },
+            btn: {
+                type: [String, Array],
                 default: ''
             },
             url: {//弹出或ajax的目标
                 type: String,
                 default: ''
             },
+            icon: {
+                type: String,
+                default: ''
+            },
             title: {//open的标题
-                type: String,
-                default: ''
-            },
-            cls: {//class，若是btn则显示按钮式样
-                type: String,
-                default: ''
-            },
-            size: {//按钮的大小 、、small
-                type: String,
+                type: [String, Array],
                 default: ''
             }
         },
@@ -65,15 +60,31 @@
             else if (c.indexOf('post') > 0) this.action = 'post';
         },
         computed: {
-            btnClass: function () {
-                if (this.cls === 'btn') return 'btn';
-                return (this.cls || '') + '';// blue href
+            href: function () {
+                if (typeof  this.value === 'object') {
+                    return this.url.sprintf(...this.value);
+                }
+                return this.url.sprintf(this.value);
+            },
+            titleVal: function () {
+                if (typeof this.title === 'object') {
+                    return this.title.shift().sprintf(...this.title);
+
+                } else if (typeof this.url === 'object') {
+                    return this.url.shift().sprintf(...this.url);
+
+                } else if (typeof this.value === 'object') {
+                    return this.title.sprintf(...this.value);
+
+                }
+                return this.title.sprintf(this.value);
             }
         },
         methods: {
             clickBtn() {
+                this.$emit('click');
                 if (this.action === 'text') return;
-                if (this.action === 'ajax') {
+                if (this.action === 'ajax' || this.action === 'post') {
                     this.requestUrl();
                 } else {
                     this.openWin();
@@ -91,7 +102,7 @@
                 let option = {
                     id: 'boxFrame',
                     type: 2,//0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
-                    title: this.title,
+                    title: this.titleVal,
                     area: area,
                     closeBtn: this.title ? 1 : 0,
                     shade: [0.1, '#393D49'],
@@ -101,7 +112,12 @@
                     resize: !1,
                     offset: 'auto',
                     shadeClose: !0,
-                    content: this.url.sprintf(this.value),
+                    content: this.href,
+                    yes: function () {
+                        if (self._events.yes) {
+                            self.$emit('yes');
+                        }
+                    },
                     success: function (layero, index) {
                         if (self.blur) $('table,form').addClass('blur1');
                         if (self.fix) {
@@ -110,27 +126,41 @@
                             };
                         }
                         if (pIndex) window.parent.layer.shade(pIndex, 1);
+                        if (self._events.success) {
+                            self.$emit('success');
+                        }
                     },
                     end: function () {
                         if (self.fix) window.onscroll = null;
                         if (self.blur) $('table,form').removeClass('blur1');
                         // if (callback) eval(callback);
                         if (pIndex) window.parent.layer.shade(pIndex, 0);
+                        if (self._events.end) {
+                            self.$emit('end');
+                        }
                     }
                 };
+
+                if (this.btn) option.btn = this.btn;
+
                 console.log(option);
                 window.dbOpenIndex = layer.open(option);
                 return !1;
             },
+
             requestUrl() {
                 const self = this;
-                let data = {url: self.url.sprintf(this.value), ajax: false, action: 'GET'};
-                if (this.action === 'ajax') data.ajax = true;
-                if (this.action === 'post') data.action = 'POST';
+                let data = null;
+                let option = {url: self.href, ajax: false, action: 'GET'};
+                if (this.action === 'ajax') option.ajax = true;
+                if (this.action === 'post') {
+                    option.action = 'POST';
+                    data = this.data;
+                }
 
                 const callRequest = function () {
 
-                    self.$request(data).then(
+                    self.$request(option, data).then(
                         function (resp) {
                             let back = function (v) {
                                 console.log(v);
@@ -159,13 +189,13 @@
                             }
                         },
                         function (resp) {
-                            self.$alert({message: resp.message, type: 'error'});
+                            self.$message({message: resp.message, type: 'error'});
                         }
                     );
                 };
 
                 if (this.title) {
-                    this.$confirm(this.title, '确认信息', {
+                    this.$confirm(this.titleVal, '确认信息', {
                         distinguishCancelAndClose: true,
                         confirmButtonText: '确认',
                         cancelButtonText: '放弃'
@@ -186,9 +216,9 @@
 <style scoped>
 
     .btn {
-        background: #00a0e9;
+        background: #1471f1;
         color: #fff;
-        padding: 5px 8px;
+        padding: 8px 12px;
         border-radius: 2px;
         margin: 2px;
     }
@@ -198,15 +228,20 @@
     }
 
     .small {
-        padding: 2px 5px;
-    }
-
-    .normal {
         padding: 5px 8px;
     }
 
-    .big {
+    .normal {
         padding: 8px 12px;
+    }
+
+    .big {
+        padding: 12px 18px;
+    }
+
+    .error {
+        background: #f10114;
+        color: #fff;
     }
 
     .danger {

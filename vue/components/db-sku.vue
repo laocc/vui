@@ -1,5 +1,5 @@
 <template>
-    <div :style="'overflow-y:scroll;height:'+ divHei">
+    <div class="body" :style="'overflow-y:scroll;height:'+ divHei">
 
         <div class="setting">
             <div class="lab">SKU层级</div>
@@ -23,14 +23,16 @@
         </div>
 
         <div class="notes">
-            销售订单中以销售时SKU显示的名称为准，库存核减时以自编号为准，所以，当SKU自编号确定后，不要轻易修改自编号。
+            销售订单中以销售时SKU显示的名称为准，库存核减时以自编号为准，所以，当SKU自编号确定后，不要轻易修改自编号。<br>
+            自编号和价格为空或=0的不显示；库存为空或=0的显示但不能购买
         </div>
+
 
         <div class="tr head">
             <div class="a">SKU名称</div>
-            <div class="b">自编号(为空的不显示)</div>
-            <div class="c">价格(为空或=0的不显示)</div>
-            <div class="d">库存(为空或=0的显示但不能购买)</div>
+            <div class="b">自编号</div>
+            <div class="c">价格</div>
+            <div class="d">库存</div>
             <div class="f">单件重量(克)</div>
             <div class="e">图片</div>
         </div>
@@ -107,6 +109,7 @@
                 </div>
             </div>
         </div>
+
         <input type="hidden" :name="name" :value='getSkuValue'>
     </div>
 
@@ -265,6 +268,11 @@
 </script>
 
 <style scoped>
+
+    .body{
+        background: #eeeeee;
+    }
+
     input.txt {
         display: block;
         width: 100%;
@@ -273,7 +281,7 @@
         text-indent: 10px;
         line-height: 1.3;
         line-height: 38px \9;
-        border: 1px solid #fafafa;
+        border: 1px solid #aaa;
         background-color: #fff;
         border-radius: 2px;
     }
@@ -327,12 +335,12 @@
 
     .labels .lab {
         flex: 1;
-        border: 1px solid #ddd;
+        /*border: 1px solid #ddd;*/
     }
 
     .labels .val {
         flex: 8;
-        border: 1px solid #ddd;
+        /*border: 1px solid #ddd;*/
         margin-left: -1px;
     }
 
@@ -367,7 +375,8 @@
     }
 
     div.tr div.a {
-        flex: 2
+        flex: 2;
+        text-align: center;
     }
 
     div.tr div img {
@@ -384,9 +393,10 @@
         flex: 1;
         height: 32px;
         line-height: 32px;
+        font-weight: bold;
     }
 
     div.sku span.h {
-        color: #dddddd;
+        color: #BBBBBB;
     }
 </style>

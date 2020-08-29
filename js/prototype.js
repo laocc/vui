@@ -205,6 +205,7 @@ Number.prototype.clock = function (over) {
  thousands   带千分位,默认不带，
  */
 Number.prototype.format = function (decimal, thousands) {
+    decimal = decimal || 2;
     let w = Math.pow(10, decimal);
     let n = Math.round(parseFloat(this) * w) / w;
     if (decimal > 0 && String(n).indexOf('.') < 0) {
@@ -218,7 +219,7 @@ String.prototype.format = function (decimal, thousands) {
 };
 
 //组合URL参数
-String.prototype.build_query = function(params) {
+String.prototype.build_query = function (params) {
     if (!params || (params === undefined) || Object.keys(params).length === 0) return this;
     let arg = [],
         url = this;
@@ -429,6 +430,10 @@ Number.prototype.in_array = function (value) {
 
 //文本是否存在于数组值中
 String.prototype.in_array = function (value) {
+    if (typeof value !== 'object') {
+        console.log('当前：', typeof value, value);
+        throw new Error('in_array的对象须是array类型');
+    }
     return value.some(val => {
         return String(val) === String(this);
     });

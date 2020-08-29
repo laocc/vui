@@ -97,6 +97,8 @@
             clkMenu(key, uri, title, sandbox) {
                 if (!this.tabs) return !0;
                 if (sandbox === undefined) sandbox = 0;
+                console.log(key,this.tabs.keys);
+
                 if (this.tabs.keys.indexOf(key) < 0) {
                     this.tabs.keys.push(key);
                     this.tabs.items.push({title: title, name: key, content: this.$iframe(uri, !!sandbox)});

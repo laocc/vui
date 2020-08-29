@@ -1,0 +1,56 @@
+#body {
+  flex: 1;
+  flex-direction: row;
+}
+#body .menu {
+  /**
+        .el-menu右边1px；el-submenu .el-menu-item min-width:200px;
+         */
+  width: 160px;
+}
+#body .menu .el-submenu .el-menu-item-group__title {
+  padding: 0;
+}
+#body .menu .el-submenu .el-menu-item,
+#body .menu .el-submenu .el-submenu__title {
+  min-width: 159px;
+  height: 36px;
+  line-height: 36px;
+}
+#body .container {
+  flex: 1;
+  display: flex;
+  padding: 0;
+}
+#body .container .el-tabs {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+#body .container .el-tabs .el-tabs__header {
+  margin-bottom: 0;
+  flex: 0;
+}
+#body .container .el-tabs .el-tabs__header .el-tabs__nav {
+  display: flex;
+  align-content: flex-start;
+  flex-wrap: wrap;
+}
+#body .container .el-tabs .el-tabs__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 0;
+}
+#body .container .el-tabs .el-tabs__content .el-tab-pane {
+  flex: 1;
+  display: flex;
+  padding: 1px;
+}
+#body .container .el-tabs .el-tabs__content .el-tab-pane iframe {
+  flex: 1;
+  border: 0;
+}
+/*# sourceMappingURL=index.css.map */

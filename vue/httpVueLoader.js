@@ -158,11 +158,11 @@
             }.bind(this);
 
             try {
-                Function('exports', 'require', 'httpVueLoader', 'module', this.getContent()).call(this.module.exports, this.module.exports, childModuleRequire, childLoader, this.module);
+                Function('exports', 'require', 'httpVueLoader', 'module', this.getContent())
+                    .call(this.module.exports, this.module.exports, childModuleRequire, childLoader, this.module);
             } catch (ex) {
 
                 if (!('lineNumber' in ex)) {
-
                     return Promise.reject(ex);
                 }
                 var vueFileData = responseText.replace(/\r?\n/g, '\n');
@@ -350,21 +350,17 @@
 
 
     httpVueLoader.load = function (url, name) {
-
         return function () {
 
             return new Component(name).load(url)
                 .then(function (component) {
-
                     return component.normalize();
-                })
-                .then(function (component) {
 
+                }).then(function (component) {
                     return component.compile();
-                })
-                .then(function (component) {
 
-                    var exports = component.script !== null ? component.script.module.exports : {};
+                }).then(function (component) {
+                    let exports = component.script !== null ? component.script.module.exports : {};
 
                     if (component.template !== null)
                         exports.template = component.template.getContent();
@@ -374,7 +370,6 @@
                             exports.name = component.name;
 
                     exports._baseURI = component.baseURI;
-
                     return exports;
                 });
         };
