@@ -87,6 +87,7 @@ Vue.use(function (Vue, options) {
 const scriptHost = String(document.scripts[document.scripts.length - 1].src).match(/^(https?:\/\/[\w\.]+)\/.+/i)[1];
 Vue.component('db-area', `url:${scriptHost}/vue/components/db-area.vue`);
 Vue.component('db-button', `url:${scriptHost}/vue/components/db-button.vue`);
+Vue.component('db-upload', `url:${scriptHost}/vue/components/db-upload.vue`);
 
 //全局混入
 Vue.mixin({

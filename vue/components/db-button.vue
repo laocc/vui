@@ -1,6 +1,7 @@
 <template>
     <a :href="href" @click.stop="clickBtn" onclick="return !1;">
-        <slot></slot><span :class="icon" v-if="icon"></span>
+        <slot></slot>
+        <span :class="icon" v-if="icon"></span>
         <!--这儿两个元素要保持在一行，否则会在后面有个空格-->
     </a>
 </template>
@@ -82,8 +83,9 @@
         },
         methods: {
             clickBtn() {
+                console.log('click', this.action, this.href);
                 this.$emit('click');
-                if (this.action === 'text') return;
+                if (this.action === 'text' || !this.url) return;
                 if (this.action === 'ajax' || this.action === 'post') {
                     this.requestUrl();
                 } else {
@@ -244,8 +246,18 @@
         color: #fff;
     }
 
+    .error:hover {
+        background: #b40113;
+        color: #fff;
+    }
+
     .danger {
         background: #f10114;
+        color: #fff;
+    }
+
+    .danger:hover {
+        background: #a90110;
         color: #fff;
     }
 
@@ -254,13 +266,28 @@
         color: #fff;
     }
 
+    .primary:hover {
+        background: #1052a6;
+        color: #fff;
+    }
+
     .warn {
         background: #e46459;
         color: #fff;
     }
 
+    .warn:hover {
+        background: #b85a50;
+        color: #fff;
+    }
+
     .success {
         background: #51a273;
+        color: #fff;
+    }
+
+    .success:hover {
+        background: #3e7257;
         color: #fff;
     }
 
