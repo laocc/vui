@@ -144,6 +144,8 @@
         </div>
 
         <input type="hidden" :name="name" :value='getSkuValue'>
+
+
     </div>
 
 </template>
@@ -191,6 +193,7 @@
             if (!this.sku.value[1]) this.sku.value[1] = {};
             if (!this.sku.value[2]) this.sku.value[2] = {};
             if (!this.sku.value[3]) this.sku.value[3] = {};
+            if (!this.sku.setup) this.sku.setup = {level: 1, unit: '件', value: ['', '默认'], label: ['', '规格']};
 
             this.setup = this.sku.setup;
             this.realValue = this.sku.value;

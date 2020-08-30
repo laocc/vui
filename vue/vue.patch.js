@@ -83,6 +83,7 @@ Vue.use(function (Vue, options) {
     };
 });
 
+
 //当前脚本所在域名
 const scriptHost = String(document.scripts[document.scripts.length - 1].src).match(/^(https?:\/\/[\w\.]+)\/.+/i)[1];
 Vue.component('db-area', `url:${scriptHost}/vue/components/db-area.vue`);
@@ -99,6 +100,16 @@ Vue.mixin({
     },
     methods: {}
 });
+
+// 暂不能开启，否则会接管所有错误信息
+// Vue.config.errorHandler = function (err, vm, info) {
+//     // console.log('err:', err);
+//     // console.log('vm:', vm);
+//     // console.log('info:', info);
+//     // handle error
+//     // `info` 是 Vue 特定的错误信息，比如错误所在的生命周期钩子
+//     // 只在 2.2.0+ 可用
+// };
 
 Vue.config.silent = false; //静默状态，取消 Vue 所有的日志与警告。
 Vue.config.productionTip = false; //不显示生产环境提示

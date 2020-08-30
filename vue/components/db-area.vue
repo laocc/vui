@@ -49,19 +49,31 @@
             renderList(value) {
                 let lev = this.level;
                 let val = String(value);
-                console.log(val);
+                console.log('renderList=', val, this.address);
                 let a = val.substr(0, 2);
                 let b = val.substr(2, 2);
                 let c = val.substr(4, 2);
                 if (a === '00') {
-                    for (let acc in this.address) {
-                        this.key1 = this.address[acc]['code'];
-                        return;
+                    console.log('key1:', this.key1);
+                    for (let ap in this.address) {
+                        this.key1 = ap;
+                        break;
                     }
-                    this.key2 = `${a}${b}00`;
-                    this.key3 = value;
                     this.city = this.address[this.key1]['list'];
+                    for (let ac in this.city) {
+                        this.key2 = ac;
+                        break;
+                    }
                     this.cont = this.city[this.key2]['list'];
+                    for (let at in this.cont) {
+                        this.key3 = at;
+                        break;
+                    }
+
+                    // this.key3 = value;
+                    console.log('key1=', this.key1, this.key2, this.key3);
+                    console.log('city:', this.city);
+
                 } else {
                     this.key1 = `${a}0000`;
                     this.key2 = `${a}${b}00`;
@@ -73,7 +85,7 @@
         },
         watch: {
             key1: function (a, b) {
-                console.log(`a=${a},b=${b}`);
+                // console.log(`a=${a},b=${b}`);
                 this.city = this.address[a]['list'];
                 if (!this.formatED) {
                     this.cont = this.city[this.key2]['list'];
