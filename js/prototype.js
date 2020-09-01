@@ -29,6 +29,18 @@ String.prototype.html_decode = function () {
         .replace(/&amp;/g, "&");
 };
 
+/**
+ * console.log(...'这是要提示的内容'.log('red'));
+ */
+String.prototype.log = function (color) {
+    let background = {red: '#DC0113', blue: '#1052A6', green: '#25A76E'}[color] || '#25A76E';
+    return ['%c%s%c%s',
+        "background: #35495e; padding: 5px 15px; border-radius: 3px 0 0 3px;color: #fff;font-size:12px;",
+        '提示',
+        `background: ${background}; padding: 5px 15px; border-radius: 0 3px 3px 0;color: #fff;font-size:12px;`,
+        String(this)];
+};
+
 
 //let str = '这个{{sex}}人今年{{age}}岁'.re({sex: '女', age: 25});
 String.prototype.re = function (val) {

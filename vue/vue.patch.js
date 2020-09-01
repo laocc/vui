@@ -89,6 +89,7 @@ const scriptHost = String(document.scripts[document.scripts.length - 1].src).mat
 Vue.component('db-area', `url:${scriptHost}/vue/components/db-area.vue`);
 Vue.component('db-button', `url:${scriptHost}/vue/components/db-button.vue`);
 Vue.component('db-upload', `url:${scriptHost}/vue/components/db-upload.vue`);
+Vue.component('db-html', `url:${scriptHost}/vue/components/db-html.vue`);
 
 //全局混入
 Vue.mixin({
@@ -96,6 +97,8 @@ Vue.mixin({
         // require('extend/mall.js');
     },
     created: function () {
+        console.log(...'Vue实例创建'.log());
+        console.log(this.$options, this.$parent);
         // $(".pageHead").prepend($('<div class="tools"><div class="shade"></div></div>'));
     },
     methods: {}
