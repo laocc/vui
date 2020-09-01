@@ -1,4 +1,7 @@
 // let myMixin = require('./test');
+
+console.log('mall.js');
+
 const extendObj = {
     updated: function () {
         console.log('我是扩展的Update')
@@ -16,6 +19,4 @@ const extendObj = {
 };
 // export default extendObj;
 
-export default {
-    extendObj
-}
+export default extendObj

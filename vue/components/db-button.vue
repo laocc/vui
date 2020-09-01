@@ -129,7 +129,7 @@
                         }
                         if (pIndex) window.parent.layer.shade(pIndex, 1);
                         if (self._events.success) {
-                            self.$emit('success');
+                            self.$emit('open');
                         }
                     },
                     end: function () {

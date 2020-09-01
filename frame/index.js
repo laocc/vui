@@ -1,4 +1,3 @@
-
 const fileHost = String(document.scripts[document.scripts.length - 1].src).match(/^(https?:\/\/[\w\.]+)\/.+/i)[1];
 
 let vm = new Vue({
@@ -29,6 +28,7 @@ let vm = new Vue({
         this.tabs.index = key;
         this.tabs.keys = [key];
         this.tabs.items = [m];
+        console.log(...'管理中心启动'.log('red'))
     },
     components: {
         'db-menu': `url:${fileHost}/vue/components/db-menu.vue`,

@@ -94,7 +94,7 @@ Vue.component('db-html', `url:${scriptHost}/vue/components/db-html.vue`);
 //全局混入
 Vue.mixin({
     beforeCreate() {
-        // require('extend/mall.js');
+        // require('/extend/mall.js');
     },
     created: function () {
         // console.log(...'Vue实例创建'.log());

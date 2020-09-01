@@ -3,14 +3,21 @@
  * JS扩展：
  *
  */
-String.prototype.base64_encode = function () {
-    if (typeof Base64 === "undefined") return "未引入base64.js";
-    return new Base64().base64_encode(this);
+
+String.prototype.utf8_encode = function() {
+    return utf8_encode(this);
 };
 
-String.prototype.base64_decode = function () {
-    if (typeof Base64 === "undefined") return "未引入base64.js";
-    return new Base64().base64_decode(this);
+String.prototype.utf8_decode = function() {
+    return utf8_decode(this);
+};
+
+String.prototype.base64_encode = function() {
+    return btoa(this.utf8_encode());
+};
+
+String.prototype.base64_decode = function() {
+    return atob(this).utf8_decode();
 };
 
 //字符串Md5
@@ -35,9 +42,9 @@ String.prototype.html_decode = function () {
 String.prototype.log = function (color) {
     let background = {red: '#DC0113', blue: '#1052A6', green: '#25A76E'}[color] || '#25A76E';
     return ['%c%s%c%s',
-        "background: #35495e; padding: 5px 15px; border-radius: 3px 0 0 3px;color: #fff;font-size:12px;",
+        "background: #35495e; padding: 5px 15px; border-radius: 3px 0 0 3px;color: #fff;font-size:10px;",
         '提示',
-        `background: ${background}; padding: 5px 15px; border-radius: 0 3px 3px 0;color: #fff;font-size:12px;`,
+        `background: ${background}; padding: 5px 15px; border-radius: 0 3px 3px 0;color: #fff;font-size:10px;`,
         String(this)];
 };
 
@@ -452,17 +459,19 @@ String.prototype.in_array = function (value) {
 };
 
 function require(file, fun) {
-    const path = document.currentScript.src.substr(0, document.currentScript.src.lastIndexOf("/") + 1);
+    // const scriptHost = String(document.scripts[document.scripts.length - 1].src).match(/^(https?:\/\/[\w\.]+)\/.+/i)[1];
+    // const path = document.currentScript.src.substr(0, document.currentScript.src.lastIndexOf("/") + 1);
+    const host = 'http://debug.vue.com';
     const ref = document.getElementsByTagName('script')[0];
     const script = document.createElement('script');
     const head = document.getElementsByTagName("head").item(0);
-    script.src = path + file;
+    script.src = scriptHost + file;
     script.async = false;
     // script.type = 'text/javascript';//text/javascript
     script.type = 'module';//text/javascript
     script.onload = function () {
         // console.log('自动加载', path + file);
-        fun();
+        // fun();
     };
     head.appendChild(script);
 }

@@ -23,7 +23,7 @@
             </li>
 
             <li class="dm-group-body" v-if="m.item" :class="{hidden:(group!==a && open>=0)}">
-                <dl v-for="(t,b) in m.item" v-show="t.display!=='none'">
+                <dl v-for="(t,b) in m.item" v-show="t.display!==false && t.display!==0 && t.display!=='none'">
                     <dt v-if="type==='href'" :class="{active:tabs.index===a+'_'+b}">
                         <a :target="t.target" v-if="t.target" :href="t.uri" :style="t.css||''">
                             <em :class="t.icon"></em>{{t.title}}
@@ -85,7 +85,7 @@
             }
         },
         created() {
-            console.log(menu);
+            // console.log(menu);
         },
         computed: {
             wid: function () {
@@ -97,7 +97,7 @@
             clkMenu(key, uri, title, sandbox) {
                 if (!this.tabs) return !0;
                 if (sandbox === undefined) sandbox = 0;
-                console.log(key,this.tabs.keys);
+                console.log(key, this.tabs.keys);
 
                 if (this.tabs.keys.indexOf(key) < 0) {
                     this.tabs.keys.push(key);
