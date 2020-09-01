@@ -97,8 +97,8 @@ Vue.mixin({
         // require('extend/mall.js');
     },
     created: function () {
-        console.log(...'Vue实例创建'.log());
-        console.log(this.$options, this.$parent);
+        // console.log(...'Vue实例创建'.log());
+        // console.log(this.$options, this.$parent);
         // $(".pageHead").prepend($('<div class="tools"><div class="shade"></div></div>'));
     },
     methods: {}
