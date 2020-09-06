@@ -108,3 +108,218 @@
         border: 1px solid #D2D2D2;
     }
 }
+
+/**
+
+这是对layui.css和element的css补充覆盖
+TODO 在此文件中的所有新增定义，必须加详细的原因说明
+
+ */
+form.headForm {
+    table {
+        margin-top: 0;
+        margin-bottom: 0;
+        background: #f8fafd;
+    }
+}
+
+.el-table {
+    .cell {
+        //将表格单元格改为超出显示为省略号
+        white-space: nowrap;
+    }
+    thead {
+        background: #ccd1e4;
+        color: #fff;
+        tr, th {
+            background: inherit;
+        }
+    }
+    tr {
+        td {
+            padding: 5px 0;
+        }
+    }
+}
+
+.el-input__inner {
+    //input单元格改高
+    height: 38px !important;
+}
+
+.input_color_picker {
+    //颜色选择器的边框给去掉
+    & > div {
+        border: none;
+    }
+}
+
+//日期选择器，让内容撑开输入框，原来有点挡着了
+.el-date-editor .el-range-input {
+    width: fit-content;
+}
+
+.el-color-picker--mini {
+    margin-top: 5px;
+}
+
+.el-drawer__header {
+    //弹出框表头改写
+    padding: 10px;
+    margin-bottom: 5px;
+    background: #ff7a17;
+    span {
+        font-size: 16px;
+        color: #fff;
+    }
+    .el-drawer__close-btn {
+        color: #fff;
+    }
+    .el-drawer__close-btn:hover {
+        color: #999999;
+    }
+}
+
+.el-button--text:focus, .el-button--text:hover {
+    color: #ff7a17;
+}
+
+.el-drawer__body {
+    display: flex;
+    flex-direction: column;
+    .iframe {
+        flex: 1;
+        margin: 0;
+        padding: 0;
+    }
+    div {
+        flex: 1;
+        display: flex;
+        iframe {
+            .iframe;
+        }
+    }
+    iframe {
+        .iframe;
+    }
+}
+
+.el-textarea {
+    padding-bottom: 25px;
+    .el-textarea__inner {
+        font-size: 16px;
+        line-height: 1.9em;
+    }
+    .el-input__count {
+        background: none;
+    }
+}
+
+//input内的button
+.el-input--suffix {
+    .el-input__suffix {
+        //top: 5px;
+        right: 3px;
+    }
+}
+
+.el-form-item {
+    margin-bottom: 5px;
+}
+
+.el-form-item__content {
+    line-height: 2em;
+}
+
+.el-dialog__wrapper {
+    flex: 1;
+    display: flex;
+    .el-dialog__body {
+        display: flex;
+        padding: 0;
+        overflow: hidden;
+        iframe {
+            flex: 1;
+        }
+    }
+}
+
+/**
+弹出层的自定义式样
+ */
+.layui-layer-red {
+    min-width: 100px;
+    background-color: #000;
+    filter: alpha(opacity=80);
+    background-color: rgba(139, 6, 17, 0.8) !important;
+    color: #fff;
+    border: none;
+    
+    .layui-layer-btn .layui-layer-btn0 {
+        background-color: #111111;
+        border-color: #111111;
+        color: #fff;
+    }
+}
+
+.layui-layer-green {
+    min-width: 100px;
+    background-color: #000;
+    filter: alpha(opacity=85);
+    background-color: rgba(3, 118, 36, 0.7) !important;
+    color: #fff;
+    border: none;
+    
+    .layui-layer-btn .layui-layer-btn0 {
+        background-color: #056309;
+        border-color: #05a111;
+        color: #fff;
+    }
+    
+    .layui-layer-content {
+        padding: 12px 25px;
+        text-align: center;
+        background: #0b850b;
+        color: #fff;
+    }
+    
+}
+
+.unit {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+    bottom: 1px;
+    //line-height: calc(100% - 2px);
+    height: calc(100% - 2px);
+    background: #fafafa !important;
+    color: #888888;
+    margin-right: 0;
+    margin-left: 0;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+    cursor: default;
+    
+    &:hover {
+        background-color: #53aaa9 !important;
+        color: #fafafa;
+    }
+}
+
+/**
+后台页面顶部搜索表单
+ */
+.searchForm {
+    background: #fafafa;
+    border-bottom: 1px solid #aaa;
+    padding: 5px;
+    
+    .el-form-item {
+        margin-bottom: 0;
+        margin-right: 0;
+    }
+    
+    .el-input__inner {
+        height: 32px;
+    }
+}

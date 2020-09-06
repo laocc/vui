@@ -1,10 +1,9 @@
 <template>
-    <a :href="href" @click.stop="clickBtn" onclick="return !1;">
-        <slot></slot>
-        <span :class="icon" v-if="icon"></span>
-        <!--这儿两个元素要保持在一行，否则会在后面有个空格-->
+    <a :href="href" :class="cls" @click.stop="clickBtn" onclick="return !1;">
+        <slot></slot><span :class="icon" v-if="icon"></span>
     </a>
 </template>
+<!-- slot和span 两个元素要保持在一行，否则会在后面有个空格-->
 
 <script>
     module.exports = {
@@ -23,24 +22,37 @@
                 default: 0
             },
             value: {
-                type: [Number, String, Array],
-                default: ''
+                type: [Number, String, Array, Object]
             },
             data: {
                 type: [String, Array, Object],
-                default: ''
+                default() {
+                    return {};
+                }
             },
             btn: {
                 type: [String, Array],
                 default: ''
             },
             url: {//弹出或ajax的目标
-                type: String,
+                type: [String, Array],
                 default: ''
             },
             icon: {
                 type: String,
                 default: ''
+            },
+            callback: {
+                type: String,
+                default: ''
+            },
+            disabled: {
+                type: Boolean,
+                default: false
+            },
+            direction: {
+                type: String,
+                default: 'left'
             },
             title: {//open的标题
                 type: [String, Array],
@@ -51,6 +63,7 @@
             return {
                 css: {min: '', small: '', normal: '', big: ''},
                 action: '',
+                drawerCall: false
             }
         },
         created() {
@@ -59,35 +72,69 @@
             if (c.indexOf('ajax') > 0) this.action = 'ajax';
             else if (c.indexOf('open') > 0) this.action = 'open';
             else if (c.indexOf('post') > 0) this.action = 'post';
+            else if (c.indexOf('drawer') > 0) this.action = 'drawer';
+            if (this._events.drawer) {
+                this.drawerCall = true;
+                this.action = 'drawer';
+            }
         },
         computed: {
             href: function () {
-                if (typeof  this.value === 'object') {
-                    return this.url.sprintf(...this.value);
+                if (typeof this.url === 'object') {
+                    return this.url.shift().sprintf(...this.url);
+
+                } else if (this.action !== 'drawer' || this.drawerCall) {
+                    if (typeof this.value === 'object') {
+                        return this.title.sprintf(...this.value);
+                    } else {
+                        return this.url.sprintf(this.value);
+                    }
                 }
-                return this.url.sprintf(this.value);
+                return this.url;
+            },
+            cls: function () {
+                if (this.disabled) return 'disabled';
+                return '';
             },
             titleVal: function () {
                 if (typeof this.title === 'object') {
                     return this.title.shift().sprintf(...this.title);
 
-                } else if (typeof this.url === 'object') {
-                    return this.url.shift().sprintf(...this.url);
-
-                } else if (typeof this.value === 'object') {
-                    return this.title.sprintf(...this.value);
-
+                } else if (this.action !== 'drawer' || this.drawerCall) {
+                    if (typeof this.value === 'object') {
+                        return this.title.sprintf(...this.value);
+                    } else {
+                        return this.title.sprintf(this.value);
+                    }
                 }
-                return this.title.sprintf(this.value);
+                return this.title;
             }
         },
         methods: {
             clickBtn() {
                 console.log('click', this.action, this.href);
+                if (this.disabled) return;
+
                 this.$emit('click');
                 if (this.action === 'text' || !this.url) return;
                 if (this.action === 'ajax' || this.action === 'post') {
                     this.requestUrl();
+                } else if (this.action === 'drawer') {
+                    let dir = {left: 'ltr', right: 'rtl', top: 'ttb', bottom: 'btt'};
+                    let size = this.direction.in_array(['top', 'bottom']) ? this.height : this.width;
+                    if (size.indexOf('%') < 0) size = parseInt(size) + 'px';
+
+                    let title = this.titleVal;
+                    if (!title || title === 'false') title = false;
+                    let opt = {
+                        show: true,
+                        title: title,
+                        src: this.$iframe(this.href, !1),
+                        size: size,
+                        dir: dir[this.direction] || 'left'
+                    };
+                    this.drawerCall ? this.$emit('drawer', opt) : Object.assign(this.value, opt);
+
                 } else {
                     this.openWin();
                 }
@@ -216,6 +263,18 @@
 </script>
 
 <style scoped>
+
+    a:hover {
+        color: #eee9c6;
+    }
+
+    .disabled {
+        -webkit-filter: blur(1px);
+        -moz-filter: blur(1px);
+        -o-filter: blur(1px);
+        -ms-filter: blur(1px);
+        filter: blur(1px);
+    }
 
     .btn {
         background: #1471f1;

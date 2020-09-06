@@ -314,7 +314,7 @@ $(function () {
 
         form.on('submit(post)', function (data) {
             //  lay-submit lay-filter="post"
-            const self = $(this);
+            const self = $(this);//按钮
             const $form = $(data.form);//表单对象
             if (self.data('auto') === 'disabled') return true;
             if (self.data('disabled') !== 'disabled') {
@@ -326,9 +326,34 @@ $(function () {
                 data.field[ta.attr('name')] = layedit.getContent(editIndex);
             }
 
+            //有拦截器
+            let it = self.attr('intercept');
+            if (it) {
+                self.removeAttr('disabled').removeClass('layui-btn-disabled');
+                return window[it](data.field);
+            }
+
+            //附加，由vue检查
+            let c = self.attr('validator');
+            if (c && !1 === window[c](data.field)) {
+                self.removeAttr('disabled').removeClass('layui-btn-disabled');
+                return;
+            }
+
             $.post($form.attr('action'), data.field, function ($response) {
                 //$response是服务器给出的值
-                db.forResponse($response, self, $form)
+                let mch = window.location.href.match(/callback=(\w+)/i);
+                if (mch) {
+                    self.removeAttr('disabled').removeClass('layui-btn-disabled');
+                    if ($response.success) {
+                        parent[mch[1]]($response);
+                        // eval(`parent.${mch[1]}($response)`);
+                    } else {
+                        layer.msg($response.message, {icon: 2})
+                    }
+                } else {
+                    db.forResponse($response, self, $form)
+                }
             });
 
             return false;
@@ -385,6 +410,13 @@ $(function () {
                 box.removeAttr('checked').next('div').removeClass('layui-form-checked');
             }
         });
+
+        // form.on('radio', function (data) {
+        //     const self = $(data.elem);
+        //     self.show().attr('checked', true).click().hide();
+        //     console.log('radio click', self);
+        //     // $(obj).toggle(val == value);
+        // });
 
         form.on('radio(switchInput)', function (data) {
             const self = $(data.elem);

@@ -1,17 +1,16 @@
 <template>
     <div class="form" :style="cssBtn">
-
         <progress class="progress" v-show="run && progress" :id="'progressBar_'+rand" value="0" max="100"></progress>
         <div class="value" v-show="run && progress">
             <span>{{percent}}</span>
             <span style="text-align: right">{{speed}}</span>
         </div>
-        <a v-show="!(run && progress)" :style="cssH" class="btn fc f40a" :href="api" @click="upload"
+        <a v-show="!(run && progress)" :style="cssH" class="btn fc f40a" :class="cls" :href="api" @click="upload"
            onclick="return !1;">
             <slot></slot>
         </a>
-        <input type="file" :id="'file_'+rand" @change="uploadNow" accept="image/*" :multiple="number>1" v-show="!1"/>
-
+        <input type="file" :id="'file_'+rand" @change="uploadNow"
+               :accept="type+'/*'" :multiple="number>1" v-show="!1"/>
     </div>
 </template>
 
@@ -24,12 +23,16 @@
                 default: ''//"http://admin.mall.com/temp/upload"
             },
             number: {
-                type: Number,
+                type: [Number, String],
                 default: 1
             },
             progress: {
                 type: Boolean,
                 default: true
+            },
+            name: {
+                type: String,
+                default: ''
             },
             type: {
                 type: String,
@@ -50,6 +53,10 @@
                 default: function () {
                     return {}
                 }
+            },
+            disabled: {
+                type: Boolean,
+                default: false
             },
             width: {
                 type: [String, Number],
@@ -86,13 +93,18 @@
                 let h = parseInt(this.height);
                 let c = this.errColor || this.background;
                 return `line-height:${h}px;background:${c}`;
-            }
+            },
+            cls: function () {
+                if (this.disabled) return 'disabled';
+                return '';
+            },
         },
         created() {
             this.rand = (0).rand()
         },
         methods: {
             upload() {
+                if (this.disabled) return;
                 document.getElementById(`file_${this.rand}`).click();
             },
             uploadNow() {
@@ -119,7 +131,7 @@
                         self.close();
                     } catch (err) {
                         console.log('upload.onLoad.Error', err.message, proEnt);
-                        self.$emit('error', self.option, {success: 0, message: err.message});
+                        self.$emit('error', self.option, {success: 0, message: this.response});
                         self.errColor = '#c10111';
                         self.close();
                     }
@@ -217,6 +229,15 @@
         color: #fff;
         display: block;
         text-align: center;
+    }
+
+    .disabled {
+        -webkit-filter: blur(1px);
+        -moz-filter: blur(1px);
+        -o-filter: blur(1px);
+        -ms-filter: blur(1px);
+        filter: blur(1px);
+        background: #626b7c !important;
     }
 
     .progress {

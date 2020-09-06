@@ -11,6 +11,7 @@ body {
   padding: 0;
   font: 14px DejaVu Sans Mono, Helvetica Neue, Helvetica, Arial, sans-serif !important;
   letter-spacing: 0;
+  color: #333333;
 }
 * {
   -webkit-box-sizing: border-box;

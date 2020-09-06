@@ -349,6 +349,11 @@
                 self.after("<em class='unit '>{{unit}}</em>".re(self.data()));
             });
 
+            $('.layui-table').each(function (i) {
+                const self = $(this);
+                console.log(self.find('thead>tr'))
+            });
+
         }
     };
 

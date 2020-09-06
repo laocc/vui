@@ -4,19 +4,19 @@
  *
  */
 
-String.prototype.utf8_encode = function() {
+String.prototype.utf8_encode = function () {
     return utf8_encode(this);
 };
 
-String.prototype.utf8_decode = function() {
+String.prototype.utf8_decode = function () {
     return utf8_decode(this);
 };
 
-String.prototype.base64_encode = function() {
+String.prototype.base64_encode = function () {
     return btoa(this.utf8_encode());
 };
 
-String.prototype.base64_decode = function() {
+String.prototype.base64_decode = function () {
     return atob(this).utf8_decode();
 };
 
@@ -165,6 +165,21 @@ String.prototype.ucfirst = function () {
     return this[0].toUpperCase() + this.substr(1).toLowerCase();
 };
 
+
+/**
+ * 拆分位运算的和值
+ * 例：7=1+2+4；10=2+8
+ * 1|2|4=7
+ */
+Number.prototype.bit = function () {
+    let n = this;
+    let i = 1, val = [];
+    while (n > 0) {
+        if (i & n) val.push(i), n -= i;
+        i *= 2;
+    }
+    return val;
+};
 
 /**
  * 将金额转换为大写

@@ -45,15 +45,44 @@ Vue.use(function (Vue, options) {
         }
     };
 
-    Vue.prototype.$get = function (url, fun) {
+    Vue.prototype.$submit = function (id, encode = '', send = true) {
+        let value = {};
+        let form = $(id || 'form');
+        if (encode === 'json') {
+            form.serializeArray().forEach(fid => {
+                value[fid.name] = fid.value || '';
+            });
+        } else {
+            value = form.serialize();
+        }
+        if (send === false) return {action: form.attr('action'), data: value};
+
+        return this.$request(form.attr('action'), value);
+    };
+
+    Vue.prototype.$get = function (url, data, fun) {
+        if (typeof data === 'function') {
+            fun = data;
+            data = null;
+        }
+        if (typeof data === 'object') {
+            url = url.build_query(data)
+        }
         return this.$request(url, null, fun);
     };
 
-    Vue.prototype.$ajax = function (url, fun) {
+    Vue.prototype.$ajax = function (url, data, fun) {
+        if (typeof data === 'function') {
+            fun = data;
+            data = null;
+        }
+        if (typeof data === 'object') {
+            url = url.build_query(data)
+        }
         return this.$request({url: url, ajax: true, action: 'GET'}, null, fun);
     };
 
-    Vue.prototype.$post = function (url, data) {
+    Vue.prototype.$post = function (url, data, fun) {
         return this.$request(url, data || {});
     };
 
@@ -86,21 +115,48 @@ Vue.use(function (Vue, options) {
 
 //当前脚本所在域名
 const scriptHost = String(document.scripts[document.scripts.length - 1].src).match(/^(https?:\/\/[\w\.]+)\/.+/i)[1];
-Vue.component('db-area', `url:${scriptHost}/vue/components/db-area.vue`);
+// Vue.component('db-area', `url:${scriptHost}/vue/components/db-area.vue`);
 Vue.component('db-button', `url:${scriptHost}/vue/components/db-button.vue`);
 Vue.component('db-upload', `url:${scriptHost}/vue/components/db-upload.vue`);
 Vue.component('db-html', `url:${scriptHost}/vue/components/db-html.vue`);
+Vue.component('db-page', `url:${scriptHost}/vue/components/db-page.vue`);
+Vue.component('db-radio', `url:${scriptHost}/vue/components/db-radio.vue`);
+Vue.component('db-checkbox', `url:${scriptHost}/vue/components/db-checkbox.vue`);
 
 //全局混入
 Vue.mixin({
+    data() {
+        return {
+            bodyShow: false
+        }
+    },
     beforeCreate() {
         // require('/extend/mall.js');
     },
-    created: function () {
+    created() {
         // console.log(...'Vue实例创建'.log());
         // console.log(this.$options, this.$parent);
         // $(".pageHead").prepend($('<div class="tools"><div class="shade"></div></div>'));
     },
+    beforeMount() {
+
+    },
+    mounted() {
+        this.bodyShow = true;
+    },
+    beforeUpdate() {
+        // this.bodyShow = true;
+    },
+    update() {
+        // this.bodyShow = true;
+    },
+    beforeDestroy() {
+        // this.bodyShow = true;
+    },
+    destroyed() {
+        // this.bodyShow = true;
+    },
+
     methods: {}
 });
 
@@ -119,6 +175,3 @@ Vue.config.productionTip = false; //不显示生产环境提示
 Vue.filter('rnd', function (val) {
     return val / 100;
 });
-// Vue.filter('date', function (val) {
-//     return val / 100;
-// });
