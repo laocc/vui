@@ -102,9 +102,16 @@
         created() {
             this.item = this.value;
             if (this.field) {
-                this.data.forEach(ds => {
-                    this.items[ds[this.field]] = ds[this.label]
-                })
+                if (this.data.constructor === Array) {
+                    this.data.forEach(ds => {
+                        this.items[ds[this.field]] = ds[this.label]
+                    })
+                } else {
+                    for (let tm in this.data) {
+                        // console.log(this.data[tm], this.field, this.label);
+                        this.items[this.data[tm][this.field]] = this.data[tm][this.label]
+                    }
+                }
             } else {
                 this.items = this.data;
             }

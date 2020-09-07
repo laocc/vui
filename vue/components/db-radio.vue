@@ -1,11 +1,11 @@
 <template>
     <div class="body">
         <ul :class="type">
-            <li v-for="(lab,key) in data"
+            <li v-for="(lab,key) in items"
                 @click="clickRadio(key)"
                 :class="{active:key==value}">
                 <template v-if="type=='radio'">
-                    <div :class="'fc '+(key==value?'f3a7':'f3a6') "
+                    <div :class="'fc '+(key==value?a:b) "
                          :style="key==value? 'color:'+color : 'color:#333333' "
                     ></div>
                     <div :style="key==value?'color:'+color : 'color:#333333' ">
@@ -103,6 +103,14 @@
                     return ['radio', 'button'].indexOf(value) !== -1
                 }
             },
+            field: {
+                type: String,
+                default: ''
+            },
+            label: {
+                type: String,
+                default: ''
+            },
             name: {
                 type: String,
                 default: ''
@@ -112,6 +120,29 @@
                 default() {
                     return {}
                 }
+            }
+        },
+        data() {
+            return {
+                items: {},
+                a: 'f3a7',//选中
+                b: 'f3a6'//未选
+            }
+        },
+        created() {
+            if (this.field) {
+                if (this.data.constructor === Array) {
+                    this.data.forEach(ds => {
+                        this.items[ds[this.field]] = ds[this.label]
+                    })
+                } else {
+                    for (let tm in this.data) {
+                        // console.log(this.data[tm], this.field, this.label);
+                        this.items[this.data[tm][this.field]] = this.data[tm][this.label]
+                    }
+                }
+            } else {
+                this.items = this.data;
             }
         },
         methods: {
