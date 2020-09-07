@@ -148,7 +148,7 @@
         methods: {
             clickRadio(val) {
                 this.$emit('input', val);
-                this.$emit('click', val)
+                this.$emit('click', val);
             }
         }
     }

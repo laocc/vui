@@ -85,7 +85,7 @@
 
                 } else if (this.action !== 'drawer' || this.drawerCall) {
                     if (typeof this.value === 'object') {
-                        return this.title.sprintf(...this.value);
+                        return this.url.sprintf(...this.value);
                     } else {
                         return this.url.sprintf(this.value);
                     }
