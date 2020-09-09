@@ -1,6 +1,7 @@
 <template>
     <a :href="href" :class="cls" @click.stop="clickBtn" onclick="return !1;">
-        <slot></slot><span :class="icon" v-if="icon"></span>
+        <slot></slot>
+        <span :class="icon" v-if="icon"></span>
     </a>
 </template>
 <!-- slot和span 两个元素要保持在一行，否则会在后面有个空格-->
@@ -55,7 +56,7 @@
                 default: 'left'
             },
             title: {//open的标题
-                type: [String, Array],
+                type: [String, Array, Boolean],
                 default: ''
             }
         },
@@ -97,16 +98,23 @@
                 return '';
             },
             titleVal: function () {
+                if (typeof this.title === 'boolean') return this.title;
+
                 if (typeof this.title === 'object') {
                     return this.title.shift().sprintf(...this.title);
 
                 } else if (this.action !== 'drawer' || this.drawerCall) {
+                    if (this.title === '') return this.$slots.default[0].text.trim();
+
                     if (typeof this.value === 'object') {
                         return this.title.sprintf(...this.value);
                     } else {
                         return this.title.sprintf(this.value);
                     }
+                } else if ('' === this.title) {
+                    return this.$slots.default[0].text.trim();
                 }
+
                 return this.title;
             }
         },
@@ -122,7 +130,8 @@
                 } else if (this.action === 'drawer') {
                     let dir = {left: 'ltr', right: 'rtl', top: 'ttb', bottom: 'btt'};
                     let size = this.direction.in_array(['top', 'bottom']) ? this.height : this.width;
-                    if (size.indexOf('%') < 0) size = parseInt(size) + 'px';
+                    if (!size) size = '500';
+                    if (String(size).indexOf('%') < 0) size = parseInt(size) + 'px';
 
                     let title = this.titleVal;
                     if (!title || title === 'false') title = false;
