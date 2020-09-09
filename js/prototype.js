@@ -79,6 +79,18 @@ String.prototype.sprintf = function (val) {
 };
 
 
+String.prototype.is_path = function () {
+    return /^(\/\w+)+/i.test(this);
+};
+
+String.prototype.is_appid = function () {
+    return /^wx[a-z0-9]{16}/i.test(this);
+};
+
+String.prototype.is_url = function () {
+    return /^https?:\/\/[a-z0-9\-]+(\.[a-z0-9\-]+)+.+/i.test(this);
+};
+
 //是否手机号码
 String.prototype.is_mob = function () {
     return /^([1][345789]\d{9})$/.test(this);

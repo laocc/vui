@@ -43,7 +43,7 @@
         display: flex;
         justify-content: flex-start;
         border-radius: 1px;
-        background: #ffffff;
+        /*background: #ffffff;*/
         min-height: 32px;
         font-size: 14px;
     }
@@ -71,6 +71,10 @@
 
     ul.radio li .fc {
         font-size: 22px;
+    }
+
+    ul.radio li .f3a6 {
+        transition: 1s;
     }
 
     ul.radio li div {
