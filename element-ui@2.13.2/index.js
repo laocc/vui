@@ -3363,7 +3363,11 @@
                     var i = this;
                     if (this.multiple) {
                         var n = (this.value || []).slice(), r = this.getValueIndex(n, e.value);
-                        r > -1 ? n.splice(r, 1) : (this.multipleLimit <= 0 || n.length < this.multipleLimit) && n.push(e.value), this.$emit("input", n), this.emitChange(n), e.created && (this.query = "", this.handleQueryChange(""), this.inputLength = 20), this.filterable && this.$refs.input.focus()
+                        r > -1 ? n.splice(r, 1) : (this.multipleLimit <= 0 || n.length < this.multipleLimit) && n.push(e.value),
+                            this.$emit("input", n),
+                            this.emitChange(n),
+                        e.created && (this.query = "", this.handleQueryChange(""), this.inputLength = 20),
+                        this.filterable && this.$refs.input.focus()
                     } else this.$emit("input", e.value), this.emitChange(e.value), this.visible = !1;
                     this.isSilentBlur = t, this.setSoftFocus(), this.visible || this.$nextTick(function () {
                         i.scrollToOption(e)

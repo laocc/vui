@@ -104,7 +104,10 @@
                     return this.title.shift().sprintf(...this.title);
 
                 } else if (this.action !== 'drawer' || this.drawerCall) {
-                    if (this.title === '') return this.$slots.default[0].text.trim();
+                    if (this.title === '') {
+                        if (!this.$slots.default) return false;
+                        return this.$slots.default[0].text.trim();
+                    }
 
                     if (typeof this.value === 'object') {
                         return this.title.sprintf(...this.value);
