@@ -1,13 +1,14 @@
 <template>
     <div class="dbMenu unselect" :style="'width:'+width+';background-color:'+background+';'">
-        <ul v-for="(m,a) in menu" class="c">
+        <ul v-for="(m,a) in menu" v-if="m!==null" class="c">
 
             <li class="dm-head" v-if="!m.item" :class="{active:tabs.index===a+''}">
                 <template v-if="type==='href'">
                     <a :target="m.target" v-if="m.target" :href="m.uri" :style="m.css||''">
                         <em :class="m.icon"></em>{{m.title}}
                     </a>
-                    <a v-else @click="clkMenu(a+'',m.uri,m.title,m.sandbox)" :style="m.css||''" onclick="return !1;"
+                    <a v-else-if="m.title" @click="clkMenu(a+'',m.uri,m.title,m.sandbox)" :style="m.css||''"
+                       onclick="return !1;"
                        :href="m.uri">
                         <em :class="m.icon"></em>{{m.title}}
                     </a>
@@ -24,17 +25,18 @@
             </li>
 
             <li class="dm-group-body" v-if="m.item && m.display!==false" :class="{hidden:(group!==a && open>=0)}">
-                <dl v-for="(t,b) in m.item" v-show="t.display!==false && t.display!==0 && t.display!=='none'">
-                    <dt v-if="type==='href'" :class="{active:tabs.index===a+'_'+b}">
+                <dl v-for="(t,b) in m.item" v-if="m!==null && t!==null && m.item.length>0"
+                    v-show="t.display!==false && t.display!==0 && t.display!=='none'">
+                    <dt class="da" v-if="t && type==='href'" :class="{active:tabs.index===a+'_'+b}">
                         <a :target="t.target" v-if="t.target" :href="t.uri" :style="t.css||''">
                             <em :class="t.icon"></em>{{t.title}}
                         </a>
-                        <a v-else @click="clkMenu(a+'_'+b,t.uri,t.title,t.sandbox)" :style="t.css||''"
+                        <a v-else-if="t.title" @click="clkMenu(a+'_'+b,t.uri,t.title,t.sandbox)" :style="t.css||''"
                            onclick="return !1;" :href="t.uri">
                             <em :class="t.icon"></em>{{t.title}}
                         </a>
                     </dt>
-                    <dt v-else @click="clkMenu(a+'_'+b,t.uri,t.title,t.sandbox)" :style="t.css||''"
+                    <dt class="db" v-else @click="clkMenu(a+'_'+b,t.uri,t.title,t.sandbox)" :style="t.css||''"
                         :class="{active:tabs.index===a+'_'+b}">
                         <em :class="t.icon"></em>{{t.title}}
                     </dt>
