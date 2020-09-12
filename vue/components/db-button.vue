@@ -234,7 +234,7 @@
                                     location.reload();
                                 } else {
                                     if (self._events.finish) {
-                                        self.$emit('finish');
+                                        self.$emit('finish', resp);
                                     } else {
                                         let u = (resp.jump || resp.href);
                                         if (u) location.href = u;
@@ -242,7 +242,7 @@
                                 }
                             };
                             if (self._events.success) {
-                                self.$emit('success');
+                                self.$emit('success', resp);
                                 self.$message({message: resp.message, type: 'success'});
 
                             } else if (resp.message) {
