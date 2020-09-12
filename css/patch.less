@@ -310,16 +310,23 @@ form.headForm {
 后台页面顶部搜索表单
  */
 .searchForm {
-    background: #fafafa;
+    background: #efefef;
     border-bottom: 1px solid #aaa;
-    padding: 5px;
+    padding: 8px 5px;
+    display: flex;
+    align-items: center;
     
     .el-form-item {
         margin-bottom: 0;
         margin-right: 0;
+        padding: 0 1px;
     }
-    
+    .el-form-item__content {
+        //padding-top: 2px;
+    }
     .el-input__inner {
-        height: 32px;
+        //input单元格改高
+        height: 34px !important;
+        //margin-bottom: 2px;
     }
 }

@@ -1,5 +1,5 @@
 <template>
-    <a :href="href" :class="cls" @click.stop="clickBtn" onclick="return !1;">
+    <a :href="href" :class="cls" @click.stop="clickBtn" onclick="return type==='link';">
         <slot></slot>
         <span :class="icon" v-if="icon"></span>
     </a>
@@ -10,7 +10,7 @@
     module.exports = {
         name: "db-button",
         props: {
-            type: {//按钮形式，open,ajax,post,text
+            type: {//按钮形式，open,ajax,post,link,text
                 type: String,
                 default: 'text'
             },
@@ -73,6 +73,7 @@
             if (c.indexOf('ajax') > 0) this.action = 'ajax';
             else if (c.indexOf('open') > 0) this.action = 'open';
             else if (c.indexOf('post') > 0) this.action = 'post';
+            else if (c.indexOf('link') > 0) this.action = 'link';
             else if (c.indexOf('drawer') > 0) this.action = 'drawer';
             if (this._events.drawer) {
                 this.drawerCall = true;
@@ -127,6 +128,7 @@
                 if (this.disabled) return;
 
                 this.$emit('click');
+                if (this.action === 'link') return true;
                 if (this.action === 'text' || !this.url) return;
                 if (this.action === 'ajax' || this.action === 'post') {
                     this.requestUrl();
@@ -292,6 +294,7 @@
         background: #1471f1;
         color: #fff;
         padding: 8px 12px;
+        font-size: 14px;
         border-radius: 2px;
         margin: 2px;
     }

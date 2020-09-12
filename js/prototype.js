@@ -52,7 +52,8 @@ String.prototype.log = function (color) {
 //let str = '这个{{sex}}人今年{{age}}岁'.re({sex: '女', age: 25});
 String.prototype.re = function (val) {
     return this.replace(/\{\{(\w+?)\}\}/gi, function ($0, $1) {
-        return val[($1)] || $0;
+        if (typeof val[($1)] === 'undefined') return $0;
+        return val[($1)];
     });
 };
 

@@ -2,6 +2,7 @@
     <div class="body">
         <ul :class="type">
             <li v-for="(lab,key) in items"
+                v-show="lab!==undefined"
                 @click="clickRadio(key)"
                 :class="{active:key==value}">
                 <template v-if="type=='radio'">

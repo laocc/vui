@@ -1,6 +1,7 @@
 <template>
     <ul>
         <li v-for="(lab,key) in items" @click="clk(key)"
+            v-show="lab!==undefined"
             :style="'color:'+(key.in_array(item)?color:'')">
             <em :class="'fa '+(key.in_array(item)?b:a)"></em>
             <span>{{lab}}</span>
@@ -51,7 +52,7 @@
     module.exports = {
         props: {
             value: {
-                type: Array,
+                type: [Array, String, Number],
                 default() {
                     return []
                 }
@@ -96,11 +97,16 @@
                 items: {},
                 item: [],
                 a: 'e651',
-                b: 'e652'
+                b: 'e652',
+                once: (!!this.$slots.default)
             }
         },
         created() {
-            this.item = this.value;
+            if (typeof this.value === 'object') {
+                this.item = this.value;
+            } else {
+                this.item = [this.value];
+            }
             if (this.field) {
                 if (this.data.constructor === Array) {
                     this.data.forEach(ds => {
@@ -123,13 +129,20 @@
                         this.item[i] = parseInt(v);
                     })
                 }
-
-                return JSON.stringify(this.item)
+                if (typeof this.value === 'object') {
+                    return JSON.stringify(this.item)
+                } else {
+                    return this.item.join(',');
+                }
             }
         },
         watch: {
             value: function (a, b) {
-                this.item = a;
+                if (typeof a === 'object') {
+                    this.item = a;
+                } else {
+                    this.item = [a];
+                }
             }
         },
         methods: {
@@ -139,26 +152,35 @@
             },
             updateValue(value) {
                 //受理外部控制
-                this.item = value;
+                if (typeof value === 'object') {
+                    this.item = value;
+                } else {
+                    this.item = [value];
+                }
             },
             clk(v) {
                 if (this.type === 'int') v = parseInt(v);
+                let add = true;
                 if (v.in_array(this.item)) {
-
                     // this.item.splice(this.item.indexOf(v), 1);
                     this.item = this.item.filter(k => k !== v);
-
-                    this.$emit('click', this.item, v, false)
+                    add = false;
                 } else {
                     if (this.max > 0 && this.item.length >= this.max) {
                         this.$message.error(`最多可选择${this.max}个选项`);
                         return;
                     }
+                    add = true;
                     this.item.push(v);
-                    this.$emit('click', this.item, v, true)
                 }
 
-                this.$emit('input', this.item)
+                if (typeof this.value === 'object') {
+                    this.$emit('click', this.item, v, add);
+                    this.$emit('input', this.item)
+                } else {
+                    this.$emit('click', this.item.join(','), v, add);
+                    this.$emit('input', this.item.join(','))
+                }
 
             }
         }

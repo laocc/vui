@@ -19,10 +19,11 @@
                 </template>
             </li>
 
-            <li class="dm-group-title" v-else @click="reGroup(a)" :style="m.css||''"><em :class="m.icon"></em>{{m.title}}
+            <li class="dm-group-title" v-else-if="m.display!==false" @click="reGroup(a)" :style="m.css||''">
+                <em :class="m.icon"></em>{{m.title}}
             </li>
 
-            <li class="dm-group-body" v-if="m.item" :class="{hidden:(group!==a && open>=0)}">
+            <li class="dm-group-body" v-if="m.item && m.display!==false" :class="{hidden:(group!==a && open>=0)}">
                 <dl v-for="(t,b) in m.item" v-show="t.display!==false && t.display!==0 && t.display!=='none'">
                     <dt v-if="type==='href'" :class="{active:tabs.index===a+'_'+b}">
                         <a :target="t.target" v-if="t.target" :href="t.uri" :style="t.css||''">
@@ -97,7 +98,7 @@
             clkMenu(key, uri, title, sandbox) {
                 if (!this.tabs) return !0;
                 if (sandbox === undefined) sandbox = 0;
-                console.log(key, this.tabs.keys);
+                // console.log(key, this.tabs.keys);
 
                 if (this.tabs.keys.indexOf(key) < 0) {
                     this.tabs.keys.push(key);

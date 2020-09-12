@@ -284,15 +284,18 @@ form.headForm table {
 后台页面顶部搜索表单
  */
 .searchForm {
-  background: #fafafa;
+  background: #efefef;
   border-bottom: 1px solid #aaa;
-  padding: 5px;
+  padding: 8px 5px;
+  display: flex;
+  align-items: center;
 }
 .searchForm .el-form-item {
   margin-bottom: 0;
   margin-right: 0;
+  padding: 0 1px;
 }
 .searchForm .el-input__inner {
-  height: 32px;
+  height: 34px !important;
 }
 /*# sourceMappingURL=patch.css.map */
