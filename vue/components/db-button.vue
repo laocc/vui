@@ -1,5 +1,5 @@
 <template>
-    <a :href="href" :class="cls" @click.stop="clickBtn" onclick="return type==='link';">
+    <a :href="href" :class="cls" @click.stop="clickBtn" onclick="return !1">
         <slot></slot>
         <span :class="icon" v-if="icon"></span>
     </a>
@@ -128,7 +128,10 @@
                 if (this.disabled) return;
 
                 this.$emit('click');
-                if (this.action === 'link') return true;
+                if (this.action === 'link') {
+                    top.location.href = this.href;
+                    return true;
+                }
                 if (this.action === 'text' || !this.url) return;
                 if (this.action === 'ajax' || this.action === 'post') {
                     this.requestUrl();
@@ -299,7 +302,7 @@
         margin: 2px;
     }
 
-    .min {
+    .mini {
         padding: 1px 3px;
     }
 
