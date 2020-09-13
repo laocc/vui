@@ -107,20 +107,7 @@
             } else {
                 this.item = [this.value];
             }
-            if (this.field) {
-                if (this.data.constructor === Array) {
-                    this.data.forEach(ds => {
-                        this.items[ds[this.field]] = ds[this.label]
-                    })
-                } else {
-                    for (let tm in this.data) {
-                        // console.log(this.data[tm], this.field, this.label);
-                        this.items[this.data[tm][this.field]] = this.data[tm][this.label]
-                    }
-                }
-            } else {
-                this.items = this.data;
-            }
+            this.reItems();
         },
         computed: {
             joinValue: function () {
@@ -143,9 +130,29 @@
                 } else {
                     this.item = [a];
                 }
+            },
+            data: function (a, b) {
+                this.reItems();
             }
         },
         methods: {
+            reItems() {
+                if (this.field) {
+                    this.items = {};
+                    if (this.data.constructor === Array) {
+                        this.data.forEach(ds => {
+                            this.items[ds[this.field]] = ds[this.label]
+                        })
+                    } else {
+                        for (let tm in this.data) {
+                            // console.log(this.data[tm], this.field, this.label);
+                            this.items[this.data[tm][this.field]] = this.data[tm][this.label]
+                        }
+                    }
+                } else {
+                    this.items = this.data;
+                }
+            },
             updateData(value) {
                 //受理外部控制
                 this.items = value;
@@ -171,6 +178,8 @@
                         return;
                     }
                     add = true;
+                    //只有一个目标元素时，若是选中，则清空原来的数据，这只是临时变通办法，有待优化
+                    if (Object.keys(this.items).length === 1) this.item = [];
                     this.item.push(v);
                 }
 

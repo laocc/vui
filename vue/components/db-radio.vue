@@ -134,26 +134,36 @@
                 b: 'f3a6'//未选
             }
         },
-        created() {
-            if (this.field) {
-                if (this.data.constructor === Array) {
-                    this.data.forEach(ds => {
-                        this.items[ds[this.field]] = ds[this.label]
-                    })
-                } else {
-                    for (let tm in this.data) {
-                        // console.log(this.data[tm], this.field, this.label);
-                        this.items[this.data[tm][this.field]] = this.data[tm][this.label]
-                    }
-                }
-            } else {
-                this.items = this.data;
+        watch: {
+            data: function (a, b) {
+                // console.log(a, b);
+                this.reItems();
             }
+        },
+        created() {
+            this.reItems();
         },
         methods: {
             clickRadio(val) {
                 this.$emit('input', val);
                 this.$emit('click', val);
+            },
+            reItems() {
+                if (this.field) {
+                    this.items = [];
+                    if (this.data.constructor === Array) {
+                        this.data.forEach(ds => {
+                            this.items[ds[this.field]] = ds[this.label]
+                        })
+                    } else {
+                        for (let tm in this.data) {
+                            // console.log(this.data[tm], this.field, this.label);
+                            this.items[this.data[tm][this.field]] = this.data[tm][this.label]
+                        }
+                    }
+                } else {
+                    this.items = this.data;
+                }
             }
         }
     }

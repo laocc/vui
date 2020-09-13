@@ -338,6 +338,16 @@
         color: #fff;
     }
 
+    .hui {
+        background: #cbcbcb;
+        color: #111111;
+    }
+
+    .hui:hover {
+        background: #bcbcbc;
+        color: #000;
+    }
+
     .primary {
         background: #1471f1;
         color: #fff;
