@@ -49,36 +49,36 @@
 <script>
     module.exports = {
         props: {
-            'width': {
+            width: {
                 type: String,
                 default: '150px',
                 validator(v) {
                     return /^\d+px$/i.test(v);
                 }
             },
-            'color': {
+            color: {
                 type: Object,
                 validator(v) {
                     return v.background && v.active;
                 }
             },
-            'background': {
+            background: {
                 type: String,
                 default: '#545c64',
                 validator(v) {
                     return /^#([a-f0-9]{3}|[a-f0-9]{6})$/i.test(v);
                 }
             },
-            'type': String,
-            'open': {
+            type: String,
+            open: {
                 type: Number,
                 default: -1
             },
-            'menu': {
+            menu: {
                 type: Array,
                 required: !0
             },
-            'tabs': Object,
+            tabs: Object,
 
         },
         data() {
@@ -95,8 +95,16 @@
                 return this.width + 'px';
             }
         },
-        watch: {},
+        watch: {
+            tabs: function (a, b) {
+                console.log(a);
+            }
+        },
         methods: {
+            newTab(tabs) {
+                this.tabs.keys.length = 0;
+                this.tabs.keys.push('0');
+            },
             clkMenu(key, uri, title, sandbox) {
                 if (!this.tabs) return !0;
                 if (sandbox === undefined) sandbox = 0;

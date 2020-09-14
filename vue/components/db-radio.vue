@@ -137,7 +137,7 @@
         watch: {
             data: function (a, b) {
                 // console.log(a, b);
-                this.reItems();
+                // this.reItems();
             }
         },
         created() {
@@ -150,7 +150,7 @@
             },
             reItems() {
                 if (this.field) {
-                    this.items = [];
+                    this.items = {};
                     if (this.data.constructor === Array) {
                         this.data.forEach(ds => {
                             this.items[ds[this.field]] = ds[this.label]

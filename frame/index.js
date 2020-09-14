@@ -5,13 +5,11 @@ let vm = new Vue({
     data() {
         return {
             menu: menu,
-            mpp: mpp,
             tabs: {
                 index: '',
                 items: [],
                 keys: [],
             },
-            switchIn: (login.mppID === 0),
             home: {}
         }
     },
@@ -75,22 +73,6 @@ let vm = new Vue({
             this.tabs.keys = this.tabs.keys.del(key);
             this.tabs.items = tabs.filter(tab => tab.name !== key);
             this.tabs.index = activeName;
-        },
-        reMpp(mppID) {
-            this.$ajax(`/mpp/switch/${mppID}`).then(
-                res => {
-                    this.switchIn = false;
-                    this.tabs.items.length = 0;
-                    this.tabs.index = this.home.name;
-                    this.tabs.keys.push(this.home.name);
-                    this.tabs.items.push(this.home);
-                    this.login.mppID = res.mpp.mppID;
-                    this.login.mppName = res.mpp.mppName;
-                },
-                err => {
-                    this.$message.error(err.message);
-                }
-            );
         },
         logout() {
             this.$ajax(`/login/logout/`).then(
