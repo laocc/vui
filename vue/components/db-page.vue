@@ -4,7 +4,8 @@
             <slot></slot>
         </li>
         <li class="num" v-for="i in size" :class="{active:i===page.index}">
-            <a :href="url(i)" v-if="link && i===page.index" onclick="return !1;">{{i}}</a>
+            <a :href="url(i)" v-if="i==='.'" onclick="return !1;">{{i}}</a>
+            <a :href="url(i)" v-else-if="link && i===page.index" onclick="return !1;">{{i}}</a>
             <a :href="url(i)" v-else-if="link">{{i}}</a>
             <a :href="url(i)" v-else @click="click(i)" onclick="return !1;">{{i}}</a>
         </li>
@@ -38,6 +39,8 @@
         },
         created() {
             this.link = !this._events.click;
+            console.log(this.link);
+
             let mch = window.location.search.substr(1).match(/([\w\-\.]+=[^&]+)+/ig);
             // console.log(window.location.search.substr(1), mch);
             const self = this;
@@ -51,8 +54,8 @@
         computed: {
             size: function () {
                 let p = [], val = this.page;
-                // val.page = 4;
-                // val.index = 2;
+
+                //{"recode":1437,"size":25,"index":1,"key":"page","last":12,"page":58}
 
                 if (val.page < 2) {
                     p.push(1);
@@ -60,11 +63,14 @@
                     for (let i = 1; i <= val.page; i++) p.push(i);
                 } else {
                     if (val.index < 5) {
-                        for (let i = 1; i <= val.index; i++) p.push(i);
+                        for (let i = 1; i < val.index; i++) p.push(i);
+                        p.push(val.index);
+                        for (let i = val.index + 1; i <= 5; i++) p.push(i);
                         p.push('.');
                         p.push('.');
                         p.push('.');
                         p.push(val.page);
+
                     } else if (val.index > (val.page - 5)) {
                         p.push(1);
                         p.push('.');
@@ -97,6 +103,7 @@
                 return `?` + arg.join('&');
             },
             click(i) {
+                console.log(i);
                 if (i === this.page.index) return false;
                 if (!this._events.click) {
                     console.log('未定义 @click');
