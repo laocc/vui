@@ -16,7 +16,6 @@
         flex: 1;
         flex-wrap: wrap;
     }
-
     ul li {
         padding: 5px 16px 5px 6px;
         cursor: pointer;
