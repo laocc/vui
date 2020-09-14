@@ -51,6 +51,10 @@
                 type: Boolean,
                 default: false
             },
+            shade: {
+                type: Boolean,
+                default: true
+            },
             direction: {
                 type: String,
                 default: 'left'
@@ -177,7 +181,7 @@
                     anim: 0,//0:平滑放大;1:从上掉落;2从最底部往上滑入;3从左滑入;4从左翻滚;5渐显;6抖动
                     resize: !1,
                     offset: 'auto',
-                    shadeClose: !0,
+                    shadeClose: this.shade !== false,
                     content: this.href,
                     yes: function () {
                         if (self._events.yes) {
@@ -280,6 +284,10 @@
 </script>
 
 <style scoped>
+    a {
+        white-space: nowrap;
+        display: inline-block;
+    }
 
     a:hover {
         color: #eee9c6;
@@ -296,7 +304,7 @@
     .btn {
         background: #1471f1;
         color: #fff;
-        padding: 8px 12px;
+        padding: 2px 12px;
         font-size: 14px;
         border-radius: 2px;
         margin: 2px;
