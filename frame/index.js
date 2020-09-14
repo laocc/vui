@@ -5,11 +5,14 @@ let vm = new Vue({
     data() {
         return {
             menu: menu,
+            mpp: mpp,
             tabs: {
                 index: '',
                 items: [],
                 keys: [],
             },
+            switchIn: (login.mppID === 0),
+            home: {}
         }
     },
     created() {
@@ -20,14 +23,14 @@ let vm = new Vue({
             key = '0_0';
         }
 
-        let m = {
+        this.home = {
             title: fst.title,
             name: key,
             content: this.$iframe(fst.uri)
         };
         this.tabs.index = key;
         this.tabs.keys = [key];
-        this.tabs.items = [m];
+        this.tabs.items = [this.home];
         console.log(...'管理中心启动'.log('red'))
     },
     components: {
@@ -73,6 +76,32 @@ let vm = new Vue({
             this.tabs.items = tabs.filter(tab => tab.name !== key);
             this.tabs.index = activeName;
         },
+        reMpp(mppID) {
+            this.$ajax(`/mpp/switch/${mppID}`).then(
+                res => {
+                    this.switchIn = false;
+                    this.tabs.items.length = 0;
+                    this.tabs.index = this.home.name;
+                    this.tabs.keys.push(this.home.name);
+                    this.tabs.items.push(this.home);
+                    this.login.mppID = res.mpp.mppID;
+                    this.login.mppName = res.mpp.mppName;
+                },
+                err => {
+                    this.$message.error(err.message);
+                }
+            );
+        },
+        logout() {
+            this.$ajax(`/login/logout/`).then(
+                res => {
+                    top.location.href = '/'
+                },
+                err => {
+                    this.$message.error(err.message);
+                }
+            );
+        }
 
     }
 });
