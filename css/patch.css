@@ -151,6 +151,11 @@ form.headForm table {
 .el-date-editor .el-range-input {
   width: fit-content;
 }
+.el-date-editor i,
+.el-date-editor span {
+  display: inline-flex !important;
+  align-items: center;
+}
 .el-color-picker--mini {
   margin-top: 5px;
 }
@@ -297,5 +302,8 @@ form.headForm table {
 }
 .searchForm .el-input__inner {
   height: 34px !important;
+}
+.pageLinkForm {
+  padding: 5px 10px 50px 10px;
 }
 /*# sourceMappingURL=patch.css.map */

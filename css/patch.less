@@ -155,8 +155,14 @@ form.headForm {
 }
 
 //日期选择器，让内容撑开输入框，原来有点挡着了
-.el-date-editor .el-range-input {
-    width: fit-content;
+.el-date-editor {
+    .el-range-input {
+        width: fit-content;
+    }
+    i,span {
+        display: inline-flex!important;
+        align-items: center;
+    }
 }
 
 .el-color-picker--mini {
@@ -329,4 +335,8 @@ form.headForm {
         height: 34px !important;
         //margin-bottom: 2px;
     }
+}
+
+.pageLinkForm {
+    padding: 5px 10px 50px 10px;
 }

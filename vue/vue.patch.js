@@ -126,52 +126,6 @@ Vue.component('db-page', `url:${scriptHost}/vue/components/db-page.vue`);
 Vue.component('db-radio', `url:${scriptHost}/vue/components/db-radio.vue`);
 Vue.component('db-checkbox', `url:${scriptHost}/vue/components/db-checkbox.vue`);
 
-//全局混入
-Vue.mixin({
-    data() {
-        return {
-            bodyShow: false
-        }
-    },
-    beforeCreate() {
-        // require('/extend/mall.js');
-    },
-    created() {
-        // console.log(...'Vue实例创建'.log());
-        // console.log(this.$options, this.$parent);
-        // $(".pageHead").prepend($('<div class="tools"><div class="shade"></div></div>'));
-    },
-    beforeMount() {
-
-    },
-    mounted() {
-        this.bodyShow = true;
-    },
-    beforeUpdate() {
-        // this.bodyShow = true;
-    },
-    update() {
-        // this.bodyShow = true;
-    },
-    beforeDestroy() {
-        // this.bodyShow = true;
-    },
-    destroyed() {
-        // this.bodyShow = true;
-    },
-
-    methods: {}
-});
-
-// 暂不能开启，否则会接管所有错误信息
-// Vue.config.errorHandler = function (err, vm, info) {
-//     // console.log('err:', err);
-//     // console.log('vm:', vm);
-//     // console.log('info:', info);
-//     // handle error
-//     // `info` 是 Vue 特定的错误信息，比如错误所在的生命周期钩子
-//     // 只在 2.2.0+ 可用
-// };
 
 Vue.config.silent = false; //静默状态，取消 Vue 所有的日志与警告。
 Vue.config.productionTip = false; //不显示生产环境提示
