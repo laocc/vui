@@ -137,7 +137,7 @@
         watch: {
             data: function (a, b) {
                 // console.log(a, b);
-                // this.reItems();
+                this.reItems();
             }
         },
         created() {
