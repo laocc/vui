@@ -288,22 +288,36 @@ form.headForm table {
 /**
 后台页面顶部搜索表单
  */
-.searchForm {
+.fixedForm .searchForm {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
   background: #efefef;
   border-bottom: 1px solid #aaa;
   padding: 8px 5px;
   display: flex;
   align-items: center;
 }
-.searchForm .el-form-item {
+.fixedForm .searchForm .el-form-item {
   margin-bottom: 0;
   margin-right: 0;
   padding: 0 1px;
 }
-.searchForm .el-input__inner {
+.fixedForm .searchForm .el-input__inner {
   height: 34px !important;
 }
-.pageLinkForm {
-  padding: 5px 10px 50px 10px;
+.fixedForm .layui-table {
+  margin-top: 55px;
+  margin-bottom: 150px;
+}
+.fixedForm .pageLinkForm {
+  position: fixed;
+  padding: 3px 10px 10px 10px;
+  background: #efefef;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 /*# sourceMappingURL=patch.css.map */

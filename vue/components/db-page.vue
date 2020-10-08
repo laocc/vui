@@ -20,7 +20,6 @@
             page: {
                 type: Object,
                 default() {
-                    //{"recode":3,"size":25,"index":1,"key":"page","last":3,"page":1}
                     return {
                         index: 1,
                         recode: 0,
@@ -38,12 +37,9 @@
             };
         },
         created() {
-            this.link = !this._events.click;
-            console.log(this.link);
-
-            let mch = window.location.search.substr(1).match(/([\w\-\.]+=[^&]+)+/ig);
-            // console.log(window.location.search.substr(1), mch);
             const self = this;
+            this.link = !this._events.click;
+            let mch = window.location.search.substr(1).match(/([\w\-\.]+=[^&]+)+/ig);
             if (mch !== null) {
                 mch.forEach(pm => {
                     let p = pm.split(/([\w\-\.]+)=(.+)/i);

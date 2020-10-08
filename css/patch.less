@@ -159,8 +159,8 @@ form.headForm {
     .el-range-input {
         width: fit-content;
     }
-    i,span {
-        display: inline-flex!important;
+    i, span {
+        display: inline-flex !important;
         align-items: center;
     }
 }
@@ -315,28 +315,44 @@ form.headForm {
 /**
 后台页面顶部搜索表单
  */
-.searchForm {
-    background: #efefef;
-    border-bottom: 1px solid #aaa;
-    padding: 8px 5px;
-    display: flex;
-    align-items: center;
+.fixedForm {
+    .searchForm {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        background: #efefef;
+        border-bottom: 1px solid #aaa;
+        padding: 8px 5px;
+        display: flex;
+        align-items: center;
+        
+        .el-form-item {
+            margin-bottom: 0;
+            margin-right: 0;
+            padding: 0 1px;
+        }
+        .el-form-item__content {
+            //padding-top: 2px;
+        }
+        .el-input__inner {
+            //input单元格改高
+            height: 34px !important;
+            //margin-bottom: 2px;
+        }
+    }
+    .layui-table {
+        margin-top: 55px;
+        margin-bottom: 150px;
+    }
     
-    .el-form-item {
-        margin-bottom: 0;
-        margin-right: 0;
-        padding: 0 1px;
+    .pageLinkForm {
+        position: fixed;
+        padding: 3px 10px 10px 10px;
+        background: #efefef;
+        bottom: 0;
+        left: 0;
+        right: 0;
     }
-    .el-form-item__content {
-        //padding-top: 2px;
-    }
-    .el-input__inner {
-        //input单元格改高
-        height: 34px !important;
-        //margin-bottom: 2px;
-    }
-}
-
-.pageLinkForm {
-    padding: 5px 10px 50px 10px;
 }

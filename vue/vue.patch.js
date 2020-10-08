@@ -1,4 +1,3 @@
-// import 'extend/mall.js';
 window.$ = layui.$;
 
 Vue.use(httpVueLoader);
@@ -116,7 +115,7 @@ Vue.use(function (Vue, options) {
 
 //当前脚本所在域名
 if (typeof scriptHost === 'undefined') {
-    var scriptHost = String(document.scripts[document.scripts.length - 1].src).match(/^(https?:\/\/[\w\.]+)\/.+/i)[1];
+    // var scriptHost = String(document.scripts[document.scripts.length - 1].src).match(/^(https?:\/\/[\w\.]+)\/.+/i)[1];
 }
 
 // Vue.component('db-area', `url:${scriptHost}/vue/components/db-area.vue`);
