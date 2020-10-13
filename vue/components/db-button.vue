@@ -1,6 +1,7 @@
 <template>
     <a :href="href" :class="cls" @click.stop="clickBtn" onclick="return !1">
-        <slot></slot><span :class="icon" v-if="icon"></span>
+        <slot></slot>
+        <span :class="icon" v-if="icon"></span>
     </a>
 </template>
 <!-- slot和span 两个元素要保持在一行，否则会在后面有个空格-->
@@ -104,6 +105,7 @@
             },
             titleVal: function () {
                 if (typeof this.title === 'boolean') return this.title;
+                if (this.title === 'false') return false;
 
                 if (typeof this.title === 'object') {
                     return this.title.shift().sprintf(...this.title);
