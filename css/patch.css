@@ -118,6 +118,33 @@
   border: 1px solid #D2D2D2;
 }
 /**
+vue页面加载后显示，并加上动画显示
+ */
+.initHidden {
+  display: none !important;
+}
+.initHiddenShow {
+  position: relative;
+  animation: initAnimation 300ms 0s 1;
+  -webkit-animation: initAnimation 300ms 0s 1;
+  -moz-animation: initAnimation 300ms 0s 1;
+  -o-animation: initAnimation 300ms 0s 1;
+}
+@keyframes initAnimation {
+  0% {
+    opacity: 0;
+    top: 10px;
+  }
+  50% {
+    opacity: 0.4;
+    top: 3px;
+  }
+  100% {
+    opacity: 1;
+    top: 0;
+  }
+}
+/**
 
 这是对layui.css和element的css补充覆盖
 TODO 在此文件中的所有新增定义，必须加详细的原因说明
