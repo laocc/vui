@@ -113,7 +113,18 @@ Vue.use(function (Vue, options) {
 
 Vue.mixin({
     mounted() {
-        $('#body').addClass('initHiddenShow').removeClass('initHidden');
+        if (!$('#body').hasClass('onSelfShow')) this.showBody();
+    },
+    methods: {
+        showBody(animation) {
+            let body = $('#body');
+            if (body.hasClass('noAnimation')) animation = false;
+            if (animation === false) {
+                body.removeClass('initHidden');
+            } else {
+                body.addClass('initHiddenShow').removeClass('initHidden');
+            }
+        }
     }
 });
 
