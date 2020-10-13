@@ -78,6 +78,7 @@
             else if (c.indexOf('post') > 0) this.action = 'post';
             else if (c.indexOf('link') > 0) this.action = 'link';
             else if (c.indexOf('drawer') > 0) this.action = 'drawer';
+            else if (c.indexOf('parent') > 0) this.action = 'parent';
             if (this._events.drawer) {
                 this.drawerCall = true;
                 this.action = 'drawer';
@@ -133,6 +134,10 @@
                 this.$emit('click');
                 if (this.action === 'link') {
                     top.location.href = this.href;
+                    return true;
+                }
+                if (this.action === 'parent') {
+                    parent.frmNewTab(this.href, this.titleVal);
                     return true;
                 }
                 if (this.action === 'text' || !this.url) return;
