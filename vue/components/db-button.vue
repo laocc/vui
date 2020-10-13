@@ -105,7 +105,10 @@
             },
             titleVal: function () {
                 if (typeof this.title === 'boolean') return this.title;
-                if (this.title === 'false') return false;
+                if (this.title === 'false') {
+                    this.title = false;
+                    return false;
+                }
 
                 if (typeof this.title === 'object') {
                     return this.title.shift().sprintf(...this.title);
