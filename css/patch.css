@@ -241,6 +241,9 @@ form.headForm table {
 .el-input--suffix .el-input__suffix {
   right: 3px;
 }
+.el-input--suffix .el-select .el-input {
+  width: 100px;
+}
 .el-form-item {
   margin-bottom: 5px;
 }
