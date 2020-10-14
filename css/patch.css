@@ -259,6 +259,23 @@ form.headForm table {
 .el-dialog__wrapper .el-dialog__body iframe {
   flex: 1;
 }
+.el-tabs--border-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.el-tabs--border-card .el-tabs__content {
+  flex: 1;
+  padding: 0 !important;
+  display: flex;
+  height: 0;
+}
+.el-tabs--border-card .el-tabs__content .el-tab-pane {
+  flex: 1;
+  overflow-y: scroll;
+  height: 100%;
+  padding: 2px;
+}
 /**
 弹出层的自定义式样
  */

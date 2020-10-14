@@ -320,6 +320,7 @@ $(function () {
             if (self.data('disabled') !== 'disabled') {
                 self.blur().attr('disabled', 'disabled').addClass('layui-btn-disabled');
             }
+            console.log(data);
 
             let ta = $('#editor');
             if (ta.length > 0) {

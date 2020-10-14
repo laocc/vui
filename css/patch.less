@@ -280,6 +280,24 @@ form.headForm {
     }
 }
 
+.el-tabs--border-card {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    .el-tabs__content {
+        flex: 1;
+        padding: 0 !important;
+        display: flex;
+        height: 0;
+        .el-tab-pane {
+            flex: 1;
+            overflow-y: scroll;
+            height: 100%;
+            padding: 2px;
+        }
+    }
+}
+
 /**
 弹出层的自定义式样
  */

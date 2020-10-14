@@ -40,7 +40,10 @@ Vue.use(function (Vue, options) {
                 call(success, fail);
             });
         } else {
-            call(fun['success'], fun['fail']);
+            let f = function (v) {
+                console.log(v);
+            };
+            call(fun['success'] || f, fun['fail'] || f);
         }
     };
 
@@ -82,7 +85,7 @@ Vue.use(function (Vue, options) {
     };
 
     Vue.prototype.$post = function (url, data, fun) {
-        return this.$request(url, data || {});
+        return this.$request(url, data || {}, fun);
     };
 
     Vue.prototype.$iframe = function (src, sandbox) {
