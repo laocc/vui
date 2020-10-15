@@ -366,13 +366,13 @@
 
     .white {
         background: #fff;
-        color: #111111;
+        color: #606266;
         border: 1px solid #DCDFE6;
     }
 
     .white:hover {
         background: #ddd;
-        color: #000;
+        color: #1471f1;
     }
 
     .primary {
