@@ -106,7 +106,7 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
   width: 100px;
 }
 .el-form .el-form-item .el-form-item__content {
-  line-height: 2em;
+  line-height: normal;
   flex: 1;
   display: flex;
   align-items: center;
