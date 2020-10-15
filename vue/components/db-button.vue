@@ -312,7 +312,7 @@
     .btn {
         background: #1471f1;
         color: #fff;
-        padding: 2px 12px;
+        padding: 8px 12px;
         font-size: 14px;
         border-radius: 2px;
         margin: 2px;
@@ -323,7 +323,7 @@
     }
 
     .small {
-        padding: 5px 8px;
+        padding: 6px 12px;
     }
 
     .normal {
