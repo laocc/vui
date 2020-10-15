@@ -1,6 +1,6 @@
 <template>
     <ul class="page">
-        <li>
+        <li style="margin-right:5px" v-if="hasSlot">
             <slot></slot>
         </li>
         <li class="num" v-for="i in size" :class="{active:i===page.index}">
@@ -25,7 +25,7 @@
                         recode: 0,
                         size: 10,
                         key: 'page',
-                        page: 1
+                        page: 1,
                     };
                 }
             }
@@ -33,7 +33,8 @@
         data() {
             return {
                 link: true,
-                param: {}
+                param: {},
+                hasSlot: Boolean(this.$slots.default),
             };
         },
         created() {
