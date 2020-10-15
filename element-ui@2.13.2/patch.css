@@ -1,0 +1,156 @@
+/**
+这是对layui.css和element的css补充覆盖
+TODO 在此文件中的所有新增定义，必须加详细的原因说明
+ */
+.el-tabs__nav-wrap {
+  background: #eee;
+}
+.el-table .cell {
+  white-space: nowrap;
+}
+.el-table thead {
+  background: #ccd1e4;
+  color: #fff;
+}
+.el-table thead tr,
+.el-table thead th {
+  background: inherit;
+}
+.el-table tr td {
+  padding: 5px 0;
+}
+.el-input__inner {
+  height: 38px !important;
+}
+.input_color_picker > div {
+  border: none;
+}
+.el-color-picker--mini {
+  margin-top: 5px;
+}
+.el-date-range-picker {
+  margin-left: 20px;
+}
+.el-date-editor .el-range-input {
+  width: fit-content;
+}
+.el-date-editor i,
+.el-date-editor span {
+  display: inline-flex !important;
+  align-items: center;
+}
+.el-drawer__header {
+  padding: 10px;
+  margin-bottom: 5px;
+  background: #ff7a17;
+}
+.el-drawer__header span {
+  font-size: 16px;
+  color: #fff;
+}
+.el-drawer__header .el-drawer__close-btn {
+  color: #fff;
+}
+.el-drawer__header .el-drawer__close-btn:hover {
+  color: #999999;
+}
+.el-button--text:focus,
+.el-button--text:hover {
+  color: #ff7a17;
+}
+.el-drawer__body {
+  display: flex;
+  flex-direction: column;
+}
+.el-drawer__body .iframe {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+}
+.el-drawer__body div {
+  flex: 1;
+  display: flex;
+}
+.el-drawer__body div iframe {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+}
+.el-drawer__body iframe {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+}
+.el-textarea {
+  padding-bottom: 25px;
+}
+.el-textarea .el-textarea__inner {
+  font-size: 16px;
+  line-height: 1.9em;
+}
+.el-textarea .el-input__count {
+  background: none;
+}
+.el-input--suffix .el-input__suffix {
+  right: 3px;
+}
+.el-input--suffix .el-select .el-input {
+  width: 100px;
+}
+.el-form .el-form-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+.el-form .el-form-item .el-form-item__label {
+  width: 100px;
+}
+.el-form .el-form-item .el-form-item__content {
+  line-height: 2em;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+.el-form .el-form-item .el-form-item__content > div {
+  flex: 1;
+}
+.el-form .el-form-item .el-form-item__content .info {
+  flex: 2;
+  margin-left: 10px;
+  align-items: center;
+  color: #888;
+}
+.el-dialog__wrapper {
+  flex: 1;
+  display: flex;
+}
+.el-dialog__wrapper .el-dialog__body {
+  display: flex;
+  padding: 0;
+  overflow: hidden;
+}
+.el-dialog__wrapper .el-dialog__body iframe {
+  flex: 1;
+}
+/**
+表单选项卡
+ */
+.el-tabs--border-card {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.el-tabs--border-card .el-tabs__content {
+  flex: 1;
+  padding: 0 !important;
+  display: flex;
+  height: 0;
+}
+.el-tabs--border-card .el-tabs__content .el-tab-pane {
+  flex: 1;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100%;
+  padding: 5px;
+}
+/*# sourceMappingURL=patch.css.map */
