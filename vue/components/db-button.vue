@@ -364,6 +364,17 @@
         color: #000;
     }
 
+    .white {
+        background: #fff;
+        color: #111111;
+        border: 1px solid #DCDFE6;
+    }
+
+    .white:hover {
+        background: #ddd;
+        color: #000;
+    }
+
     .primary {
         background: #1471f1;
         color: #fff;
