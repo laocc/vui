@@ -108,14 +108,11 @@ Vue.use(function (Vue, options) {
         value.copy();
     };
 
-    //大白的快应用
-    Vue.prototype.$isDaBaiApp = function (ua) {
-        return /\.(dabai|linghu)/i.test(ua || window.navigator.userAgent);
-    };
 });
 
 Vue.mixin({
     mounted() {
+        $('.bodyOverlay').remove();
         if (!$('#body').hasClass('onSelfShow')) this.showBody();
     },
     methods: {
@@ -131,24 +128,20 @@ Vue.mixin({
     }
 });
 
-// const fileHost = String(document.scripts[document.scripts.length - 1].src).match(/^(https?:\/\/[\w\.]+)\/.+/i)[1];
-
 //当前脚本所在域名
-if (typeof scriptHost === 'undefined') {
-    // var scriptHost = String(document.scripts[document.scripts.length - 1].src).match(/^(https?:\/\/[\w\.]+)\/.+/i)[1];
-}
+let thisHost = (typeof scriptHost === 'undefined') ? scriptHost : String(document.scripts[document.scripts.length - 1].src).match(/^(https?:\/\/[\w\.]+)\/.+/i)[1];
+console.info('thisHost:', thisHost);
 
-// Vue.component('db-area', `url:${scriptHost}/components/db-area.vue`);
-Vue.component('db-button', `url:${scriptHost}/components/db-button.vue`);
-Vue.component('db-upload', `url:${scriptHost}/components/db-upload.vue`);
-Vue.component('db-html', `url:${scriptHost}/components/db-html.vue`);
-Vue.component('db-page', `url:${scriptHost}/components/db-page.vue`);
-Vue.component('db-radio', `url:${scriptHost}/components/db-radio.vue`);
-Vue.component('db-checkbox', `url:${scriptHost}/components/db-checkbox.vue`);
-
+// Vue.component('db-area', `url:${thisHost}/components/db-area.vue`);
+Vue.component('db-button', `url:${thisHost}/components/db-button.vue`);
+Vue.component('db-upload', `url:${thisHost}/components/db-upload.vue`);
+Vue.component('db-html', `url:${thisHost}/components/db-html.vue`);
+Vue.component('db-page', `url:${thisHost}/components/db-page.vue`);
+Vue.component('db-radio', `url:${thisHost}/components/db-radio.vue`);
+Vue.component('db-checkbox', `url:${thisHost}/components/db-checkbox.vue`);
 
 Vue.config.silent = false; //静默状态，取消 Vue 所有的日志与警告。
 Vue.config.productionTip = false; //不显示生产环境提示
-Vue.filter('rnd', function (val) {
-    return val / 100;
-});
+
+
+//
