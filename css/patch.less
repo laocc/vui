@@ -139,6 +139,35 @@ vue页面加载后显示，并加上动画显示
     }
 }
 
+@keyframes rotatingOverlay {
+    from {
+        transform: rotate(0)
+    }
+    to {
+        transform: rotate(360deg)
+    }
+}
+
+.bodyOverlay {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: #f0f0f0;
+    z-index: 999999;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    flex: 1;
+    span {
+        color: #aaa;
+        margin: 0 auto;
+        font-size: 64px;
+        animation: rotatingOverlay 3000ms linear infinite
+    }
+}
+
 form.headForm {
     table {
         margin-top: 0;
@@ -146,7 +175,6 @@ form.headForm {
         background: #f8fafd;
     }
 }
-
 
 /**
 弹出层的自定义式样
@@ -240,11 +268,10 @@ form.headForm {
             //margin-bottom: 2px;
         }
     }
-    .layui-table {
+    .dbTable {
         margin-top: 55px;
         margin-bottom: 150px;
     }
-    
     .pageLinkForm {
         position: fixed;
         padding: 3px 10px 10px 10px;
