@@ -1,0 +1,189 @@
+/**
+这是对layui.css和element的css补充覆盖
+TODO 在此文件中的所有新增定义，必须加详细的原因说明
+ */
+
+.el-tabs__nav-wrap {
+    background: #eee;
+}
+
+.el-table {
+    .cell {
+        //将表格单元格改为超出显示为省略号
+        white-space: nowrap;
+    }
+    thead {
+        background: #ccd1e4;
+        color: #fff;
+        tr, th {
+            background: inherit;
+        }
+    }
+    tr {
+        td {
+            padding: 5px 0;
+        }
+    }
+}
+
+//按钮单选框，设为34高，和input相同
+.el-radio-button--small .el-radio-button__inner {
+    height: 34px;
+    padding: 10px 15px;
+}
+
+.el-input__inner {
+    //input单元格改高
+    //height: 38px !important;
+}
+
+.input_color_picker {
+    //颜色选择器的边框给去掉
+    & > div {
+        border: none;
+    }
+}
+
+.el-color-picker--mini {
+    margin-top: 5px;
+}
+
+//双日期时间选择器，左边放点距离
+.el-date-range-picker {
+    margin-left: 20px;
+}
+
+//日期选择器，让内容撑开输入框，原来有点挡着了
+.el-date-editor {
+    .el-range-input {
+        width: fit-content;
+    }
+    i, span {
+        display: inline-flex !important;
+        align-items: center;
+    }
+}
+
+.el-drawer__header {
+    //弹出框表头改写
+    padding: 10px;
+    margin-bottom: 5px;
+    background: #ff7a17;
+    span {
+        font-size: 16px;
+        color: #fff;
+    }
+    .el-drawer__close-btn {
+        color: #fff;
+    }
+    .el-drawer__close-btn:hover {
+        color: #999999;
+    }
+}
+
+.el-button--text:focus, .el-button--text:hover {
+    color: #ff7a17;
+}
+
+.el-drawer__body {
+    display: flex;
+    flex-direction: column;
+    .iframe {
+        flex: 1;
+        margin: 0;
+        padding: 0;
+    }
+    div {
+        flex: 1;
+        display: flex;
+        iframe {
+            .iframe;
+        }
+    }
+    iframe {
+        .iframe;
+    }
+}
+
+.el-textarea {
+    padding-bottom: 25px;
+    .el-textarea__inner {
+        font-size: 16px;
+        line-height: 1.9em;
+    }
+    .el-input__count {
+        background: none;
+    }
+}
+
+//input内的button
+.el-input--suffix {
+    .el-input__suffix {
+        //top: 5px;
+        right: 3px;
+    }
+    .el-select .el-input {
+        width: 100px;
+    }
+}
+
+.el-form {
+    .el-form-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        .el-form-item__label {
+            width: 100px;
+        }
+        .el-form-item__content {
+            line-height: normal;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            & > div {
+                flex: 1;
+            }
+            .info {
+                flex: 2;
+                margin-left: 10px;
+                align-items: center;
+                color: #888;
+            }
+        }
+    }
+}
+
+.el-dialog__wrapper {
+    flex: 1;
+    display: flex;
+    .el-dialog__body {
+        display: flex;
+        padding: 0;
+        overflow: hidden;
+        iframe {
+            flex: 1;
+        }
+    }
+}
+
+/**
+表单选项卡
+ */
+.el-tabs--border-card {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    .el-tabs__content {
+        flex: 1;
+        padding: 0 !important;
+        display: flex;
+        height: 0;
+        .el-tab-pane {
+            flex: 1;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            height: 100%;
+            padding: 5px;
+        }
+    }
+}
