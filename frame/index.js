@@ -32,7 +32,7 @@ let vm = new Vue({
         console.log(...'管理中心启动'.log('red'))
     },
     components: {
-        'db-menu': `url:${fileHost}/vue/components/db-menu.vue`,
+        'db-menu': `url:${fileHost}/components/db-menu.vue`,
     },
     methods: {
         handleOpen(key, keyPath) {

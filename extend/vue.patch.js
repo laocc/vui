@@ -138,13 +138,13 @@ if (typeof scriptHost === 'undefined') {
     // var scriptHost = String(document.scripts[document.scripts.length - 1].src).match(/^(https?:\/\/[\w\.]+)\/.+/i)[1];
 }
 
-// Vue.component('db-area', `url:${scriptHost}/vue/components/db-area.vue`);
-Vue.component('db-button', `url:${scriptHost}/vue/components/db-button.vue`);
-Vue.component('db-upload', `url:${scriptHost}/vue/components/db-upload.vue`);
-Vue.component('db-html', `url:${scriptHost}/vue/components/db-html.vue`);
-Vue.component('db-page', `url:${scriptHost}/vue/components/db-page.vue`);
-Vue.component('db-radio', `url:${scriptHost}/vue/components/db-radio.vue`);
-Vue.component('db-checkbox', `url:${scriptHost}/vue/components/db-checkbox.vue`);
+// Vue.component('db-area', `url:${scriptHost}/components/db-area.vue`);
+Vue.component('db-button', `url:${scriptHost}/components/db-button.vue`);
+Vue.component('db-upload', `url:${scriptHost}/components/db-upload.vue`);
+Vue.component('db-html', `url:${scriptHost}/components/db-html.vue`);
+Vue.component('db-page', `url:${scriptHost}/components/db-page.vue`);
+Vue.component('db-radio', `url:${scriptHost}/components/db-radio.vue`);
+Vue.component('db-checkbox', `url:${scriptHost}/components/db-checkbox.vue`);
 
 
 Vue.config.silent = false; //静默状态，取消 Vue 所有的日志与警告。
