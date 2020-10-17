@@ -1,4 +1,4 @@
-window.$ = layui.$;
+// window.$ = layui.$;
 
 Vue.use(httpVueLoader);
 

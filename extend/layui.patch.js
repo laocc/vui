@@ -15,8 +15,8 @@ $(function () {
         const layedit = layui.layedit;
 
         //动态修改当前页面的title
-        if (document.title !== parent.document.title)
-            parent.layer.title(document.title, parent.layer.getFrameIndex(window.name));
+        // if (document.title !== parent.document.title)
+        //     parent.layer.title(document.title, parent.layer.getFrameIndex(window.name));
 
         // layui.flow.lazyimg();    //开启懒加载
 
