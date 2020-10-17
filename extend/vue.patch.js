@@ -129,7 +129,7 @@ Vue.mixin({
 });
 
 //当前脚本所在域名
-let thisHost = (typeof scriptHost === 'undefined') ? scriptHost : String(document.scripts[document.scripts.length - 1].src).match(/^(https?:\/\/[\w\.]+)\/.+/i)[1];
+let thisHost = (typeof scriptHost !== 'undefined') ? scriptHost : String(document.scripts[document.scripts.length - 1].src).match(/^(https?:\/\/[\w\.]+)\/.+/i)[1];
 console.info('thisHost:', thisHost);
 
 // Vue.component('db-area', `url:${thisHost}/components/db-area.vue`);
