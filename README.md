@@ -26,4 +26,5 @@ layui:
 <script src="/public/dbui/node_modules/layui-src/dist/layui.all.js"></script>
 <link rel="stylesheet" href="/public/dbui/node_modules/layui-src/dist/css/layui.css" media="all">
 ```
+其中：要删除layui.css中`a{color:#333}`和其后的hover部分
 

@@ -624,7 +624,8 @@ h6,
   border: none;
   flex: 1;
 }
-.dbTable thead tr {
+.dbTable thead tr,
+.dbTable tfoot tr {
   background-color: #f2f2f2;
 }
 .dbTable td,
