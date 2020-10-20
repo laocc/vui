@@ -110,32 +110,15 @@ Vue.use(function (Vue, options) {
 
 });
 
-Vue.mixin({
-    mounted() {
-        $('.bodyOverlay').remove();
-        if (!$('#body').hasClass('onSelfShow')) this.showBody();
-    },
-    methods: {
-        showBody(animation) {
-            let body = $('#body');
-            if (body.hasClass('noAnimation')) animation = false;
-            if (animation === false) {
-                body.removeClass('initHidden');
-            } else {
-                body.addClass('initHiddenShow').removeClass('initHidden');
-            }
-        }
-    }
-});
 
 //当前脚本所在域名
 let thisHost = (typeof scriptHost !== 'undefined') ? scriptHost : String(document.scripts[document.scripts.length - 1].src).match(/^(https?:\/\/[\w\.]+)\/.+/i)[1];
-console.info('thisHost:', thisHost);
+// console.info('vuiHost:', thisHost);
 
+// Vue.component('db-html', `url:${thisHost}/components/db-html.vue`);
 // Vue.component('db-area', `url:${thisHost}/components/db-area.vue`);
 Vue.component('db-button', `url:${thisHost}/components/db-button.vue`);
 Vue.component('db-upload', `url:${thisHost}/components/db-upload.vue`);
-Vue.component('db-html', `url:${thisHost}/components/db-html.vue`);
 Vue.component('db-page', `url:${thisHost}/components/db-page.vue`);
 Vue.component('db-radio', `url:${thisHost}/components/db-radio.vue`);
 Vue.component('db-checkbox', `url:${thisHost}/components/db-checkbox.vue`);
