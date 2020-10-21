@@ -5,6 +5,9 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
 .el-tabs__nav-wrap {
   background: #eee;
 }
+.container .el-tabs__nav-wrap {
+  padding-left: 20px;
+}
 .el-table .cell {
   white-space: nowrap;
 }
@@ -120,6 +123,13 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
   margin-left: 10px;
   align-items: center;
   color: #888;
+}
+.el-form .el-form-item[pane] .el-form-item__content {
+  border: 1px solid #DCDFE6;
+  border-radius: 4px;
+  line-height: 40px;
+  height: 40px;
+  padding: 0 5px;
 }
 .el-dialog__wrapper {
   flex: 1;

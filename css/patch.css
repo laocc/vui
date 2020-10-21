@@ -13,6 +13,10 @@
 .dbMenu {
   overflow-y: auto;
 }
+.dbMenu ul dl {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
 .dbMenu ul li,
 .dbMenu ul dt {
   height: 36px;
