@@ -55,6 +55,15 @@ html, body {
     }
 }
 
+.unselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -khtml-user-select: none; /* Konqueror */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently not supported by any browser */
+}
+
 a, .href {
     text-decoration: none;
     cursor: pointer;
@@ -69,15 +78,18 @@ a, .href {
         outline: 5px auto -webkit-focus-ring-color;
         outline-offset: -2px;
     }
-}
-
-.unselect {
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none; /* Chrome/Safari/Opera */
-    -khtml-user-select: none; /* Konqueror */
-    -moz-user-select: none; /* Firefox */
-    -ms-user-select: none; /* Internet Explorer/Edge */
-    user-select: none; /* Non-prefixed version, currently not supported by any browser */
+    
+    &.btn, &.button {
+        .unselect;
+        padding: 6px 12px;
+        background: #1471f1;
+        color: #fff;
+        display: inline-block;
+        border-radius: 2px;
+        &:hover {
+            background: #1254ab;
+        }
+    }
 }
 
 p {

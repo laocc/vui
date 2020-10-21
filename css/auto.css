@@ -75,6 +75,20 @@ body {
   height: -webkit-fill-available;
   height: available;
 }
+.unselect {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Chrome/Safari/Opera */
+  -khtml-user-select: none;
+  /* Konqueror */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently not supported by any browser */
+}
 a,
 .href {
   text-decoration: none;
@@ -94,7 +108,10 @@ a:focus,
   outline: 5px auto -webkit-focus-ring-color;
   outline-offset: -2px;
 }
-.unselect {
+a.btn,
+.href.btn,
+a.button,
+.href.button {
   -webkit-touch-callout: none;
   /* iOS Safari */
   -webkit-user-select: none;
@@ -107,6 +124,17 @@ a:focus,
   /* Internet Explorer/Edge */
   user-select: none;
   /* Non-prefixed version, currently not supported by any browser */
+  padding: 6px 12px;
+  background: #1471f1;
+  color: #fff;
+  display: inline-block;
+  border-radius: 2px;
+}
+a.btn:hover,
+.href.btn:hover,
+a.button:hover,
+.href.button:hover {
+  background: #1254ab;
 }
 p {
   margin: 0;
