@@ -132,7 +132,10 @@
         methods: {
             clickBtn() {
                 console.log('click', this.action, this.href);
-                if (this.disabled) return;
+                if (this.disabled) {
+                    console.log('disabled');
+                    return;
+                }
 
                 this.$emit('click');
                 if (this.action === 'link') {
@@ -144,8 +147,13 @@
                     return true;
                 }
                 if (this.action === 'text' || !this.url) return;
+
                 if (this.action === 'ajax' || this.action === 'post') {
                     this.requestUrl();
+
+                } else if (this.action === 'open' || this.action === 'dialog') {
+                    this.openDialog();
+
                 } else if (this.action === 'drawer') {
                     let dir = {left: 'ltr', right: 'rtl', top: 'ttb', bottom: 'btt'};
                     let size = this.direction.in_array(['top', 'bottom']) ? this.height : this.width;
@@ -164,12 +172,25 @@
                     this.drawerCall ? this.$emit('drawer', opt) : Object.assign(this.value, opt);
 
                 } else {
-                    this.openWin();
+                    // this.openDialog();
                 }
             },
+            openDialog() {
+                let option = {};
+                option.show = true;
+                option.width = parseInt(this.width);
+                option.height = parseInt(this.height) || (option.width * 0.75);
+                option.title = this.titleVal;
+                option.url = this.href;
+                console.log(option);
 
+                this.$emit('input', option)
+            },
             openWin(e) {
-                if (typeof layui === "undefined") return "未引入layui.js";
+                if (typeof layui === "undefined") {
+                    console.log('未引入layui.js');
+                    return;
+                }
                 const self = this;
                 let pIndex = window.parent.dbOpenIndex;
                 let width = parseInt(this.width);

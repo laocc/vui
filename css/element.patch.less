@@ -170,17 +170,31 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
     }
 }
 
-.el-dialog__wrapper {
+.el-dialog__wrapperFFFFF {
     flex: 1;
     display: flex;
-    .el-dialog__body {
+    .el-dialog {
+        //flex: 1;
         display: flex;
-        padding: 0;
-        overflow: hidden;
-        iframe {
+        flex-direction: column;
+        .el-dialog__body {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            overflow: hidden;
             flex: 1;
+            .el-form {
+                display: flex;
+                .el-form-item {
+                    flex: 2;
+                }
+            }
+            iframe {
+                flex: 1;
+            }
         }
     }
+    
 }
 
 /**
