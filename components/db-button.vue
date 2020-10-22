@@ -1,5 +1,5 @@
 <template>
-    <a :href="href" :class="cls" @click.stop="clickBtn" onclick="return !1">
+    <a :href="href" ref="btn" :class="cls" @click.stop="clickBtn" onclick="return !1">
         <slot></slot><span :class="icon" v-if="icon"></span>
     </a>
 </template>
@@ -66,7 +66,9 @@
             return {
                 css: {min: '', small: '', normal: '', big: ''},
                 action: '',
-                drawerCall: false
+                beClick: false,
+                btnHtml: '',
+                drawerCall: false,//上层以@drawer="fun"形式，则将组合后的结果传至该函数，
             }
         },
         created() {
@@ -130,14 +132,26 @@
             }
         },
         methods: {
-            clickBtn() {
+            clearSubmit() {
+                this.beClick = false;
+                this.$refs.btn.innerHTML = this.btnHtml;
+            },
+            clickBtn(e) {
                 console.log('click', this.action, this.href);
-                if (this.disabled) {
+                if (this.disabled || this.beClick) {
                     console.log('disabled');
                     return;
                 }
+                if (this._events.submit) {
+                    this.beClick = true;
+                    this.btnHtml = this.$refs.btn.innerHTML;
+                    this.$refs.btn.innerHTML = "<em class='fc f29d'>保存中</em>";
+                    this.$emit('submit', e);
+                    return;
+                } else {
+                    this.$emit('click', e);
+                }
 
-                this.$emit('click');
                 if (this.action === 'link') {
                     top.location.href = this.href;
                     return true;
@@ -152,7 +166,14 @@
                     this.requestUrl();
 
                 } else if (this.action === 'open' || this.action === 'dialog') {
-                    this.openDialog();
+                    let option = {};
+                    option.show = true;
+                    option.type = 'dialog';
+                    option.width = parseInt(this.width);
+                    option.height = parseInt(this.height) || (option.width * 0.6);
+                    option.title = this.titleVal;
+                    option.src = this.$iframe(this.href + '#' + ((new Date()).valueOf()), !1);
+                    this.$emit('input', option, e);
 
                 } else if (this.action === 'drawer') {
                     let dir = {left: 'ltr', right: 'rtl', top: 'ttb', bottom: 'btt'};
@@ -162,29 +183,24 @@
 
                     let title = this.titleVal;
                     if (!title || title === 'false') title = false;
-                    let opt = {
+                    let option = {
+                        type: 'drawer',
                         show: true,
                         title: title,
-                        src: this.$iframe(this.href, !1),
+                        width: this.width,
+                        height: this.height,
+                        src: this.$iframe(this.href + '#' + ((new Date()).valueOf()), !1),
                         size: size,
                         dir: dir[this.direction] || 'left'
                     };
-                    this.drawerCall ? this.$emit('drawer', opt) : Object.assign(this.value, opt);
+                    console.log(option.src);
+
+                    this.drawerCall ? this.$emit('drawer', option, e) : Object.assign(this.value, option);
+                    this.$emit('input', option, e);
 
                 } else {
                     // this.openDialog();
                 }
-            },
-            openDialog() {
-                let option = {};
-                option.show = true;
-                option.width = parseInt(this.width);
-                option.height = parseInt(this.height) || (option.width * 0.75);
-                option.title = this.titleVal;
-                option.url = this.href;
-                console.log(option);
-
-                this.$emit('input', option)
             },
             openWin(e) {
                 if (typeof layui === "undefined") {
