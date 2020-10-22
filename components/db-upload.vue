@@ -6,9 +6,7 @@
             <span style="text-align: right">{{speed}}</span>
         </div>
         <a v-show="!(run && progress)" :style="cssH" class="btn fc f40a" :class="cls" :href="api" @click="upload"
-           onclick="return !1;">
-            <slot></slot>
-        </a>
+           onclick="return !1;"><slot></slot></a>
         <input type="file" :id="'file_'+rand" @change="uploadNow"
                :accept="type+'/*'" :multiple="number>1" v-show="!1"/>
     </div>
@@ -90,9 +88,9 @@
                 return `width:${w}px;height:${h}px;border: 0;padding:0;`;
             },
             cssH: function () {
-                let h = parseInt(this.height);
+                let h = parseInt(this.height);//line-height:${h}px;
                 let c = this.errColor || this.background;
-                return `line-height:${h}px;background:${c}`;
+                return `background:${c}`;
             },
             cls: function () {
                 if (this.disabled) return 'disabled';
@@ -229,6 +227,7 @@
         color: #fff;
         display: block;
         text-align: center;
+        line-height: normal;
     }
 
     .disabled {
