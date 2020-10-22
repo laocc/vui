@@ -247,7 +247,7 @@ input, textarea {
 .h(@count) when (@count > 0) {
     .h((@count - 1));
     h@{count}, .h@{count} {
-        font-size: (36-@count*4)+0px !important;
+        font-size: (36-@count*4)+0px;
         padding: 0.5em 0;
         font-weight: 700;
         line-height: 1.1em;
@@ -259,7 +259,7 @@ input, textarea {
 .fs(@count) when (@count >= 10) {
     .fs((@count - 2));
     .fs@{count} {
-        font-size: (@count)+0px !important;
+        font-size: (@count)+0px;
     }
 }
 

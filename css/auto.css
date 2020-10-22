@@ -265,7 +265,7 @@ textarea::-ms-input-placeholder {
 }
 h1,
 .h1 {
-  font-size: 32px !important;
+  font-size: 32px;
   padding: 0.5em 0;
   font-weight: 700;
   line-height: 1.1em;
@@ -274,7 +274,7 @@ h1,
 }
 h2,
 .h2 {
-  font-size: 28px !important;
+  font-size: 28px;
   padding: 0.5em 0;
   font-weight: 700;
   line-height: 1.1em;
@@ -283,7 +283,7 @@ h2,
 }
 h3,
 .h3 {
-  font-size: 24px !important;
+  font-size: 24px;
   padding: 0.5em 0;
   font-weight: 700;
   line-height: 1.1em;
@@ -292,7 +292,7 @@ h3,
 }
 h4,
 .h4 {
-  font-size: 20px !important;
+  font-size: 20px;
   padding: 0.5em 0;
   font-weight: 700;
   line-height: 1.1em;
@@ -301,7 +301,7 @@ h4,
 }
 h5,
 .h5 {
-  font-size: 16px !important;
+  font-size: 16px;
   padding: 0.5em 0;
   font-weight: 700;
   line-height: 1.1em;
@@ -310,7 +310,7 @@ h5,
 }
 h6,
 .h6 {
-  font-size: 12px !important;
+  font-size: 12px;
   padding: 0.5em 0;
   font-weight: 700;
   line-height: 1.1em;
@@ -318,67 +318,67 @@ h6,
   margin: 0;
 }
 .fs10 {
-  font-size: 10px !important;
+  font-size: 10px;
 }
 .fs12 {
-  font-size: 12px !important;
+  font-size: 12px;
 }
 .fs14 {
-  font-size: 14px !important;
+  font-size: 14px;
 }
 .fs16 {
-  font-size: 16px !important;
+  font-size: 16px;
 }
 .fs18 {
-  font-size: 18px !important;
+  font-size: 18px;
 }
 .fs20 {
-  font-size: 20px !important;
+  font-size: 20px;
 }
 .fs22 {
-  font-size: 22px !important;
+  font-size: 22px;
 }
 .fs24 {
-  font-size: 24px !important;
+  font-size: 24px;
 }
 .fs26 {
-  font-size: 26px !important;
+  font-size: 26px;
 }
 .fs28 {
-  font-size: 28px !important;
+  font-size: 28px;
 }
 .fs30 {
-  font-size: 30px !important;
+  font-size: 30px;
 }
 .fs32 {
-  font-size: 32px !important;
+  font-size: 32px;
 }
 .fs34 {
-  font-size: 34px !important;
+  font-size: 34px;
 }
 .fs36 {
-  font-size: 36px !important;
+  font-size: 36px;
 }
 .fs38 {
-  font-size: 38px !important;
+  font-size: 38px;
 }
 .fs40 {
-  font-size: 40px !important;
+  font-size: 40px;
 }
 .fs42 {
-  font-size: 42px !important;
+  font-size: 42px;
 }
 .fs44 {
-  font-size: 44px !important;
+  font-size: 44px;
 }
 .fs46 {
-  font-size: 46px !important;
+  font-size: 46px;
 }
 .fs48 {
-  font-size: 48px !important;
+  font-size: 48px;
 }
 .fs50 {
-  font-size: 50px !important;
+  font-size: 50px;
 }
 .mt0 {
   margin-top: 0px;

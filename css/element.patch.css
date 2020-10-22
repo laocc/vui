@@ -35,6 +35,9 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
 .el-date-range-picker {
   margin-left: 20px;
 }
+.el-tabs__item {
+  user-select: none;
+}
 .el-date-editor .el-range-input {
   width: fit-content;
 }
