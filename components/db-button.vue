@@ -10,7 +10,7 @@
         props: {
             type: {//按钮形式，open,ajax,post,link,text
                 type: String,
-                default: 'text'
+                default: ''
             },
             width: {//open时的宽高
                 type: [Number, String],
@@ -73,13 +73,17 @@
         },
         created() {
             this.action = this.type;
-            let c = ' ' + this.$vnode.data.staticClass;
-            if (c.indexOf('ajax') > 0) this.action = 'ajax';
-            else if (c.indexOf('open') > 0) this.action = 'open';
-            else if (c.indexOf('post') > 0) this.action = 'post';
-            else if (c.indexOf('link') > 0) this.action = 'link';
-            else if (c.indexOf('drawer') > 0) this.action = 'drawer';
-            else if (c.indexOf('parent') > 0) this.action = 'parent';
+            if (!this.action) {
+                let c = ' ' + this.$vnode.data.staticClass;
+                if (c.indexOf('ajax') > 0) this.action = 'ajax';
+                else if (c.indexOf('open') > 0) this.action = 'open';
+                else if (c.indexOf('dialog') > 0) this.action = 'dialog';
+                else if (c.indexOf('post') > 0) this.action = 'post';
+                else if (c.indexOf('link') > 0) this.action = 'link';
+                else if (c.indexOf('drawer') > 0) this.action = 'drawer';
+                else if (c.indexOf('parent') > 0) this.action = 'parent';
+            }
+            if (!this.action) this.action = 'text';
             if (this._events.drawer) {
                 this.drawerCall = true;
                 this.action = 'drawer';
@@ -89,13 +93,6 @@
             href: function () {
                 if (typeof this.url === 'object') {
                     return this.url.shift().sprintf(...this.url);
-
-                } else if (this.action !== 'drawer' || this.drawerCall) {
-                    if (typeof this.value === 'object') {
-                        return this.url.sprintf(...this.value);
-                    } else {
-                        return this.url.sprintf(this.value);
-                    }
                 }
                 return this.url;
             },
@@ -108,24 +105,12 @@
                 if (this.title === 'false') {
                     this.title = false;
                     return false;
-                }
 
-                if (typeof this.title === 'object') {
-                    return this.title.shift().sprintf(...this.title);
-
-                } else if (this.action !== 'drawer' || this.drawerCall) {
-                    if (this.title === '') {
-                        if (!this.$slots.default) return false;
-                        return this.$slots.default[0].text.trim();
-                    }
-
-                    if (typeof this.value === 'object') {
-                        return this.title.sprintf(...this.value);
-                    } else {
-                        return this.title.sprintf(this.value);
-                    }
-                } else if ('' === this.title) {
+                } else if (this.title === '') {
                     return this.$slots.default[0].text.trim();
+
+                } else if (typeof this.title === 'object') {
+                    return this.title.shift().sprintf(...this.title);
                 }
 
                 return this.title;
@@ -194,7 +179,6 @@
                         dir: dir[this.direction] || 'left'
                     };
                     console.log(option.src);
-
                     this.drawerCall ? this.$emit('drawer', option, e) : Object.assign(this.value, option);
                     this.$emit('input', option, e);
 

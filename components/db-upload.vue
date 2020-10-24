@@ -5,12 +5,9 @@
             <span>{{percent}}</span>
             <span style="text-align: right">{{speed}}</span>
         </div>
-        <a v-show="!(run && progress)" :style="cssH" class="btn fc f40a" :class="cls" :href="api" @click="upload"
-           onclick="return !1;">
-            <slot></slot>
-        </a>
-        <input type="file" :id="'file_'+rand" @change="uploadNow"
-               :accept="type+'/*'" :multiple="number>1" v-show="!1"/>
+        <a v-show="!(run && progress)" :style="cssH" class="btnUP fc f40a" :class="cls" :href="api" @click="upload"
+           onclick="return !1;"><slot></slot></a>
+        <input type="file" :id="name+'_'+rand" @change="uploadNow" :accept="type+'/*'" :multiple="number>1" v-show="!1"/>
     </div>
 </template>
 
@@ -18,11 +15,11 @@
     module.exports = {
         name: "db-upload",
         props: {
-            api: {
+            api: {//上传目标路径
                 type: String,
-                default: ''//"http://admin.mall.com/temp/upload"
+                default: ''
             },
-            number: {
+            number: {//可选择数量
                 type: [Number, String],
                 default: 1
             },
@@ -30,42 +27,47 @@
                 type: Boolean,
                 default: true
             },
-            name: {
-                type: String,
-                default: ''
-            },
-            type: {
+            /**
+             audio/*    接受所有的声音文件。
+             video/*    接受所有的视频文件。
+             image/*    接受所有的图像文件。
+             */
+            type: {//可选择的文件类型
                 type: String,
                 default: 'image'
             },
-            background: {
+            name: {//上传表单中文件名的键前缀，服务器收到的是file_0,file_1
                 type: String,
-                default: '#206cf1'
+                default: 'file'
             },
-            data: {
+            data: {//附加到表单中的数据
                 type: Object,
                 default: function () {
                     return {}
                 }
             },
-            option: {
+            option: {//回传到页面事件时所带值
                 type: Object,
                 default: function () {
                     return {}
                 }
             },
-            disabled: {
+            disabled: {//是否禁用
                 type: Boolean,
                 default: false
             },
-            width: {
+            width: {//按钮宽
                 type: [String, Number],
                 default: 100
             },
-            height: {
+            height: {//按钮高
                 type: [String, Number],
                 default: 32
-            }
+            },
+            background: {//按钮背景
+                type: String,
+                default: '#206cf1'
+            },
         },
         data() {
             return {
@@ -100,32 +102,39 @@
             },
         },
         created() {
-            this.rand = (0).rand()
+            this.rand = (0).rand();
+            console.log('upload be created', `${this.name}_${this.rand}`);
         },
         methods: {
             upload() {
                 if (this.disabled) return;
-                document.getElementById(`file_${this.rand}`).click();
+                document.getElementById(`${this.name}_${this.rand}`).click();
             },
             uploadNow() {
                 const self = this;
+                if (!this.api) {
+                    console.error('未设置上传API');
+                    return;
+                }
                 self.errColor = '';
-                let form = new FormData();
-                let files = document.getElementById(`file_${this.rand}`).files;
-                for (let i = 0; i < files.length; i++) form.append(`file${i}`, files[i]);
-                for (let d in this.data) form.append(d, this.data[d]);
+                let fmData = new FormData();
+                let files = document.getElementById(`${this.name}_${this.rand}`).files;
+                for (let i = 0; i < files.length; i++) fmData.append(`${this.name}_${i}`, files[i]);
+                for (let d in this.data) fmData.append(d, this.data[d]);
+
+                console.log('this.api', this.api);
 
                 this.http = new XMLHttpRequest();  // XMLHttpRequest 对象
                 this.http.open("POST", this.api, true); //post方式，url为服务器请求地址，true 该参数规定请求是否异步处理。
                 // this.http.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
                 this.http.onload = function (proEnt) {                //服务断接收完文件返回的结果
                     try {
-                        let data = JSON.parse(this.response);
-                        console.log('upload.onLoad', data, proEnt);
-                        if (data.success) {
-                            self.$emit('success', self.option, data);
+                        let resp = JSON.parse(this.response);
+                        console.log('upload.onLoad', resp, proEnt);
+                        if (resp.success) {
+                            self.$emit('success', self.option, resp);
                         } else {
-                            self.$emit('error', self.option, data);
+                            self.$emit('error', self.option, resp);
                             self.errColor = '#c10111';
                         }
                         self.close();
@@ -196,7 +205,7 @@
                     self.errColor = '';
                 };
 
-                this.http.send(form); //开始上传，发送form数据
+                this.http.send(fmData); //开始上传，发送form数据
             },
             cancel() {
                 this.http.abort();
@@ -221,7 +230,7 @@
         flex-direction: column;
     }
 
-    .btn {
+    .btnUP {
         flex: 1;
         margin: 0 2px;
         border-radius: 2px;
@@ -229,6 +238,7 @@
         color: #fff;
         display: block;
         text-align: center;
+        padding: 0;
     }
 
     .disabled {

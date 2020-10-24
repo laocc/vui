@@ -138,7 +138,7 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
 .el-form {
     .el-form-item {
         display: flex;
-        align-items: center;
+        //align-items: center;
         margin-bottom: 5px;
         .el-form-item__label {
             width: 100px;
@@ -148,8 +148,14 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
             flex: 1;
             display: flex;
             align-items: center;
+            flex-wrap: wrap;
             & > div {
                 flex: 1;
+            }
+            & > label {
+                display: flex;
+                align-items: center;
+                min-height: 32px;
             }
             .info {
                 flex: 2;
@@ -163,7 +169,7 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
                 border: 1px solid #DCDFE6;
                 border-radius: 4px;
                 line-height: 40px;
-                height: 40px;
+                min-height: 40px;
                 padding: 0 5px;
             }
         }
