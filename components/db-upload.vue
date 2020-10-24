@@ -92,9 +92,9 @@
                 return `width:${w}px;height:${h}px;border: 0;padding:0;`;
             },
             cssH: function () {
-                let h = parseInt(this.height);
+                let h = parseInt(this.height);//line-height:${h}px;
                 let c = this.errColor || this.background;
-                return `line-height:${h}px;background:${c}`;
+                return `background:${c}`;
             },
             cls: function () {
                 if (this.disabled) return 'disabled';
