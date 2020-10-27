@@ -68,6 +68,10 @@
                 type: String,
                 default: '#206cf1'
             },
+            value: {
+                type: String,
+                default: ''
+            },
         },
         data() {
             return {
@@ -89,7 +93,7 @@
             cssBtn: function () {
                 let w = parseInt(this.width);
                 let h = parseInt(this.height);
-                return `width:${w}px;height:${h}px;border: 0;padding:0;`;
+                return `width:${w}px;height:${h}px;`;
             },
             cssH: function () {
                 let h = parseInt(this.height);//line-height:${h}px;
@@ -132,6 +136,8 @@
                         let resp = JSON.parse(this.response);
                         console.log('upload.onLoad', resp, proEnt);
                         if (resp.success) {
+                            let v = (this.number > 1) ? JSON.stringify(resp.data) : resp.data.path;
+                            self.$emit('input', v);
                             self.$emit('success', self.option, resp);
                         } else {
                             self.$emit('error', self.option, resp);
@@ -227,7 +233,9 @@
 <style scoped>
     .form {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
     }
 
     .btnUP {
@@ -236,9 +244,12 @@
         border-radius: 2px;
         background: #093476;
         color: #fff;
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         text-align: center;
-        padding: 0;
+        border: 0;
+        padding: 5px 5px;
     }
 
     .disabled {
