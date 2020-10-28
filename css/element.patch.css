@@ -74,11 +74,11 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
   margin: 0;
   padding: 0;
 }
-.el-drawer__body div {
+.el-drawer__body > div {
   flex: 1;
   display: flex;
 }
-.el-drawer__body div iframe {
+.el-drawer__body > div iframe {
   flex: 1;
   margin: 0;
   padding: 0;
