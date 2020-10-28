@@ -101,7 +101,7 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
         margin: 0;
         padding: 0;
     }
-    div {
+    & > div {
         flex: 1;
         display: flex;
         iframe {
@@ -171,6 +171,12 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
                 line-height: 40px;
                 min-height: 40px;
                 padding: 0 5px;
+            }
+        }
+        &[slotbtn] {
+            .el-input-group__append {
+                background: #fff;
+                padding: 0;
             }
         }
     }
