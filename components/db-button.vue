@@ -151,13 +151,17 @@
                     this.requestUrl();
 
                 } else if (this.action === 'open' || this.action === 'dialog') {
+                    console.log('props', this.$options.propsData);
+
                     let option = {};
                     option.show = true;
+                    option.btn = this.btn;
                     option.type = 'dialog';
                     option.width = parseInt(this.width);
                     option.height = parseInt(this.height) || (option.width * 0.6);
                     option.title = this.titleVal;
                     option.src = this.$iframe(this.href + '#' + ((new Date()).valueOf()), !1);
+                    console.log(option);
                     this.$emit('input', option, e);
 
                 } else if (this.action === 'drawer') {
@@ -275,7 +279,6 @@
                             };
                             if (self._events.success) {
                                 self.$emit('success', resp);
-                                self.$message({message: resp.message, type: 'success'});
 
                             } else if (resp.message) {
                                 console.log('ok', resp);
@@ -287,7 +290,12 @@
                             }
                         },
                         function (resp) {
-                            self.$message({message: resp.message, type: 'error'});
+                            if (self._events.fail) {
+                                self.$emit('fail', resp);
+
+                            }else{
+                                self.$message({message: resp.message, type: 'error'});
+                            }
                         }
                     );
                 };

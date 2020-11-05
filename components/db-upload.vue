@@ -84,7 +84,7 @@
                 offTime: '0s',//剩余时间
                 progressBar: {},
                 max: 100,
-                value: 0,
+                pnt: 0,
                 rand: 0,
                 errColor: '',
             }
@@ -107,7 +107,7 @@
         },
         created() {
             this.rand = (0).rand();
-            console.log('upload be created', `${this.name}_${this.rand}`);
+            // console.log('upload be created', `${this.name}_${this.rand}`);
         },
         methods: {
             upload() {
@@ -136,8 +136,8 @@
                         let resp = JSON.parse(this.response);
                         console.log('upload.onLoad', resp, proEnt);
                         if (resp.success) {
-                            let v = (this.number > 1) ? JSON.stringify(resp.data) : resp.data.path;
-                            self.$emit('input', v);
+                            let filePath = (this.number > 1) ? JSON.stringify(resp.data) : resp.data.path;
+                            self.$emit('input', filePath);
                             self.$emit('success', self.option, resp);
                         } else {
                             self.$emit('error', self.option, resp);
@@ -175,7 +175,7 @@
                      */
                     let progressBar = document.getElementById(`progressBar_${this.rand}`);
                     progressBar.max = proEnt.total;
-                    progressBar.value = proEnt.loaded;
+                    progressBar.pnt = proEnt.loaded;
                     self.percent = Math.round(proEnt.loaded / proEnt.total * 100) + "%";
 
                     let now = new Date().getTime();
@@ -234,7 +234,6 @@
     .form {
         display: flex;
         flex-direction: row;
-        align-items: center;
         justify-content: center;
     }
 
@@ -249,7 +248,7 @@
         justify-content: center;
         text-align: center;
         border: 0;
-        padding: 5px 5px;
+        padding: 6px 5px;
     }
 
     .disabled {
