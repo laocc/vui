@@ -1,7 +1,10 @@
 <template>
-    <a :href="href" ref="btn" :class="cls" @click.stop="clickBtn" onclick="return !1">
-        <slot></slot><span :class="icon" v-if="icon"></span>
-    </a>
+    <el-tooltip :disabled="tips===''" :effect="effect" :open-delay="500" :content="tips" :placement="placement">
+        <!--dark/light	-->
+        <a :href="href" ref="btn" :class="cls" @click.stop="clickBtn" onclick="return !1">
+            <slot></slot><span :class="icon" v-if="icon"></span>
+        </a>
+    </el-tooltip>
 </template>
 
 <script>
@@ -11,6 +14,18 @@
             type: {//按钮形式，open,ajax,post,link,text
                 type: String,
                 default: ''
+            },
+            tips: {
+                type: String,
+                default: ''
+            },
+            effect: {
+                type: String,
+                default: 'dark'
+            },
+            placement: {
+                type: String,
+                default: 'top'
             },
             width: {//open时的宽高
                 type: [Number, String],
@@ -75,6 +90,7 @@
             this.action = this.type;
             if (!this.action) {
                 let c = ' ' + this.$vnode.data.staticClass;
+                console.log('staticClass', c);
                 if (c.indexOf('ajax') > 0) this.action = 'ajax';
                 else if (c.indexOf('open') > 0) this.action = 'open';
                 else if (c.indexOf('dialog') > 0) this.action = 'dialog';
@@ -91,7 +107,12 @@
         },
         computed: {
             href: function () {
-                if (typeof this.url === 'object') {
+                if (this.url instanceof Array) {
+                    this.url.forEach((pam, i) => {
+                        if (typeof pam === 'object') {
+                            this.url[i] = encodeURI(JSON.stringify(pam));
+                        }
+                    });
                     return this.url.shift().sprintf(...this.url);
                 }
                 return this.url;
@@ -293,7 +314,7 @@
                             if (self._events.fail) {
                                 self.$emit('fail', resp);
 
-                            }else{
+                            } else {
                                 self.$message({message: resp.message, type: 'error'});
                             }
                         }

@@ -21,6 +21,25 @@ body {
   box-sizing: border-box;
   touch-action: manipulation;
 }
+.flexTable {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: flex-start;
+  flex-direction: row;
+}
+.flexTable > div,
+.flexTable > ul,
+.flexTable > li {
+  flex-grow: 1;
+}
+/**
+ * 表格型项目列表，列数由单元格自行控制
+ * 33%-49%，两列
+ * 25%-33%，三列
+ * 20%-25%，四列
+ * 20%以下为五列
+ */
 .flex {
   display: flex;
 }
