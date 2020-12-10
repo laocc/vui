@@ -90,7 +90,7 @@
             this.action = this.type;
             if (!this.action) {
                 let c = ' ' + this.$vnode.data.staticClass;
-                console.log('staticClass', c);
+                // console.log('staticClass', c);
                 if (c.indexOf('ajax') > 0) this.action = 'ajax';
                 else if (c.indexOf('open') > 0) this.action = 'open';
                 else if (c.indexOf('dialog') > 0) this.action = 'dialog';
@@ -145,13 +145,13 @@
             clickBtn(e) {
                 console.log('click', this.action, this.href);
                 if (this.disabled || this.beClick) {
-                    console.log('disabled');
                     return;
                 }
                 if (this._events.submit) {
                     this.beClick = true;
                     this.btnHtml = this.$refs.btn.innerHTML;
                     this.$refs.btn.innerHTML = "<em class='fc f29d'>保存中</em>";
+                    console.log('绑定submit状态', this.beClick, this.btnHtml);
                     this.$emit('submit', e);
                     return;
                 } else {
