@@ -84,7 +84,6 @@
                 offTime: '0s',//剩余时间
                 progressBar: {},
                 max: 100,
-                value: 0,
                 rand: 0,
                 errColor: '',
             }

@@ -61,6 +61,76 @@ body {
 .flex10 {
   flex: 10;
 }
+/**
+ * 表格型项目列表，列数由单元格自行控制
+ * 33%-49%，两列
+ * 25%-33%，三列
+ * 20%-25%，四列
+ * 20%以下为五列
+ */
+.flexTable {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-content: flex-start;
+  flex-direction: row;
+}
+.flexTable > div,
+.flexTable > ul,
+.flexTable > li {
+  flex-grow: 1;
+  min-height: 50px;
+}
+.flexTable.row2 > div,
+.flexTable.row2 > ul,
+.flexTable.row2 > li {
+  width: 35%;
+}
+.flexTable.row2 .col2 {
+  width: 60%;
+}
+.flexTable.row3 > div,
+.flexTable.row3 > ul,
+.flexTable.row3 > li {
+  width: 27%;
+}
+.flexTable.row3 .col2 {
+  width: 60%;
+}
+.flexTable.row3 .col3 {
+  width: 90%;
+}
+.flexTable.row4 > div,
+.flexTable.row4 > ul,
+.flexTable.row4 > li {
+  width: 21%;
+}
+.flexTable.row4 .col2 {
+  width: 42%;
+}
+.flexTable.row4 .col3 {
+  width: 63%;
+}
+.flexTable.row4 .col4 {
+  width: 85%;
+}
+.flexTable.row5 > div,
+.flexTable.row5 > ul,
+.flexTable.row5 > li {
+  width: 18%;
+}
+.flexTable.row5 .col2 {
+  width: 37%;
+}
+.flexTable.row5 .col3 {
+  width: 55%;
+}
+.flexTable.row5 .col4 {
+  width: 73%;
+}
+.flexTable.row5 .col5 {
+  width: 85%;
+}
 .fill {
   width: -webkit-fill-available;
   height: -webkit-fill-available;

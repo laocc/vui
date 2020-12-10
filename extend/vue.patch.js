@@ -7,7 +7,7 @@ Vue.use(function (Vue, options) {
     Vue.prototype.$request = function (url, data, fun) {
         let option = {url: url, action: data ? 'POST' : 'GET', ajax: false};
         if (typeof data === 'object') data = JSON.stringify(data);
-        if (typeof  url === 'object') Object.assign(option, url);
+        if (typeof url === 'object') Object.assign(option, url);
         // console.log(option, data, url);
 
         let call = function (success, fail) {
@@ -28,7 +28,12 @@ Vue.use(function (Vue, options) {
                             json = {success: 0, message: this.response};
                         }
                     } else {
-                        json = {success: 0, message: this.statusText};
+                        try {
+                            json = JSON.parse(this.response || '[]');
+                        } catch (e) {
+                            json = {success: 0, message: this.response};
+                        }
+                        json = Object.assign(json, {success: 0, message: this.statusText});
                     }
                     fail(json);
                 }
