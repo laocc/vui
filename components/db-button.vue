@@ -141,10 +141,12 @@
             clearSubmit() {
                 this.beClick = false;
                 this.$refs.btn.innerHTML = this.btnHtml;
+                console.log('清除submit状态', this.beClick, this.btnHtml);
             },
             clickBtn(e) {
                 console.log('click', this.action, this.href);
                 if (this.disabled || this.beClick) {
+                    console.log('disabled', this.disabled, this.beClick);
                     return;
                 }
                 if (this._events.submit) {
@@ -152,6 +154,7 @@
                     this.btnHtml = this.$refs.btn.innerHTML;
                     this.$refs.btn.innerHTML = "<em class='fc f29d'>保存中</em>";
                     console.log('绑定submit状态', this.beClick, this.btnHtml);
+
                     this.$emit('submit', e);
                     return;
                 } else {
