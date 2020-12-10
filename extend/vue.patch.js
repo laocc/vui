@@ -33,7 +33,7 @@ Vue.use(function (Vue, options) {
                         } catch (e) {
                             json = {success: 0, message: this.response};
                         }
-                        json = Object.assign(json, {success: 0, message: this.statusText});
+                        if (!json.message) json.message = this.statusText;
                     }
                     fail(json);
                 }
