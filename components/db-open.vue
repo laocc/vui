@@ -21,10 +21,10 @@
                 :visible.sync="show"
                 :before-close="before"
                 :destroy-on-close="true">
-            <div style="display: flex;flex:1;" v-html="option.src"></div>
-            <div slot="footer" class="dialog-footer">
-                <el-button @click="close">取 消</el-button>
-                <el-button type="primary" @click="submit">确 定</el-button>
+            <div style="display:flex;flex:1;" v-html="option.src"></div>
+            <div slot="footer" class="dialog-footer" v-if="option.btn && (option.btn.yes || option.btn.no)">
+                <el-button @click="close" v-if="option.btn.no">{{option.btn.no}}</el-button>
+                <el-button type="primary" @click="submit" v-if="option.btn.yes">{{option.btn.yes}}</el-button>
             </div>
         </el-dialog>
     </div>
@@ -54,6 +54,10 @@
             value: {
                 deep: true,
                 handler: function (a, b) {
+                    /**
+                     * 这个值，在页面中是：openOption
+                     * 而这个值的内容是在db-button中组合的
+                     */
                     console.log('openOption:', a);
                     this.option = a;
                     this.show = a.show;
@@ -76,6 +80,49 @@
         },
         computed: {},
         methods: {
+            display(attrs) {
+                console.log('open attrs:', attrs);
+                let type = attrs.type.value;
+
+                let url = '';
+                if (attrs.href) url = attrs.href.value;
+                else if (attrs.url) url = attrs.url.value;
+                else if (attrs.api) url = attrs.api.value;
+                if (typeof url === 'object') url = url.shift().sprintf(...url);
+
+                let btn = '确定';
+                let width = 600, height = 0;
+                if (attrs.width) width = parseInt(attrs.width.value);
+                if (attrs.height) height = parseInt(attrs.height.value);
+                if (!height) height = width * 0.6;
+
+                let title = '';
+                if (attrs.title) title = (attrs.title.value);
+                if (title === 'false') title = false;
+
+                let option = {};
+                option.show = true;
+                option.btn = false;
+                option.type = type;
+                option.width = width;
+                option.height = height;
+                option.title = title;
+                option.src = this.$iframe(`${url}#` + ((new Date()).valueOf()), !1);
+
+                if (attrs.btns) {
+                    console.log(attrs);
+
+                    if (typeof attrs.btns.value === 'string') {
+                        option.btn = {yes: attrs.btns.value, no: false};
+                    } else if (typeof attrs.btns.value === 'object') {
+                        option.btn = {yes: attrs.btns.value[0], no: attrs.btns.value[1] || false};
+                    }
+                }
+                console.log(option);
+                this.option = option;
+                this.show = true;
+
+            },
             before() {
                 console.log('before');
                 this.show = false;

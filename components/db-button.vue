@@ -1,8 +1,11 @@
 <template>
-    <a :href="href" ref="btn" :class="cls" @click.stop="clickBtn" onclick="return !1">
-        <slot></slot>
-        <span :class="icon" v-if="icon"></span>
-    </a>
+    <el-tooltip :disabled="tips===''" :effect="effect" :open-delay="500" :content="tips" :placement="placement">
+        <!--dark/light	-->
+        <a :href="href" ref="btn" :class="cls" @click.stop="clickBtn" onclick="return !1">
+            <slot></slot>
+            <span :class="icon" v-if="icon"></span>
+        </a>
+    </el-tooltip>
 </template>
 
 <script>
@@ -12,6 +15,18 @@ module.exports = {
         type: {//按钮形式，open,ajax,post,link,text
             type: String,
             default: ''
+        },
+        tips: {
+            type: String,
+            default: ''
+        },
+        effect: {
+            type: String,
+            default: 'dark'
+        },
+        placement: {
+            type: String,
+            default: 'top'
         },
         width: {//open时的宽高
             type: [Number, String],
@@ -76,6 +91,7 @@ module.exports = {
         this.action = this.type;
         if (!this.action) {
             let c = ' ' + this.$vnode.data.staticClass;
+            console.log('staticClass', c);
             if (c.indexOf('ajax') > 0) this.action = 'ajax';
             else if (c.indexOf('open') > 0) this.action = 'open';
             else if (c.indexOf('dialog') > 0) this.action = 'dialog';
@@ -92,7 +108,12 @@ module.exports = {
     },
     computed: {
         href: function () {
-            if (typeof this.url === 'object') {
+            if (this.url instanceof Array) {
+                this.url.forEach((pam, i) => {
+                    if (typeof pam === 'object') {
+                        this.url[i] = encodeURI(JSON.stringify(pam));
+                    }
+                });
                 return this.url.shift().sprintf(...this.url);
             }
             return this.url;
@@ -120,12 +141,7 @@ module.exports = {
     methods: {
         clearSubmit() {
             this.beClick = false;
-            this.$refs.btn.innerHTML = this.btnHtml || '提交保存';
-        },
-        disabledSubmit() {
-            this.beClick = true;
-            this.btnHtml = this.$refs.btn.innerHTML;
-            this.$refs.btn.innerHTML = "<em class='fc f29d'>保存中</em>";
+            this.$refs.btn.innerHTML = this.btnHtml;
         },
         clickBtn(e) {
             console.log('click', this.action, this.href);
@@ -134,6 +150,9 @@ module.exports = {
                 return;
             }
             if (this._events.submit) {
+                this.beClick = true;
+                this.btnHtml = this.$refs.btn.innerHTML;
+                this.$refs.btn.innerHTML = "<em class='fc f29d'>保存中</em>";
                 this.$emit('submit', e);
                 return;
             } else {
@@ -154,13 +173,17 @@ module.exports = {
                 this.requestUrl();
 
             } else if (this.action === 'open' || this.action === 'dialog') {
+                console.log('props', this.$options.propsData);
+
                 let option = {};
                 option.show = true;
+                option.btn = this.btn;
                 option.type = 'dialog';
                 option.width = parseInt(this.width);
                 option.height = parseInt(this.height) || (option.width * 0.6);
                 option.title = this.titleVal;
                 option.src = this.$iframe(this.href + '#' + ((new Date()).valueOf()), !1);
+                console.log(option);
                 this.$emit('input', option, e);
 
             } else if (this.action === 'drawer') {
@@ -278,7 +301,6 @@ module.exports = {
                         };
                         if (self._events.success) {
                             self.$emit('success', resp);
-                            self.$message({message: resp.message, type: 'success'});
 
                         } else if (resp.message) {
                             console.log('ok', resp);
@@ -290,7 +312,12 @@ module.exports = {
                         }
                     },
                     function (resp) {
-                        self.$message({message: resp.message, type: 'error'});
+                        if (self._events.fail) {
+                            self.$emit('fail', resp);
+
+                        } else {
+                            self.$message({message: resp.message, type: 'error'});
+                        }
                     }
                 );
             };

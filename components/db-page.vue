@@ -11,7 +11,15 @@
             <a :href="url(i)" v-else @click="click(i)" onclick="return !1;">{{i}}</a>
         </li>
         <li class="num"><a :href="url('n')" @click="click('n')" onclick="return !1;">＞</a></li>
-        <li class="lab">共{{page.recode}}条/每页{{page.size}}条 第{{page.index}}/{{page.page}}页</li>
+
+        <el-dropdown class="lab" placement="top" trigger="click" @command="rePageSize">
+            <li>共{{page.recode}}条/每页{{page.size}}条 第{{page.index}}/{{page.page}}页</li>
+            <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item v-for="s in 4" :key="s*10" :command="s*10">每页 {{s*10}} 条</el-dropdown-item>
+                <el-dropdown-item v-for="s in 6" :key="s*50" :command="s*50">每页 {{s*50}} 条</el-dropdown-item>
+            </el-dropdown-menu>
+        </el-dropdown>
+
         <li style="flex: 1;"></li>
     </ul>
 </template>
@@ -91,6 +99,11 @@
             }
         },
         methods: {
+            rePageSize(v) {
+                console.log(v);
+                this.page.size = parseInt(v);
+                this.click(0);
+            },
             url(i) {
                 if (i === 'p') {
                     i = this.page.index - 1;
@@ -118,7 +131,7 @@
                 }
                 let param = this.param;
                 param[this.page.key] = i;
-                this.$emit('click', {index: i, url: this.url(i), param: param})
+                this.$emit('click', {index: i, size: this.page.size, url: this.url(i), param: param})
             }
         }
     }
@@ -144,6 +157,7 @@
         align-items: center;
         min-width: 38px;
         text-align: center;
+        cursor: pointer;
     }
 
     .num {
