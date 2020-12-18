@@ -23,7 +23,7 @@ Vue.use(function (Vue, options) {
                     if (this.status === 200) {
                         try {
                             json = JSON.parse(this.response || '[]');
-                            if (json.success) return success(json);
+                            if (!json.error) return success(json);
                         } catch (e) {
                             json = {success: 0, message: this.response};
                         }
