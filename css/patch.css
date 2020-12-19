@@ -129,10 +129,20 @@ vue页面加载后显示，并加上动画显示
 }
 .initHiddenShow {
   position: relative;
-  animation: initAnimation 300ms 0s 1;
-  -webkit-animation: initAnimation 300ms 0s 1;
-  -moz-animation: initAnimation 300ms 0s 1;
-  -o-animation: initAnimation 300ms 0s 1;
+  animation: initAnimationWin 300ms 0s 1;
+  -webkit-animation: initAnimationWin 300ms 0s 1;
+  -moz-animation: initAnimationWin 300ms 0s 1;
+  -o-animation: initAnimationWin 300ms 0s 1;
+}
+@keyframes initAnimationWin {
+  0% {
+    opacity: 0;
+    padding: 10px;
+  }
+  100% {
+    opacity: 1;
+    padding: 0;
+  }
 }
 @keyframes initAnimation {
   0% {

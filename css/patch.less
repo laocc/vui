@@ -14,6 +14,7 @@
 
 .dbMenu {
     overflow-y: auto;
+
     ul {
         .em() {
             margin-right: 5px;
@@ -22,7 +23,7 @@
         .indent() {
             padding-left: 30px;
         }
-        
+
         .a() {
             background: #ffffff;
             color: #333333;
@@ -34,6 +35,7 @@
             //padding-left: 30px;
             &.active {
                 .a();
+
                 a {
                     .a();
                     .indent();
@@ -46,6 +48,7 @@
                 color: #eee;
                 flex: 1;
                 .indent();
+
                 em {
                     .em();
                 }
@@ -57,43 +60,49 @@
                 .em();
             }
         }
+
         dl {
             margin-block-start: 0;
             margin-block-end: 0;
         }
+
         li, dt {
             height: 36px;
             line-height: 36px;
+
             em {
                 .em();
             }
         }
-        
+
         .dm-head {
             .link();
+
             span {
                 flex: 1;
             }
         }
-        
+
         .dm-group-title {
             color: #eee;
             background: #474B5F;
             padding-left: 15px;
+
             &:hover {
                 background: #52576e;
             }
         }
-        
+
         .dm-group-body {
             height: fit-content;
+
             dl {
                 dt {
                     .link();
                 }
             }
         }
-        
+
     }
 }
 
@@ -107,6 +116,7 @@
     flex: 1;
     display: flex;
     height: 38px;
+
     select {
         flex: 1;
         border: 1px solid #D2D2D2;
@@ -122,10 +132,21 @@ vue页面加载后显示，并加上动画显示
 
 .initHiddenShow {
     position: relative;
-    animation: initAnimation 300ms 0s 1;
-    -webkit-animation: initAnimation 300ms 0s 1;
-    -moz-animation: initAnimation 300ms 0s 1;
-    -o-animation: initAnimation 300ms 0s 1;
+    animation: initAnimationWin 300ms 0s 1;
+    -webkit-animation: initAnimationWin 300ms 0s 1;
+    -moz-animation: initAnimationWin 300ms 0s 1;
+    -o-animation: initAnimationWin 300ms 0s 1;
+}
+
+@keyframes initAnimationWin {
+    0% {
+        opacity: 0;
+        padding: 10px;
+    }
+    100% {
+        opacity: 1;
+        padding: 0;
+    }
 }
 
 @keyframes initAnimation {
@@ -164,6 +185,7 @@ vue页面加载后显示，并加上动画显示
     display: flex;
     align-items: center;
     flex: 1;
+
     span {
         color: #aaa;
         margin: 0 auto;
@@ -190,7 +212,7 @@ form.headForm {
     background-color: rgba(139, 6, 17, 0.8) !important;
     color: #fff;
     border: none;
-    
+
     .layui-layer-btn .layui-layer-btn0 {
         background-color: #111111;
         border-color: #111111;
@@ -205,20 +227,20 @@ form.headForm {
     background-color: rgba(3, 118, 36, 0.7) !important;
     color: #fff;
     border: none;
-    
+
     .layui-layer-btn .layui-layer-btn0 {
         background-color: #056309;
         border-color: #05a111;
         color: #fff;
     }
-    
+
     .layui-layer-content {
         padding: 12px 25px;
         text-align: center;
         background: #0b850b;
         color: #fff;
     }
-    
+
 }
 
 .unit {
@@ -235,7 +257,7 @@ form.headForm {
     padding-left: 10px !important;
     padding-right: 10px !important;
     cursor: default;
-    
+
     &:hover {
         background-color: #53aaa9 !important;
         color: #fafafa;
@@ -257,25 +279,29 @@ form.headForm {
         padding: 8px 5px;
         display: flex;
         align-items: center;
-        
+
         .el-form-item {
             margin-bottom: 0;
             margin-right: 0;
             padding: 0 1px;
         }
+
         .el-form-item__content {
             //padding-top: 2px;
         }
+
         .el-input__inner {
             //input单元格改高
             height: 34px !important;
             //margin-bottom: 2px;
         }
     }
+
     .dbTable {
         margin-top: 55px;
         margin-bottom: 150px;
     }
+
     .pageLinkForm {
         position: fixed;
         padding: 3px 10px 10px 10px;
