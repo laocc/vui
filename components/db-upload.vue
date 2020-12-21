@@ -119,31 +119,36 @@ module.exports = {
         },
         uploadNow() {
             const self = this;
-            if (!this.api) {
+            if (!self.api) {
                 console.error('未设置上传API');
                 return;
             }
             self.errColor = '';
             let fmData = new FormData();
-            let files = document.getElementById(`${this.name}_${this.rand}`).files;
-            for (let i = 0; i < files.length; i++) fmData.append(`${this.name}_${i}`, files[i]);
-            for (let d in this.data) fmData.append(d, this.data[d]);
+            let files = document.getElementById(`${self.name}_${self.rand}`).files;
+            for (let i = 0; i < files.length; i++) fmData.append(`${self.name}_${i}`, files[i]);
+            for (let d in self.data) fmData.append(d, self.data[d]);
 
-            console.log('this.api', this.api);
-
-            this.http = new XMLHttpRequest();  // XMLHttpRequest 对象
-            this.http.open("POST", this.api, true); //post方式，url为服务器请求地址，true 该参数规定请求是否异步处理。
-            // this.http.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
-            this.http.onload = function (proEnt) {                //服务断接收完文件返回的结果
+            self.http = new XMLHttpRequest();  // XMLHttpRequest 对象
+            self.http.open("POST", self.api, true); //post方式，url为服务器请求地址，true 该参数规定请求是否异步处理。
+            // self.http.setRequestHeader('content-type', 'application/x-www-form-urlencoded');
+            self.http.onload = function (proEnt) {                //服务断接收完文件返回的结果
                 try {
                     let resp = JSON.parse(this.response);
                     console.log('upload.onLoad', resp, proEnt);
                     if (resp.success) {
-                        let filePath = (this.number > 1) ? JSON.stringify(resp.data) : resp.data.path;
-                        self.$emit('input', filePath);
-                        self.$emit('success', self.option, resp);
+                        let filePath = [];
+                        if (self.number > 1) {
+                            resp.data.forEach(p => {
+                                filePath.push(p.path)
+                            });
+                        } else {
+                            filePath.push(resp.data.path)
+                        }
+                        self.$emit('input', filePath.join(';'));
+                        self.$emit('success', resp);
                     } else {
-                        self.$emit('error', self.option, resp);
+                        self.$emit('error', resp);
                         self.errColor = '#c10111';
                     }
                     self.close();
@@ -155,18 +160,18 @@ module.exports = {
                 }
             };
 
-            this.http.onreadystatechange = function (ent) {
+            self.http.onreadystatechange = function (ent) {
                 console.log('upload.onReadyStateChange', this.readyState, this.status, ent);
             };
 
-            this.http.onerror = function (err) {//请求失败
+            self.http.onerror = function (err) {//请求失败
                 console.log('upload.onError', err);
                 self.$emit('error', self.option, {success: 0, message: '请求失败，请检查目标网络是否通顺'});
                 self.errColor = '#c10111';
                 self.close();
             };
 
-            this.http.upload.onprogress = function (proEnt) {
+            self.http.upload.onprogress = function (proEnt) {
                 console.log('upload.onProgress', proEnt);
 
                 ////所关联的资源是否具有可以计算的长度，false时，proEnt所有数据都是无意义的
@@ -176,7 +181,7 @@ module.exports = {
                  * event.total  是需要传输的总字节
                  * event.loaded 是已经传输的字节
                  */
-                let progressBar = document.getElementById(`progressBar_${this.rand}`);
+                let progressBar = document.getElementById(`progressBar_${self.rand}`);
                 progressBar.max = proEnt.total;
                 progressBar.pnt = proEnt.loaded;
                 self.percent = Math.round(proEnt.loaded / proEnt.total * 100) + "%";
@@ -206,7 +211,7 @@ module.exports = {
                 });
             };
 
-            this.http.upload.onloadstart = function (proEnt) {//上传开始执行方法
+            self.http.upload.onloadstart = function (proEnt) {//上传开始执行方法
                 console.log('upload.onLoadStart', self.api, proEnt);
                 self.starTime = new Date().getTime();   //设置上传开始时间
                 self.offSize = 0;//设置上传开始时，以上传的文件大小为0
@@ -214,7 +219,7 @@ module.exports = {
                 self.errColor = '';
             };
 
-            this.http.send(fmData); //开始上传，发送form数据
+            self.http.send(fmData); //开始上传，发送form数据
         },
         cancel() {
             this.http.abort();
