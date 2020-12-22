@@ -166,6 +166,9 @@ vue页面加载后显示，并加上动画显示
     transform: rotate(360deg);
   }
 }
+.loading {
+  animation: rotatingOverlay 1000ms linear infinite;
+}
 .bodyOverlay {
   position: fixed;
   left: 0;
