@@ -149,21 +149,24 @@
                 this.$emit('click', val);
             },
             reItems() {
-                if (this.field) {
-                    this.items = {};
-                    if (this.data.constructor === Array) {
-                        this.data.forEach(ds => {
-                            this.items[ds[this.field]] = ds[this.label]
-                        })
-                    } else {
+                this.items = {};
+                if (this.data.constructor === Array) {
+                    this.data.forEach(ds => {
+                        this.items[ds] = ds;
+                        // this.items[ds[this.field]] = ds[this.label]
+                    })
+                } else {
+                    if (this.field) {
                         for (let tm in this.data) {
                             // console.log(this.data[tm], this.field, this.label);
                             this.items[this.data[tm][this.field]] = this.data[tm][this.label]
                         }
+                    } else {
+                        this.items = this.data;
                     }
-                } else {
-                    this.items = this.data;
+
                 }
+
             }
         }
     }

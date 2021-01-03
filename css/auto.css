@@ -138,6 +138,23 @@ body {
 .flexTable.row5 .col5 {
   width: 85%;
 }
+.flexTable.row6 > div,
+.flexTable.row6 > ul,
+.flexTable.row6 > li {
+  width: 15%;
+}
+.flexTable.row6 .col2 {
+  width: 31%;
+}
+.flexTable.row6 .col3 {
+  width: 45%;
+}
+.flexTable.row6 .col4 {
+  width: 60%;
+}
+.flexTable.row6 .col5 {
+  width: 75%;
+}
 .fill {
   width: -webkit-fill-available;
   height: -webkit-fill-available;
@@ -213,6 +230,10 @@ a.btn:hover,
 a.button:hover,
 .href.button:hover {
   background: #1254ab;
+}
+a.btn.warn,
+.href.btn.warn {
+  background: #e22d07;
 }
 p {
   margin: 0;

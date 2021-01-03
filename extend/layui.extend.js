@@ -316,7 +316,7 @@
             if (self.hasClass('layui-btn-disabled') || self.data('disabled') || self.attr('disabled')) return false;
 
             let obj = self.data('object'), val;
-            let title = self.attr('title') || self.data('title') || '复制成功';
+            let title = self.attr('title') || self.data('title') || '复制完成';
             let tips = self.attr('tips') || self.data('tips');
             let time = self.attr('time') || self.data('time') || 4000;
             if (obj) {

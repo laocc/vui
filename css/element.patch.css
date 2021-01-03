@@ -88,12 +88,9 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
   margin: 0;
   padding: 0;
 }
-.el-textarea {
-  padding-bottom: 25px;
-}
 .el-textarea .el-textarea__inner {
   font-size: 16px;
-  line-height: 1.9em;
+  line-height: 1.5em;
 }
 .el-textarea .el-input__count {
   background: none;
