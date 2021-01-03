@@ -145,7 +145,7 @@ module.exports = {
             console.log('清除submit状态', this.beClick, this.btnHtml);
         },
         clickBtn(e) {
-            console.log('click', this.action, this.href);
+            console.log('click', {action: this.action, href: this.href, submit: Boolean(this._events.submit)});
             if (this.disabled || this.beClick) {
                 console.log('disabled', this.disabled, this.beClick);
                 return;
