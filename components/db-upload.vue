@@ -128,6 +128,7 @@
                 let files = document.getElementById(`${self.name}_${self.rand}`).files;
                 for (let i = 0; i < files.length; i++) fmData.append(`${self.name}_${i}`, files[i]);
                 for (let d in self.data) fmData.append(d, self.data[d]);
+                fmData.append('number', self.number);
 
                 self.http = new XMLHttpRequest();  // XMLHttpRequest 对象
                 self.http.open("POST", self.api, true); //post方式，url为服务器请求地址，true 该参数规定请求是否异步处理。
