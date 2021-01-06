@@ -470,6 +470,10 @@ Array.prototype.has = function (value) {
 
 //数字是否存在于数组值中，判断数组是否有某个下标值，直接用：if(key in array)
 Number.prototype.in_array = function (value) {
+    if (typeof value !== 'object') {
+        console.log('当前：', typeof value, value);
+        throw new Error('in_array的对象须是array类型');
+    }
     return value.some(val => {
         return Number(val) === Number(this);
     });
