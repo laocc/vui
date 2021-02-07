@@ -1,19 +1,19 @@
 <template>
-    <ul class="page">
+    <ul class="paging">
         <li style="margin-right:5px" v-if="hasSlot">
             <slot></slot>
         </li>
         <li class="num"><a :href="url('p')" @click="click('p')" onclick="return !1;">＜</a></li>
-        <li class="num" v-for="i in sizeLabel" :class="{active:i===page.index}">
+        <li class="num" v-for="i in sizeLabel" :class="{active:i===data.index}">
             <a :href="url(i)" v-if="i==='…'" onclick="return !1;">{{ i }}</a>
-            <a :href="url(i)" v-else-if="link && i===page.index" onclick="return !1;">{{ i }}</a>
+            <a :href="url(i)" v-else-if="link && i===data.index" onclick="return !1;">{{ i }}</a>
             <a :href="url(i)" v-else-if="link">{{ i }}</a>
             <a :href="url(i)" v-else @click="click(i)" onclick="return !1;">{{ i }}</a>
         </li>
         <li class="num"><a :href="url('n')" @click="click('n')" onclick="return !1;">＞</a></li>
 
         <el-dropdown class="lab" placement="top" trigger="click" @command="rePageSize">
-            <li>共{{ page.recode }}条/每页{{ page.size }}条 第{{ page.index }}/{{ page.page }}页</li>
+            <li>共{{ data.recode }}条/每页{{ data.size }}条 第{{ data.index }}/{{ data.total }}页</li>
             <el-dropdown-menu slot="dropdown">
                 <!--<el-dropdown-item v-for="s in 4" :key="s*10" :command="s*10">每页 {{ s * 10 }} 条</el-dropdown-item>-->
                 <!--<el-dropdown-item v-for="s in 6" :key="s*50" :command="s*50">每页 {{ s * 50 }} 条</el-dropdown-item>-->
@@ -34,7 +34,7 @@
                     return [];
                 }
             },
-            page: {
+            data: {
                 type: Object,
                 default() {
                     return {
@@ -42,7 +42,7 @@
                         recode: 0,
                         size: 10,
                         key: 'page',
-                        page: 1,
+                        total: 1,
                     };
                 }
             },
@@ -61,11 +61,11 @@
                 let params = [];
                 mch.forEach(pm => {
                     let p = pm.split(/([\w\-\.]+)=(.+)/i);
-                    if (p[1] !== this.page.key) params[p[1]] = decodeURI(p[2]);
+                    if (p[1] !== this.data.key) params[p[1]] = decodeURI(p[2]);
                 });
                 this.param = params.join('&');
             }
-            console.log('this.option', this.txt, this.opt, this.page);
+            console.log('this.option', this.txt, this.opt, this.data);
 
         },
         computed: {
@@ -77,13 +77,13 @@
                 return opt;
             },
             sizeLabel: function () {
-                let p = [], val = this.page;
+                let p = [], val = this.data;
 
-                if (val.page < 2) {
+                if (val.total < 2) {
                     p.push(1);//只有一页
-                } else if (val.page < 10) {
+                } else if (val.total < 10) {
                     //少于10页全显示
-                    for (let i = 1; i <= val.page; i++) p.push(i);
+                    for (let i = 1; i <= val.total; i++) p.push(i);
                 } else {
                     if (val.index < 5) {
                         //前5页：前1234567.L后 =9
@@ -91,13 +91,13 @@
                         p.push(val.index);
                         for (let i = val.index + 1; i <= 7; i++) p.push(i);
                         p.push('…');
-                        p.push(val.page);
+                        p.push(val.total);
 
-                    } else if (val.index > (val.page - 5)) {
+                    } else if (val.index > (val.total - 5)) {
                         //第5页开始：前1.12021.L后 = 11
                         p.push(1);
                         p.push('…');
-                        for (let i = val.page - 6; i <= val.page; i++) p.push(i);
+                        for (let i = val.total - 6; i <= val.total; i++) p.push(i);
 
                     } else {
                         //最后5页：前1.2112345后 = 11
@@ -105,7 +105,7 @@
                         p.push('…');
                         for (let i = val.index - 2; i <= val.index + 2; i++) p.push(i);
                         p.push('…');
-                        p.push(val.page);
+                        p.push(val.total);
                     }
                 }
                 return p;
@@ -114,37 +114,37 @@
         methods: {
             rePageSize(v) {
                 console.log(v);
-                this.page.size = parseInt(v);
+                this.data.size = parseInt(v);
                 this.click(0);
             },
             url(i) {
                 if (i === 'p') {
-                    i = this.page.index - 1;
+                    i = this.data.index - 1;
                     if (i < 1) i = 1;
                 } else if (i === 'n') {
-                    i = this.page.index + 1;
-                    if (i > this.page.page) i = this.page.page;
+                    i = this.data.index + 1;
+                    if (i > this.data.total) i = this.data.total;
                 }
-                return `?` + this.param + `\&${this.page.key}=${i}`;
+                return `?` + this.param + `\&${this.data.key}=${i}`;
             },
             click(i) {
                 console.log(i);
                 if (i === 'p') {
-                    i = this.page.index - 1;
+                    i = this.data.index - 1;
                     if (i < 1) i = 1;
                 } else if (i === 'n') {
-                    i = this.page.index + 1;
-                    if (i > this.page.page) i = this.page.page;
+                    i = this.data.index + 1;
+                    if (i > this.data.total) i = this.data.total;
                 }
-                if (i === this.page.index) return false;
+                if (i === this.data.index) return false;
 
                 if (!this._events.click) {
                     console.log('未定义 @click');
                     return false;
                 }
                 let param = this.param;
-                param[this.page.key] = i;
-                let value = {index: i, size: this.page.size, url: this.url(i), param: param};
+                param[this.data.key] = i;
+                let value = {index: i, size: this.data.size, url: this.url(i), param: param};
                 console.log('pageClick:', value);
                 this.$emit('click', value);
             }
@@ -153,7 +153,7 @@
 </script>
 
 <style scoped>
-    .page {
+    .paging {
         width: 100%;
         display: flex;
         border-radius: 3px;

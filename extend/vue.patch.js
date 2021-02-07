@@ -124,7 +124,7 @@ let thisHost = (typeof scriptHost !== 'undefined') ? scriptHost : String(documen
 // Vue.component('db-area', `url:${thisHost}/components/db-area.vue`);
 Vue.component('db-button', `url:${thisHost}/components/db-button.vue`);
 Vue.component('db-upload', `url:${thisHost}/components/db-upload.vue`);
-Vue.component('db-page', `url:${thisHost}/components/db-page.vue`);
+Vue.component('db-paging', `url:${thisHost}/components/db-paging.vue`);
 Vue.component('db-radio', `url:${thisHost}/components/db-radio.vue`);
 Vue.component('db-checkbox', `url:${thisHost}/components/db-checkbox.vue`);
 Vue.component('db-open', `url:${thisHost}/components/db-open.vue`);
