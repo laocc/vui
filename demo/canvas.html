@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+</head>
+<body>
+<db-canvas ref="canvas"
+           background="#faffc5"
+           :data="data"
+           :width="300"
+           :height="380"
+           @speed="speed"
+           @save="save"
+           @error="error"
+           class="canvas"></db-canvas>
+</body>
+
+<script>
+    new Vue({
+        el: '#body',
+        data() {
+            return {
+                log: [],
+                data: [
+                    {
+                        type: 'img',
+                        src: 'http://pic.pay.com/image/20210212/014428841.jpeg',
+                        x: 10,
+                        y: 80,
+                        width: 280,
+                        height: 240,
+                        radius: [5, 10, '50%', 20],
+                        radiusBackground: '#faffc5'
+                    },
+                    {
+                        type: 'image',
+                        src: 'http://pic.pay.com/image/20210211/031217692.png',
+                        x: -95,
+                        y: 10,
+                        index: 0,
+                        width: 75,
+                        height: 75,
+                        rotate: 30,
+                        padding: 2,
+                        radius: 0,
+                        background: '#fff'
+                    },
+                    {
+                        type: 'text',
+                        text: '这里举个例子说下d如何绘制文字，比如我要绘制如下这个“字”，需要动态获取前面字数的总宽度，这样才能设置“字”的x轴坐标，这里我本来是想通过measureText来测量字体的宽度，但是在iOS端第一次获取的宽度值不对，',
+                        color: '#fff',
+                        x: 0,
+                        y: -65,
+                        width: 300,
+                        height: 65,
+                        line: 2,
+                        padding: 10,
+                        lineHeight: 10,
+                        radius: 0,
+                        size: 14,
+                        background: '#19be6b',
+                    },
+                    {
+                        type: 'text',
+                        text: '12.32',
+                        color: '#f00',
+                        x: 20,
+                        y: 30,
+                        size: 40,
+                        width: 200,
+                        shade: {
+                            x: 1,
+                            y: 1,
+                            color: '#aaa'
+                        }
+                    },
+                    {
+                        type: 'rect',
+                        color: '#19be6b',
+                        x: 0,
+                        y: 0,
+                        radius: [0, 10, 10, 0],
+                        width: 300,
+                        height: 10
+                    }
+                ]
+            }
+        },
+        methods: {
+            save(path) {
+                console.log(path)
+                this.src = path;
+            },
+            speed(info) {
+                console.log(info)
+                this.log.push(info);
+            },
+            error(info) {
+                console.log(info)
+                this.log.push(info);
+            },
+            draw() {
+                this.log = [];
+                this.$refs.canvas.drawStar();
+            }
+        }
+    })
+</script>
+
+
+<style>
+    .canvas {
+        width: 300px;
+        height: 380px;
+        margin: 5px;
+        background: #eee;
+    }
+</style>
+
+
+

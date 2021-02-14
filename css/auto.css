@@ -205,7 +205,9 @@ a:focus,
 a.btn,
 .href.btn,
 a.button,
-.href.button {
+.href.button,
+a.blink,
+.href.blink {
   -webkit-touch-callout: none;
   /* iOS Safari */
   -webkit-user-select: none;
@@ -228,7 +230,9 @@ a.button,
 a.btn:hover,
 .href.btn:hover,
 a.button:hover,
-.href.button:hover {
+.href.button:hover,
+a.blink:hover,
+.href.blink:hover {
   background: #1254ab;
 }
 a.btn.warn,
