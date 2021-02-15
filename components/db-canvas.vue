@@ -73,7 +73,7 @@ module.exports = {
                     image.crossOrigin = '';
                     image.src = item.src;
                     image.onload = (img) => {
-                        console.log(img);
+                        console.log(img, img.path[0].width, img.path[0].height);
                         item.src = image;
                         resolve()
                     }
@@ -286,10 +286,10 @@ module.exports = {
                 this.drawRect(ctx, bg)
             }
             if (item.alpha) ctx.globalAlpha = item.alpha;
-
-            ctx.drawImage(item.src,
-                item.x + item.padding, item.y + item.padding,
-                item.width - item.padding * 2, item.height - item.padding * 2);
+            let pos = [item.x + item.padding, item.y + item.padding, item.width - item.padding * 2, item.height - item.padding * 2];
+            let opt = [item.src, ...pos];
+            if (item.area) opt = [item.src, ...item.area, ...pos];
+            ctx.drawImage(...opt);
 
             if (item.radius) this.drawRadius(ctx, item);
         },
