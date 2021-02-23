@@ -236,8 +236,22 @@ a.blink:hover,
   background: #1254ab;
 }
 a.btn.warn,
-.href.btn.warn {
-  background: #e22d07;
+.href.btn.warn,
+a.button.warn,
+.href.button.warn,
+a.blink.warn,
+.href.blink.warn {
+  background: #ea4f30;
+  color: #fff;
+}
+a.btn.success,
+.href.btn.success,
+a.button.success,
+.href.button.success,
+a.blink.success,
+.href.blink.success {
+  background: #048246;
+  color: #fff;
 }
 p {
   margin: 0;

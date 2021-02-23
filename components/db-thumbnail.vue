@@ -1,8 +1,15 @@
 <template>
-    <canvas :style="{width:width+'px',height:height+'px'}"
+    <a :href="href" target="_blank" v-if="isLink">
+        <canvas :style="{width:width+'px',height:height+'px'}"
+                :width="width"
+                :height="height"
+                :id="canvasID"></canvas>
+    </a>
+    <canvas v-else
+            :style="{width:width+'px',height:height+'px'}"
             :width="width"
             :height="height"
-            id="myThumbnail"></canvas>
+            :id="canvasID"></canvas>
 </template>
 <!--
 
@@ -18,6 +25,10 @@
 module.exports = {
     name: 'thumbnail',
     props: {
+        cid: {
+            type: String,
+            default: ''
+        },
         mode: {
             type: String,
             default: 'x'
@@ -26,23 +37,36 @@ module.exports = {
             type: String,
             default: ''
         },
+        href: {
+            type: String,
+            default: ''
+        },
         width: {
-            type: Number,
+            type: [Number, String],
             default: 300
         },
         height: {
-            type: Number,
+            type: [Number, String],
             default: 300
         },
         background: {
             type: String,
-            default: '#fff'
+            default: ''
         },
     },
+    data() {
+        return {
+            canvasID: '',
+            isLink: false
+        }
+    },
     mounted() {
+        this.canvasID = this.cid;
+        if (!this.canvasID) this.canvasID = 'CID' + String(Math.random()).substr(2);
+        this.isLink = Boolean(this.href);
         let image = new Image();
         image.crossOrigin = '';
-        image.src = this.src;
+        image.src = this.src || this.href;
         image.onload = (img) => {
             this.draw(image, img.path[0].width, img.path[0].height);
         }
@@ -50,7 +74,7 @@ module.exports = {
     methods: {
         draw(image, width, height) {
             // console.log('size:', width, height);
-            const obj = document.getElementById('myThumbnail');
+            const obj = document.getElementById(this.canvasID);
             const ctx = obj.getContext("2d");
             obj.width = this.width;
             obj.height = this.height;

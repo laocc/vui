@@ -2,7 +2,7 @@
     <canvas :style="canvasCSS"
             :width="width"
             :height="height"
-            :id="canvasId"></canvas>
+            :id="cID"></canvas>
 </template>
 
 <script>
@@ -11,7 +11,7 @@ module.exports = {
     props: {
         canvasId: {
             type: String,
-            default: 'myCanvas'
+            default: ''
         },
         automatic: { //若不是自动开始，则在触发显示后用setTimeout延时一点再开始工作
             type: Boolean,
@@ -38,6 +38,7 @@ module.exports = {
     },
     data() {
         return {
+            cID: '',
             total: 0,
             finish: 0,
             drawIng: false,
@@ -49,6 +50,9 @@ module.exports = {
         }
     },
     mounted() {
+        this.cID = this.canvasId;
+        if (!this.cID) this.cID = 'CID' + String(Math.random()).substr(2)
+
         if (this.automatic) this.drawStar();
     },
     methods: {
@@ -96,7 +100,7 @@ module.exports = {
         },
         drawData(data) {
             console.warn('drawData:', data);
-            const obj = document.getElementById(this.canvasId);
+            const obj = document.getElementById(this.cID);
             const ctx = obj.getContext("2d");
             obj.width = this.width;
             obj.height = this.height;
@@ -146,7 +150,7 @@ module.exports = {
 
                 if (i === 0 || count++ > 5) {
                     clearInterval(tm)
-                    this.$emit('save', document.getElementById(this.canvasId).toDataURL());
+                    this.$emit('save', document.getElementById(this.cID).toDataURL());
                     this.drawIng = false;
                 }
             }, 200);
