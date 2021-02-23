@@ -47,136 +47,136 @@
 </template>
 
 <script>
-module.exports = {
-    props: {
-        width: {
+    module.exports = {
+        props: {
+            width: {
+                type: String,
+                default: '150px',
+                validator(v) {
+                    return /^\d+px$/i.test(v);
+                }
+            },
+            color: {
+                type: Object,
+                validator(v) {
+                    return v.background && v.active;
+                }
+            },
+            background: {
+                type: String,
+                default: '#545c64',
+                validator(v) {
+                    return /^#([a-f0-9]{3}|[a-f0-9]{6})$/i.test(v);
+                }
+            },
             type: String,
-            default: '150px',
-            validator(v) {
-                return /^\d+px$/i.test(v);
-            }
-        },
-        color: {
-            type: Object,
-            validator(v) {
-                return v.background && v.active;
-            }
-        },
-        background: {
-            type: String,
-            default: '#545c64',
-            validator(v) {
-                return /^#([a-f0-9]{3}|[a-f0-9]{6})$/i.test(v);
-            }
-        },
-        type: String,
-        open: {
-            type: Number,
-            default: -1
-        },
-        menu: {
-            type: Array,
-            required: !0
-        },
-        tabs: Object,
+            open: {
+                type: Number,
+                default: -1
+            },
+            menu: {
+                type: Array,
+                required: !0
+            },
+            tabs: Object,
 
-    },
-    data() {
-        return {
-            cls: 'active',
-            group: this.open
-        }
-    },
-    created() {
-        // console.log(menu);
-    }, mounted() {
-        this.menu.forEach((m1, a) => {
-            console.log(m1);
-            if (m1.item) {
-                m1.item.forEach((m2, b) => {
-                    if (m2.preload) {
-                        let key = a + '_' + b;
-                        if (this.tabs.keys.indexOf(key) < 0) {
-                            this.tabs.keys.push(key);
-                            this.tabs.items.push({
-                                title: m2.title,
-                                name: key,
-                                content: this.$iframe(m2.uri, !!m2.sandbox)
-                            });
+        },
+        data() {
+            return {
+                cls: 'active',
+                group: this.open
+            }
+        },
+        created() {
+            // console.log(menu);
+        }, mounted() {
+            this.menu.forEach((m1, a) => {
+                console.log(m1);
+                if (m1.item) {
+                    m1.item.forEach((m2, b) => {
+                        if (m2 && m2.preload) {
+                            let key = a + '_' + b;
+                            if (this.tabs.keys.indexOf(key) < 0) {
+                                this.tabs.keys.push(key);
+                                this.tabs.items.push({
+                                    title: m2.title,
+                                    name: key,
+                                    content: this.$iframe(m2.uri, !!m2.sandbox)
+                                });
+                            }
                         }
+                    })
+                } else if (m1.preload) {
+                    let key = a + '';
+                    // a+'',m.uri,m.title,m.sandbox
+                    if (this.tabs.keys.indexOf(key) < 0) {
+                        this.tabs.keys.push(key);
+                        this.tabs.items.push({
+                            title: m1.title,
+                            name: key,
+                            content: this.$iframe(m1.uri, !!m1.sandbox)
+                        });
                     }
-                })
-            } else if (m1.preload) {
-                let key = a + '';
-                // a+'',m.uri,m.title,m.sandbox
+                }
+            })
+
+        },
+        computed: {
+            wid: function () {
+                return this.width + 'px';
+            }
+        },
+        watch: {
+            tabs: function (a, b) {
+                console.log(a);
+            }
+        },
+        methods: {
+            newTab(tabs) {
+                this.tabs.keys.length = 0;
+                this.tabs.keys.push('0');
+            },
+            clkMenu(key, uri, title, sandbox) {
+                if (!this.tabs) return !0;
+                if (sandbox === undefined) sandbox = 0;
+                // console.log(key, this.tabs.keys);
+
                 if (this.tabs.keys.indexOf(key) < 0) {
                     this.tabs.keys.push(key);
-                    this.tabs.items.push({
-                        title: m1.title,
-                        name: key,
-                        content: this.$iframe(m1.uri, !!m1.sandbox)
-                    });
+                    console.log({title: title, name: key, content: this.$iframe(uri, !!sandbox)});
+                    this.tabs.items.push({title: title, name: key, content: this.$iframe(uri, !!sandbox)});
                 }
-            }
-        })
-
-    },
-    computed: {
-        wid: function () {
-            return this.width + 'px';
-        }
-    },
-    watch: {
-        tabs: function (a, b) {
-            console.log(a);
-        }
-    },
-    methods: {
-        newTab(tabs) {
-            this.tabs.keys.length = 0;
-            this.tabs.keys.push('0');
-        },
-        clkMenu(key, uri, title, sandbox) {
-            if (!this.tabs) return !0;
-            if (sandbox === undefined) sandbox = 0;
-            // console.log(key, this.tabs.keys);
-
-            if (this.tabs.keys.indexOf(key) < 0) {
-                this.tabs.keys.push(key);
-                console.log({title: title, name: key, content: this.$iframe(uri, !!sandbox)});
-                this.tabs.items.push({title: title, name: key, content: this.$iframe(uri, !!sandbox)});
-            }
-            this.tabs.index = key;
-            return !1;
-        },
-        requestUrl() {
-            const self = this;
-            self.$request(self.url).then(
-                function (resp) {
-                    let back = function () {
-                        if (resp.reload || resp.self === 'reload') {
-                            location.reload();
+                this.tabs.index = key;
+                return !1;
+            },
+            requestUrl() {
+                const self = this;
+                self.$request(self.url).then(
+                    function (resp) {
+                        let back = function () {
+                            if (resp.reload || resp.self === 'reload') {
+                                location.reload();
+                            } else {
+                                let u = (resp.jump || resp.href);
+                                if (u) location.href = u;
+                            }
+                        };
+                        if (resp.message) {
+                            self.$alert(resp.message, {callback: back});
                         } else {
-                            let u = (resp.jump || resp.href);
-                            if (u) location.href = u;
+                            back();
                         }
-                    };
-                    if (resp.message) {
-                        self.$alert(resp.message, {callback: back});
-                    } else {
-                        back();
+                    },
+                    function (resp) {
+                        self.$alert(resp.message);
                     }
-                },
-                function (resp) {
-                    self.$alert(resp.message);
-                }
-            );
+                );
+            },
+            reGroup(i) {
+                this.group = i;
+            }
         },
-        reGroup(i) {
-            this.group = i;
-        }
-    },
-}
+    }
 </script>
 <!--http://debug.vue.com/vue/components-->
 <style scoped>
