@@ -106,9 +106,9 @@ Vue.use(function (Vue, options) {
     };
 
     Vue.prototype.$copy = function (value) {
-        console.log(typeof value);
+        console.log(typeof value, value);
         if (typeof value === "object") {
-            value = JSON.stringify(value);
+            value = value.target.innerText || JSON.stringify(value);
         }
         value.copy();
     };
@@ -129,6 +129,8 @@ Vue.component('db-radio', `url:${thisHost}/components/db-radio.vue`);
 Vue.component('db-checkbox', `url:${thisHost}/components/db-checkbox.vue`);
 Vue.component('db-open', `url:${thisHost}/components/db-open.vue`);
 Vue.component('db-input', `url:${thisHost}/components/db-input.vue`);
+Vue.component('db-canvas', `url:${thisHost}/components/db-canvas.vue`);
+Vue.component('db-thumbnail', `url:${thisHost}/components/db-thumbnail.vue`);
 
 Vue.config.silent = false; //静默状态，取消 Vue 所有的日志与警告。
 Vue.config.productionTip = false; //不显示生产环境提示

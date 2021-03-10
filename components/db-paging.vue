@@ -15,8 +15,6 @@
         <el-dropdown class="lab" placement="top" trigger="click" @command="rePageSize">
             <li>共{{ data.recode }}条/每页{{ data.size }}条 第{{ data.index }}/{{ data.total }}页</li>
             <el-dropdown-menu slot="dropdown">
-                <!--<el-dropdown-item v-for="s in 4" :key="s*10" :command="s*10">每页 {{ s * 10 }} 条</el-dropdown-item>-->
-                <!--<el-dropdown-item v-for="s in 6" :key="s*50" :command="s*50">每页 {{ s * 50 }} 条</el-dropdown-item>-->
                 <el-dropdown-item v-for="s in sizeOptions" :key="s" :command="s">每页 {{ s }} 条</el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
