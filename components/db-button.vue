@@ -373,15 +373,18 @@
     }
 
     .mini {
-        padding: 1px 3px;
+        padding: 3px 8px;
+        height: auto;
     }
 
     .small {
         padding: 6px 12px;
+        height: auto;
     }
 
     .normal {
         padding: 8px 12px;
+        height: auto;
     }
 
     .big {
