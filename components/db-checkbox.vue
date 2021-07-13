@@ -1,5 +1,8 @@
 <template>
     <ul>
+        <li class="prepend" v-if="slotPrepend">
+            <slot name="prepend"></slot>
+        </li>
         <li v-for="(lab,key) in items" @click="clk(key)"
             v-show="lab!==undefined"
             :style="'color:'+(key.in_array(item)?color:'')">
@@ -7,6 +10,10 @@
             <span>{{ lab }}</span>
         </li>
         <input type="hidden" :name="name" :value="joinValue">
+        <li class="space"></li>
+        <li class="append" v-if="slotAppend">
+            <slot name="append"></slot>
+        </li>
     </ul>
 </template>
 
@@ -44,6 +51,25 @@
     span {
         margin-left: 5px;
 
+    }
+
+    .space {
+        flex: 1;
+    }
+
+    .prepend {
+        background: #F5F7FA;
+        width: 105px;
+    }
+
+    .append {
+        background: #F5F7FA;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 10px;
+        color: #888;
+        border-left:1px solid #DCDFE6;
     }
 
 </style>
@@ -98,7 +124,9 @@
                 item: [],
                 a: 'e651',
                 b: 'e652',
-                once: (!!this.$slots.default)
+                once: (!!this.$slots.default),
+                slotPrepend: Boolean(this.$slots.prepend),
+                slotAppend: Boolean(this.$slots.append),
             }
         },
         created() {

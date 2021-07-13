@@ -4,9 +4,9 @@
   "description": "vui",
   "main": "index.js",
   "dependencies": {
-    "element-ui": "^2.15.0",
+    "element-ui": "^2.15.1",
     "http-vue-loader": "^1.4.2",
-    "jquery": "^3.5.1",
+    "jquery": "^3.6.0",
     "layui-src": "^2.5.7",
     "vue": "^2.6.12"
   },
