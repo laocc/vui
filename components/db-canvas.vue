@@ -190,17 +190,35 @@ module.exports = {
             if (!item.lineHeight || item.lineHeight === 0) item.lineHeight = 2; //行距
             if (!item.size) item.size = 12;
             if (!item.padding) item.padding = 0;
+            if (typeof item.padding === 'number') {  //上下，左右
+                item.padding = [item.padding, item.padding];
+            }
             // ctx.setFontSize(item.size);
             ctx.font = `${item.size}px DejaVu Sans Mono, Helvetica Neue, Helvetica, Arial, sans-serif`;
-            let xy = [item.x, item.y];
+            if (item.align) {
+                if (!item.x) item.x = 0;
+                if (!item.width) item.width = this.width;
+                if (item.align === 'center') {
+                    let mea = ctx.measureText(item.text);
+                    item.x += (item.width - mea.width) / 2;
+                    item.width = mea.width;
+                    item.padding[1] = 0;
+                } else if (item.align === 'right') {
+                    let mea = ctx.measureText(item.text);
+                    item.x += (item.width - mea.width);
+                    item.width = mea.width;
+                    item.padding[1] = 0;
+                }
+            }
             if (!item.width) {
                 let mea = ctx.measureText(item.text)
-                item.width = mea.width + item.padding * 2;
+                item.width = mea.width + item.padding[1] * 2;
                 if (item.width > this.width) item.width = this.width;
             }
             if (!item.height) {
-                item.height = ((item.size + item.lineHeight) * item.line - item.lineHeight + item.padding * 2);
+                item.height = ((item.size + item.lineHeight) * item.line - item.lineHeight + item.padding[0] * 2);
             }
+            let xy = [item.x, item.y];
             console.log('text', JSON.stringify(item))
             if (item.background) {
                 let bg = {
@@ -215,10 +233,10 @@ module.exports = {
                 this.drawRect(ctx, bg)
             }
             item.y += item.size;
-            let width = item.width - item.padding * 2;
-            let height = item.height - item.padding * 2;
-            item.x += item.padding;
-            item.y += item.padding;
+            let width = item.width - item.padding[1] * 2;
+            let height = item.height - item.padding[0] * 2;
+            item.x += item.padding[1];
+            item.y += item.padding[0];
 
             if (item.alpha) ctx.globalAlpha = (item.alpha)
             ctx.fillStyle = (item.color);

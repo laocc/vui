@@ -8,6 +8,7 @@
     "http-vue-loader": "^1.4.2",
     "jquery": "^3.5.1",
     "layui-src": "^2.5.7",
+    "lcc-canvas": "^1.0.0",
     "vue": "^2.6.12"
   },
   "devDependencies": {},
