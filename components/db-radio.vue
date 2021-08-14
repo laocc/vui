@@ -64,13 +64,13 @@
         data() {
             return {
                 items: {},
+                kvValue: {},
                 a: 'f3a7',//选中
                 b: 'f3a6'//未选
             }
         },
         watch: {
             data: function (a, b) {
-                // console.log(a, b);
                 this.reItems();
             }
         },
@@ -79,29 +79,35 @@
         },
         methods: {
             clickRadio(val) {
-                this.$emit('input', val);
-                this.$emit('click', val);
+                this.$emit('input', val, this.kvValue[val]);
+                this.$emit('click', val, this.kvValue[val]);
+                this.$emit('change', val, this.kvValue[val]);
             },
             reItems() {
                 this.items = {};
+                this.kvValue = {};
                 if (this.data.constructor === Array) {
                     if (this.field) {
                         this.data.forEach(ds => {
-                            this.items[ds[this.field]] = ds[this.label]
+                            this.items[ds[this.field]] = ds[this.label];
+                            this.kvValue[ds[this.field]] = ds;
                         })
                     } else {
                         this.data.forEach(ds => {
                             this.items[ds] = ds;
+                            this.kvValue[ds] = ds;
                         })
                     }
                 } else {
                     if (this.field) {
                         for (let tm in this.data) {
                             // console.log(this.data[tm], this.field, this.label);
-                            this.items[this.data[tm][this.field]] = this.data[tm][this.label]
+                            this.items[this.data[tm][this.field]] = this.data[tm][this.label];
+                            this.kvValue[this.data[tm][this.field]] = this.data[tm];
                         }
                     } else {
                         this.items = this.data;
+                        this.kvValue = this.data;
                     }
 
                 }
