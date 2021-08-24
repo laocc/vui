@@ -4,7 +4,15 @@
             :height="height"
             :id="cID"></canvas>
 </template>
+<!--
+调用方需要绑定几个事件：
 
+@speed="speed"  进度
+@save="save"    生成完成
+@error="error"  出错时
+@move="move"    项目被移动时
+
+-->
 <script>
 module.exports = {
     name: 'myCanvas',
@@ -16,6 +24,10 @@ module.exports = {
         automatic: { //若不是自动开始，则在触发显示后用setTimeout延时一点再开始工作
             type: Boolean,
             default: true
+        },
+        move: { //绘制的项目能否移动
+            type: Boolean,
+            default: false
         },
         width: {
             type: Number,
@@ -42,6 +54,8 @@ module.exports = {
             total: 0,
             finish: 0,
             drawIng: false,
+            canvasData: [],
+            currentItem: null,
         };
     },
     computed: {
@@ -52,7 +66,6 @@ module.exports = {
     mounted() {
         this.cID = this.canvasId;
         if (!this.cID) this.cID = 'CID' + String(Math.random()).substr(2)
-
         if (this.automatic) this.drawStar();
     },
     methods: {
@@ -60,16 +73,16 @@ module.exports = {
             if (this.drawIng) return;
             this.drawIng = true;
             this.$emit('speed', '开始绘图');
-            let canvasData = JSON.parse(JSON.stringify(data || this.data));
+            this.canvasData = JSON.parse(JSON.stringify(data || this.data));
             //按index进行排序，值大的在后面，最后绘，也就是要在最上层
-            canvasData.sort(function (a, b) {
+            this.canvasData.sort(function (a, b) {
                 if (!a.index) a.index = 0;
                 if (!b.index) b.index = 0;
                 return String(a.index).localeCompare(b.index)
             });
-            this.total = canvasData.length;
+            this.total = this.canvasData.length;
             let PromiseTask = [];
-            canvasData.forEach((item, p) => {
+            this.canvasData.forEach((item, p) => {
                 if (item.type !== 'img' && item.type !== 'image') return;
                 PromiseTask.push(new Promise((resolve, reject) => {
                     this.$emit('speed', `(${p})加载图片`);
@@ -87,7 +100,7 @@ module.exports = {
                 Promise.all(PromiseTask).then(
                     res => {
                         console.log('Promise.all success', res)
-                        this.drawData(canvasData);
+                        this.drawData(this.canvasData);
                     },
                     err => {
                         console.log('Promise.all fail', err)
@@ -95,15 +108,47 @@ module.exports = {
                     }
                 );
             } else {
-                this.drawData(canvasData);
+                this.drawData(this.canvasData);
             }
+        },
+        itemMove(ent) {
+
         },
         drawData(data) {
             console.warn('drawData:', data);
-            const obj = document.getElementById(this.cID);
-            const ctx = obj.getContext("2d");
-            obj.width = this.width;
-            obj.height = this.height;
+            const canvasObj = document.getElementById(this.cID);
+            const ctx = canvasObj.getContext("2d");
+            const self = this;
+            canvasObj.width = this.width;
+            canvasObj.height = this.height;
+            canvasObj.onmousedown = function (evn) {
+                if (!self.move) return;
+                evn = evn || event;
+                if (this.currentItem) this.currentItem.isCurrent = false;
+                this.currentItem = null;
+                let showTimer = setInterval(function (ent) {
+                    // console.log(ent)
+                    self.itemMove(ent);
+                }, 10, evn);
+
+                canvasObj.onmousemove = function (evn) {
+                    evn = evn || event;
+                    let x = evn.clientX - canvasObj.offsetLeft;
+                    let y = evn.clientY - canvasObj.offsetTop;
+                    if (self.currentItem) {
+                        self.currentItem.x = parseInt(x + (x - self.currentItem.x) / 5);
+                        self.currentItem.y = parseInt(y + (y - self.currentItem.y) / 5);
+                    }
+                };
+
+                canvasObj.onmouseup = function (evn) {
+                    if (self.currentItem) self.currentItem.isCurrent = false;
+                    self.currentItem = null;
+                    canvasObj.onmousemove = null;
+                    clearInterval(showTimer);
+                }
+
+            };
             ctx.save();
             ctx.clearRect(0, 0, this.width, this.height);
             ctx.fillStyle = (this.background)
@@ -144,8 +189,8 @@ module.exports = {
             let count = 0;
             let tm = setInterval(() => {
                 let i = 0;
-                data.forEach(obj => {
-                    if (!obj.finish) i++;
+                data.forEach(itm => {
+                    if (!itm.finish) i++;
                 });
 
                 if (i === 0 || count++ > 5) {
@@ -370,7 +415,7 @@ module.exports = {
 
         },
         draw(ctx, item) {
-            return;
+            if (1 > 0) return;
             ctx.draw(true, setTimeout(() => {
                 item.finish = 1;
                 if (item.type !== 'extend') this.finish++;
