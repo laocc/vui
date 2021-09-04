@@ -123,7 +123,7 @@
                     i = this.data.index + 1;
                     if (i > this.data.total) i = this.data.total;
                 }
-                return `?` + this.param + `\&${this.data.key}=${i}`;
+                return `?` + this.param + `\&${this.data.key}=${i}\&total=${this.data.total}`;
             },
             click(i) {
                 console.log(i);
@@ -142,7 +142,7 @@
                 }
                 let param = this.param;
                 param[this.data.key] = i;
-                let value = {index: i, size: this.data.size, url: this.url(i), param: param};
+                let value = {index: i, size: this.data.size, url: this.url(i), param: param, total: this.data.recode};
                 console.log('pageClick:', value);
                 this.$emit('click', value);
             }

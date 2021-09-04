@@ -131,6 +131,7 @@ Vue.component('db-open', `url:${thisHost}/components/db-open.vue`);
 Vue.component('db-input', `url:${thisHost}/components/db-input.vue`);
 Vue.component('db-canvas', `url:${thisHost}/components/db-canvas.vue`);
 Vue.component('db-thumbnail', `url:${thisHost}/components/db-thumbnail.vue`);
+Vue.component('db-copy', `url:${thisHost}/components/db-copy.vue`);
 
 Vue.config.silent = false; //静默状态，取消 Vue 所有的日志与警告。
 Vue.config.productionTip = false; //不显示生产环境提示
