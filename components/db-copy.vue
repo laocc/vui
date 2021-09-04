@@ -35,6 +35,13 @@
 
             this.text = this.$slots.default[0].text.trim();
         },
+        updated() {
+            this.text = this.$slots.default[0].text.trim();
+        },
+        watch: {
+            text: function (a, b) {
+            }
+        },
         methods: {
             copyA() {
                 let isHand = 0;//this.$el.classList.has('hand');
