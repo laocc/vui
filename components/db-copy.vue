@@ -1,6 +1,6 @@
 <template>
     <span @click="copyA" class="unselect">
-        <slot></slot><em v-if="text && clk" class="fc f41b" @click="copy"></em>
+        <em v-if="label && clk && direction==='left'" class="fc f41b" @click="copy"></em><slot></slot><em v-if="label && clk && direction==='right'" class="fc f41b" @click="copy"></em>
     </span>
 </template>
 
@@ -16,6 +16,14 @@
                 type: String,
                 default: ''
             },
+            direction: {
+                type: String,
+                default: 'right'
+            },
+            text: {
+                type: String,
+                default: ''
+            },
             full: {
                 type: [Boolean, String, Number],
                 default: true
@@ -23,24 +31,15 @@
         },
         data() {
             return {
-                text: null,
+                label: null,
                 clk: true,
             }
         },
         created() {
-            // var fontSize = this.$el.style.fontSize;
-            // console.log('copy', this);
-            // console.log(this.$vnode);
-            // console.log(this);
-
-            this.text = this.$slots.default[0].text.trim();
+            this.label = this.text ? this.text : this.$slots.default[0].text.trim();
         },
         updated() {
-            this.text = this.$slots.default[0].text.trim();
-        },
-        watch: {
-            text: function (a, b) {
-            }
+            this.label = this.text ? this.text : this.$slots.default[0].text.trim();
         },
         methods: {
             copyA() {
@@ -48,8 +47,8 @@
                 if (this.full || isHand) this.copy();
             },
             copy() {
-                if (!this.text) return;
-                let txt = this.before + this.text + this.after;
+                if (!this.label) return;
+                let txt = this.before + this.label + this.after;
                 txt.copy((obj) => {
                     this.$notify({
                         title: '复制成功',
@@ -79,7 +78,10 @@
 
     span {
         cursor: default;
-        /*padding-right: 20px;*/
+    }
+
+    span:hover {
+        color: #be4c2f;
     }
 
     span:hover em {
