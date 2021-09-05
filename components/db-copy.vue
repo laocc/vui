@@ -77,7 +77,7 @@
         display: none;
         margin-left: 5px;
         color: #2a57ff;
-        font-size: 16px;
+        /*font-size: 16px;*/
     }
 
     em:hover {
