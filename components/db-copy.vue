@@ -1,6 +1,8 @@
 <template>
-    <span @click="copyA" :class="{unselect:!select}">
-        <em v-if="label && clk && icon && direction==='left'" class="fc f41b" @click="copy"></em><slot></slot><em v-if="label && clk && icon && direction==='right'" class="fc f41b" @click="copy"></em>
+    <span class="cpspan" @click="copyA" :class="{unselect:!select}">
+        <em v-if="label && clk && icon && direction==='left'" :class="ico" @click.stop="copy"></em><i>
+        <slot></slot>
+        </i><em v-if="label && clk && icon && direction==='right'" :class="ico" @click.stop="copy"></em>
     </span>
 </template>
 
@@ -39,6 +41,7 @@
         },
         data() {
             return {
+                ico: 'fc f3ef',
                 label: null,
                 clk: true,
             }
@@ -75,24 +78,32 @@
 <style scoped>
     em {
         display: none;
-        margin-left: 5px;
+        margin-left: 3px;
         color: #2a57ff;
-        /*font-size: 16px;*/
     }
 
     em:hover {
-        color: red;
+        color: #ff2300;
     }
 
-    span {
+    .cpspan {
         cursor: default;
+        overflow: hidden;
+        padding-left: 0;
+        position: relative;
     }
 
-    span:hover {
-        color: #be4c2f;
+    .cpspan:hover {
+        color: #2a57ff;
     }
 
-    span:hover em {
+    .cpspan:hover em {
         display: inline-block;
     }
+
+    i {
+        display: inline;
+    }
+
+
 </style>
