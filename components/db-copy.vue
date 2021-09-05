@@ -48,7 +48,7 @@
             },
             copy() {
                 if (!this.label) return;
-                let txt = this.before + this.label + this.after;
+                let txt = this.before + (this.label.replace(/<br>/g, "\r\n")) + this.after;
                 txt.copy((obj) => {
                     this.$notify({
                         title: '复制成功',
