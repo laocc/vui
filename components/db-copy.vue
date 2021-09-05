@@ -1,6 +1,6 @@
 <template>
-    <span @click="copyA" class="unselect">
-        <em v-if="label && clk && direction==='left'" class="fc f41b" @click="copy"></em><slot></slot><em v-if="label && clk && direction==='right'" class="fc f41b" @click="copy"></em>
+    <span @click="copyA" :class="{unselect:!select}">
+        <em v-if="label && clk && icon && direction==='left'" class="fc f41b" @click="copy"></em><slot></slot><em v-if="label && clk && icon && direction==='right'" class="fc f41b" @click="copy"></em>
     </span>
 </template>
 
@@ -21,12 +21,20 @@
                 default: 'right'
             },
             text: {
-                type: String,
+                type: [String, Number],
                 default: ''
             },
             full: {
                 type: [Boolean, String, Number],
                 default: true
+            },
+            icon: {
+                type: Boolean,
+                default: true
+            },
+            select: {
+                type: Boolean,
+                default: false
             },
         },
         data() {
@@ -36,15 +44,15 @@
             }
         },
         created() {
-            this.label = this.text ? this.text : this.$slots.default[0].text.trim();
+            this.label = (this.text ? this.text : this.$slots.default[0].text.trim()) + '';
         },
         updated() {
-            this.label = this.text ? this.text : this.$slots.default[0].text.trim();
+            this.label = (this.text ? this.text : this.$slots.default[0].text.trim()) + '';
         },
         methods: {
             copyA() {
                 let isHand = 0;//this.$el.classList.has('hand');
-                if (this.full || isHand) this.copy();
+                if (this.full || isHand || !this.icon) this.copy();
             },
             copy() {
                 if (!this.label) return;
