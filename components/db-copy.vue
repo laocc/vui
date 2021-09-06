@@ -1,109 +1,107 @@
 <template>
     <span class="cpspan" @click="copyA" :class="{unselect:!select}">
-        <em v-if="label && clk && icon && direction==='left'" :class="ico" @click.stop="copy"></em><i>
+        <i v-if="before||label">{{ before || label }}</i><i>
         <slot></slot>
-        </i><em v-if="label && clk && icon && direction==='right'" :class="ico" @click.stop="copy"></em>
+        </i><em v-if="cpText && clk && icon" :class="ico" @click.stop="copy"></em>
     </span>
 </template>
 
 <script>
-    module.exports = {
-        name: "db-copy",
-        props: {
-            before: {
-                type: String,
-                default: ''
-            },
-            after: {
-                type: String,
-                default: ''
-            },
-            direction: {
-                type: String,
-                default: 'right'
-            },
-            text: {
-                type: [String, Number],
-                default: ''
-            },
-            full: {
-                type: [Boolean, String, Number],
-                default: true
-            },
-            icon: {
-                type: Boolean,
-                default: true
-            },
-            select: {
-                type: Boolean,
-                default: false
-            },
+module.exports = {
+    name: "db-copy",
+    props: {
+        label: {//前置label，不被复制
+            type: String,
+            default: ''
         },
-        data() {
-            return {
-                ico: 'fc f3ef',
-                label: null,
-                clk: true,
-            }
+        before: {//前置label，不被复制
+            type: String,
+            default: ''
         },
-        created() {
-            this.label = (this.text ? this.text : this.$slots.default[0].text.trim()) + '';
+        after: {
+            type: String,
+            default: ''
         },
-        updated() {
-            this.label = (this.text ? this.text : this.$slots.default[0].text.trim()) + '';
+        text: {//实际要复制的内容
+            type: [String, Number],
+            default: ''
         },
-        methods: {
-            copyA() {
-                let isHand = 0;//this.$el.classList.has('hand');
-                if (this.full || isHand || !this.icon) this.copy();
-            },
-            copy() {
-                if (!this.label) return;
-                let txt = this.before + (this.label.replace(/<br>/g, "\r\n")) + this.after;
-                txt.copy((obj) => {
-                    this.$notify({
-                        title: '复制成功',
-                        message: txt,
-                        type: 'success',
-                        duration: 2000
-                    });
-                    // this.clk = false;
-                    // console.log('复制成功', val, obj);
+        full: {//点击整个内容就复制
+            type: [Boolean, String, Number],
+            default: true
+        },
+        icon: {//是否显示复制icon
+            type: Boolean,
+            default: true
+        },
+        select: {//文本是否允许被选择
+            type: Boolean,
+            default: false
+        },
+    },
+    data() {
+        return {
+            ico: 'fc f3ef',
+            cpText: null,
+            clk: true,
+        }
+    },
+    created() {
+        this.cpText = (this.text ? this.text : this.$slots.default[0].text.trim()) + '';
+    },
+    updated() {
+        this.cpText = (this.text ? this.text : this.$slots.default[0].text.trim()) + '';
+    },
+    methods: {
+        copyA() {
+            if (this.full || !this.icon) this.copy();
+        },
+        copy() {
+            if (!this.cpText) return;
+            this.cpText.replace(/<br>/g, "\r\n").copy((obj) => {
+                this.$notify({
+                    title: '复制成功',
+                    message: obj,
+                    type: 'success',
+                    duration: 2000
                 });
-            }
+            });
         }
     }
+}
 </script>
 
 <style scoped>
-    em {
-        display: none;
-        margin-left: 3px;
-        color: #2a57ff;
-    }
+.cpspan {
+    display: block;
+    clear: both;
+    cursor: default;
+    overflow: hidden;
+    padding-left: 0;
+    position: relative;
+}
 
-    em:hover {
-        color: #ff2300;
-    }
+.cpspan:hover {
+    color: #2a57ff;
+}
 
-    .cpspan {
-        cursor: default;
-        overflow: hidden;
-        padding-left: 0;
-        position: relative;
-    }
+.cpspan:hover em {
+    display: inline-block;
+}
 
-    .cpspan:hover {
-        color: #2a57ff;
-    }
+em {
+    display: none;
+    margin-left: 3px;
+    color: #2a57ff;
+}
 
-    .cpspan:hover em {
-        display: inline-block;
-    }
+em:hover {
+    color: #ff2300;
+}
 
-    i {
-        display: inline;
-    }
+i {
+    display: inline;
+}
 
 
 </style>
