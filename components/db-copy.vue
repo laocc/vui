@@ -1,5 +1,5 @@
 <template>
-    <span class="cpspan" :style="block?('display:'+block):''" @click="copyA" :class="{unselect:!select}">
+    <span class="cpspan" :style="css?css:''" @click="copyA" :class="{unselect:!select}">
         <i :style="label_css" v-if="before||label">{{ before || label }}</i><i>
         <slot></slot>
         </i><em v-if="cpText && clk && icon" :class="ico" @click.stop="copy"></em>
@@ -26,7 +26,7 @@
                 type: String,
                 default: ''
             },
-            block: {
+            css: {
                 type: String,
                 default: ''//inline-block
             },
