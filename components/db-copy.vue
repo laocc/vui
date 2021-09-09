@@ -1,11 +1,11 @@
 <template>
-    <span class="cpspan" :style="{display:block}" @click="copyA" :class="{unselect:!select}">
+    <span class="cpspan" :style="block?('display:'+block):''" @click="copyA" :class="{unselect:!select}">
         <i :style="label_css" v-if="before||label">{{ before || label }}</i><i>
         <slot></slot>
         </i><em v-if="cpText && clk && icon" :class="ico" @click.stop="copy"></em>
     </span>
 </template>
-
+<!---->
 <script>
     module.exports = {
         name: "db-copy",
@@ -28,7 +28,7 @@
             },
             block: {
                 type: String,
-                default: 'inline-block'
+                default: ''//inline-block
             },
             text: {//实际要复制的内容
                 type: [String, Number],
