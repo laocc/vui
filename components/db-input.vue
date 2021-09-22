@@ -48,6 +48,9 @@ module.exports = {
         }
     },
     watch: {
+        value: function (a, b) {
+            this.key = a;
+        },
         key: function (a, b) {
             this.$emit('input', a);
         }

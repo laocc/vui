@@ -16,13 +16,16 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
         //将表格单元格改为超出显示为省略号
         white-space: nowrap;
     }
+
     thead {
         background: #ccd1e4;
         color: #fff;
+
         tr, th {
             background: inherit;
         }
     }
+
     tr {
         td {
             padding: 5px 0;
@@ -66,6 +69,7 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
     .el-range-input {
         width: fit-content;
     }
+
     i, span {
         display: inline-flex !important;
         align-items: center;
@@ -77,13 +81,16 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
     padding: 10px;
     margin-bottom: 5px;
     background: #ff7a17;
+
     span {
         font-size: 16px;
         color: #fff;
     }
+
     .el-drawer__close-btn {
         color: #fff;
     }
+
     .el-drawer__close-btn:hover {
         color: #999999;
     }
@@ -96,18 +103,22 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
 .el-drawer__body {
     display: flex;
     flex-direction: column;
+
     .iframe {
         flex: 1;
         margin: 0;
         padding: 0;
     }
+
     & > div {
         flex: 1;
         display: flex;
+
         iframe {
             .iframe;
         }
     }
+
     iframe {
         .iframe;
     }
@@ -119,6 +130,7 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
         font-size: 16px;
         line-height: 1.5em;
     }
+
     .el-input__count {
         background: none;
     }
@@ -130,6 +142,7 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
         //top: 5px;
         right: 3px;
     }
+
     .el-select .el-input {
         width: 100px;
     }
@@ -140,23 +153,28 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
         display: flex;
         //align-items: center;
         margin-bottom: 5px;
+
         .el-form-item__label {
             width: 100px;
         }
+
         .el-form-item__content {
             line-height: normal;
             flex: 1;
             display: flex;
             align-items: center;
             flex-wrap: wrap;
+
             & > div {
                 flex: 1;
             }
+
             & > label {
                 display: flex;
                 align-items: center;
                 min-height: 32px;
             }
+
             .info {
                 flex: 2;
                 margin-left: 10px;
@@ -164,15 +182,17 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
                 color: #888;
             }
         }
+
         &[pane] {
             .el-form-item__content {
                 border: 1px solid #DCDFE6;
                 border-radius: 4px;
                 line-height: 40px;
                 min-height: 40px;
-                padding: 0 5px;
+                padding-left: 10px;
             }
         }
+
         &[slotbtn] {
             .el-input-group__append {
                 background: #fff;
@@ -185,28 +205,33 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
 .el-dialog__wrapperFFFFF {
     flex: 1;
     display: flex;
+
     .el-dialog {
         //flex: 1;
         display: flex;
         flex-direction: column;
+
         .el-dialog__body {
             display: flex;
             flex-direction: column;
             padding: 0;
             overflow: hidden;
             flex: 1;
+
             .el-form {
                 display: flex;
+
                 .el-form-item {
                     flex: 2;
                 }
             }
+
             iframe {
                 flex: 1;
             }
         }
     }
-    
+
 }
 
 /**
@@ -216,17 +241,22 @@ TODO 在此文件中的所有新增定义，必须加详细的原因说明
     display: flex;
     flex-direction: column;
     flex: 1;
+    height: 0;
+
     .el-tabs__content {
         flex: 1;
         padding: 0 !important;
         display: flex;
         height: 0;
+        overflow-y: scroll;
+        overflow-x: hidden;
+
         .el-tab-pane {
             flex: 1;
             display: flex;
             flex-direction: column;
-            overflow-y: scroll;
-            overflow-x: hidden;
+            //overflow-y: scroll;
+            //overflow-x: hidden;
             height: 100%;
             padding: 5px;
         }

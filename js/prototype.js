@@ -340,9 +340,11 @@ String.prototype.host = function () {
  * 复制文本
  */
 String.prototype.copy = function (fun) {
-    const input = document.createElement("input");
-    input.setAttribute("type", "text");
-    input.setAttribute("value", this);
+    const input = document.createElement("textarea");
+    input.value = this;
+    // const input = document.createElement("input");
+    // input.setAttribute("type", "text");
+    // input.setAttribute("value", this);
     input.setAttribute("style", "width:1px;height:1px;box-sizing:unset;-moz-box-sizing:unset;-webkit-box-sizing:unset;");
     document.getElementsByTagName('body')[0].appendChild(input);
     input.select();
