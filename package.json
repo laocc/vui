@@ -7,7 +7,7 @@
     "element-ui": "^2.15.0",
     "http-vue-loader": "^1.4.2",
     "jquery": "^3.5.1",
-    "layui-src": "^2.5.7",
+    "layui-src": "^2.5.8",
     "vue": "^2.6.12"
   },
   "devDependencies": {},
