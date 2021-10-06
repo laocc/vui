@@ -1,16 +1,24 @@
 <template>
-    <span class="cpspan" @click="copyA" :class="{unselect:!select}">
-        <em v-if="label && clk && icon && direction==='left'" :class="ico" @click.stop="copy"></em><i>
+    <span class="cpspan" :style="css?css:''" @click="copyA" :class="{unselect:!select}">
+        <i :style="label_css" v-if="before||label">{{ before || label }}</i><i>
         <slot></slot>
-        </i><em v-if="label && clk && icon && direction==='right'" :class="ico" @click.stop="copy"></em>
+        </i><em v-if="cpText && clk && icon" :class="ico" @click.stop="copy"></em>
     </span>
 </template>
-
+<!---->
 <script>
     module.exports = {
         name: "db-copy",
         props: {
-            before: {
+            label: {//前置label，不被复制
+                type: String,
+                default: ''
+            },
+            before: {//前置label，不被复制
+                type: String,
+                default: ''
+            },
+            label_css: {//前置label式样
                 type: String,
                 default: ''
             },
@@ -18,23 +26,23 @@
                 type: String,
                 default: ''
             },
-            direction: {
+            css: {
                 type: String,
-                default: 'right'
+                default: ''//inline-block
             },
-            text: {
+            text: {//实际要复制的内容
                 type: [String, Number],
                 default: ''
             },
-            full: {
+            full: {//点击整个内容就复制
                 type: [Boolean, String, Number],
                 default: true
             },
-            icon: {
+            icon: {//是否显示复制icon
                 type: Boolean,
                 default: true
             },
-            select: {
+            select: {//文本是否允许被选择
                 type: Boolean,
                 default: false
             },
@@ -42,33 +50,29 @@
         data() {
             return {
                 ico: 'fc f3ef',
-                label: null,
+                cpText: null,
                 clk: true,
             }
         },
         created() {
-            this.label = (this.text ? this.text : this.$slots.default[0].text.trim()) + '';
+            this.cpText = (this.text ? this.text : this.$slots.default[0].text.trim()) + '';
         },
         updated() {
-            this.label = (this.text ? this.text : this.$slots.default[0].text.trim()) + '';
+            this.cpText = (this.text ? this.text : this.$slots.default[0].text.trim()) + '';
         },
         methods: {
             copyA() {
-                let isHand = 0;//this.$el.classList.has('hand');
-                if (this.full || isHand || !this.icon) this.copy();
+                if (this.full || !this.icon) this.copy();
             },
             copy() {
-                if (!this.label) return;
-                let txt = this.before + (this.label.replace(/<br>/g, "\r\n")) + this.after;
-                txt.copy((obj) => {
+                if (!this.cpText) return;
+                this.cpText.replace(/<br>/g, "\r\n").copy((obj) => {
                     this.$notify({
                         title: '复制成功',
-                        message: txt,
+                        message: obj,
                         type: 'success',
                         duration: 2000
                     });
-                    // this.clk = false;
-                    // console.log('复制成功', val, obj);
                 });
             }
         }
@@ -76,17 +80,9 @@
 </script>
 
 <style scoped>
-    em {
-        display: none;
-        margin-left: 3px;
-        color: #2a57ff;
-    }
-
-    em:hover {
-        color: #ff2300;
-    }
-
     .cpspan {
+        display: inline-block;
+        clear: both;
         cursor: default;
         overflow: hidden;
         padding-left: 0;
@@ -99,6 +95,16 @@
 
     .cpspan:hover em {
         display: inline-block;
+    }
+
+    em {
+        display: none;
+        margin-left: 3px;
+        color: #2a57ff;
+    }
+
+    em:hover {
+        color: #ff2300;
     }
 
     i {
