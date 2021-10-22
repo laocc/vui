@@ -123,7 +123,7 @@ let thisHost = (typeof scriptHost !== 'undefined') ? scriptHost : String(documen
 // Vue.component('db-html', `url:${thisHost}/components/db-html.vue`);
 // Vue.component('db-area', `url:${thisHost}/components/db-area.vue`);
 Vue.component('db-button', `url:${thisHost}/components/db-button.vue`);
-Vue.component('db-upload', `url:${thisHost}/components/db-upload.vue`);
+Vue.component('db-upload', `url:${thisHost}/components/db-upload.vue?3`);
 Vue.component('db-paging', `url:${thisHost}/components/db-paging.vue`);
 Vue.component('db-radio', `url:${thisHost}/components/db-radio.vue`);
 Vue.component('db-checkbox', `url:${thisHost}/components/db-checkbox.vue`);

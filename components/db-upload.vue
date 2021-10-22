@@ -19,7 +19,7 @@
         name: "db-upload",
         props: {
             api: {//上传目标路径
-                type: String,
+                type: [String, Array],
                 default: ''
             },
             number: {//可选择数量
@@ -111,6 +111,16 @@
         created() {
             this.rand = (0).rand();
             // console.log('upload be created', `${this.name}_${this.rand}`);
+
+          if (this.api instanceof Array) {
+            this.url.forEach((pam, i) => {
+              if (typeof pam === 'object') {
+                this.api[i] = encodeURI(JSON.stringify(pam));
+              }
+            });
+            return this.api.shift().sprintf(...this.api);
+          }
+
         },
         methods: {
             upload() {
