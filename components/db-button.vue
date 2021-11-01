@@ -174,6 +174,7 @@ module.exports = {
             if (this.action === 'text' || !this.url) return;
 
             if (this.action === 'ajax' || this.action === 'post') {
+                this.$refs.btn.innerHTML = "<em class='fc f29d'></em>";
                 this.requestUrl();
 
             } else if (this.action === 'open' || this.action === 'dialog') {
@@ -303,6 +304,8 @@ module.exports = {
                                 }
                             }
                         };
+                        self.clearSubmit();
+
                         if (self._events.success) {
                             self.$emit('success', resp, self.data);
 
