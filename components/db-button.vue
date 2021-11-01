@@ -322,7 +322,6 @@ module.exports = {
                     },
                     function (resp) {
                         self.clearSubmit();
-                        
                         if (self._events.fail) {
                             self.$emit('fail', resp, self.data);
 
