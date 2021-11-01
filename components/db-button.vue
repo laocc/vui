@@ -174,6 +174,8 @@ module.exports = {
             if (this.action === 'text' || !this.url) return;
 
             if (this.action === 'ajax' || this.action === 'post') {
+                this.beClick = true;
+                this.btnHtml = this.$refs.btn.innerHTML;
                 this.$refs.btn.innerHTML = "<em class='fc f29d'></em>";
                 this.requestUrl();
 
