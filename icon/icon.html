@@ -115,7 +115,8 @@
                 <div id="icons" style="margin-left:20px;">
                     <section :style="css1" :class="icon1" id="icon1" @click="createPic('icon1')"></section>
                     <section :style="css2" :class="icon2" id="icon2" @click="createPic('icon2')"></section>
-                    <section id="tmpImg"></section>
+                    <section id="imgicon1"></section>
+                    <section id="imgicon2"></section>
                 </div>
             </el-col>
         </el-row>
@@ -2447,12 +2448,12 @@
                     backgroundColor: null,
                 };
 
-
-                let container = $('section#tmpImg').empty();
+                let container = $('section#img'+id).empty();
                 let canvasArr = [];
-                let im = html2canvas(document.getElementById(id), {backgroundColor: null}).then(function (canvas) {
-                    return '<img src="' + canvas.toDataURL("image/png") + '" />' + "\n";
-                });
+                let im = html2canvas(document.getElementById(id), {backgroundColor: null})
+                    .then(function (canvas) {
+                        return '<img src="' + canvas.toDataURL("image/png") + '" />' + "\n";
+                    });
                 canvasArr.push(im);
                 Promise.all(canvasArr).then(function (img) {
                     container.append(img);
